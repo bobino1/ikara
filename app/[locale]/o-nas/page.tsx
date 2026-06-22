@@ -36,7 +36,9 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
 
       <Reveal style={{ padding: "clamp(40px,5vw,64px) 22px" }}>
         <Container>
-          <ImageSlot label={t("heroPhoto")} height="clamp(240px,38vw,420px)" radius={22} />
+          <div style={{ position: "relative", width: "100%", height: "clamp(240px,40vw,460px)", borderRadius: 22, overflow: "hidden" }}>
+            <Image src="/auta/budova.jpg" alt={t("heroPhoto")} fill priority sizes="(max-width:1240px) 100vw, 1200px" style={{ objectFit: "cover" }} />
+          </div>
         </Container>
       </Reveal>
 
@@ -102,7 +104,9 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
               {t("simDesc")}
             </p>
           </div>
-          <ImageSlot label={t("simPhoto")} height={300} radius={18} />
+          <div style={{ position: "relative", width: "100%", height: "clamp(240px,30vw,340px)", borderRadius: 18, overflow: "hidden" }}>
+            <Image src="/auta/trenazer.jpg" alt={t("simPhoto")} fill sizes="(max-width:900px) 100vw, 50vw" style={{ objectFit: "cover" }} />
+          </div>
         </Container>
       </Reveal>
 
