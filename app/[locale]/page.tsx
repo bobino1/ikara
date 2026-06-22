@@ -120,16 +120,20 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 18, marginTop: 36 }}>
             {reviews.map((r) => (
-              <div key={r.name} className="card-hover card-hover--soft" style={{ background: "#fff", border: "1px solid #ECEEE9", borderRadius: 20, padding: 24, display: "flex", flexDirection: "column" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 13 }}>
-                  <span style={{ width: 44, height: 44, borderRadius: "50%", background: "#E9F0FE", color: "var(--blue)", display: "flex", alignItems: "center", justifyContent: "center", font: "700 18px/1 var(--font-space),sans-serif" }}>{r.name.charAt(0)}</span>
+              <div key={r.name} className="card-hover card-hover--soft" style={{ background: "#fff", border: "1px solid #ECEEE9", borderRadius: 20, padding: 26, display: "flex", flexDirection: "column", position: "relative", overflow: "hidden" }}>
+                <span aria-hidden style={{ position: "absolute", top: -14, right: 14, font: "800 110px/1 Georgia,serif", color: "#EEF2FB", pointerEvents: "none" }}>&rdquo;</span>
+                <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <span style={{ font: "600 17px/1 var(--font-manrope),sans-serif", color: "var(--amber)", letterSpacing: ".08em" }}>{stars(r.rating)}</span>
+                  <GoogleG />
+                </div>
+                <p style={{ position: "relative", font: "400 15px/1.65 var(--font-manrope),sans-serif", color: "#3A4048", margin: "16px 0 0", flex: 1 }}>{r.text}</p>
+                <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 12, marginTop: 20, paddingTop: 18, borderTop: "1px solid #F0F1ED" }}>
+                  <span style={{ width: 42, height: 42, borderRadius: "50%", background: "#E9F0FE", color: "var(--blue)", display: "flex", alignItems: "center", justifyContent: "center", font: "700 17px/1 var(--font-space),sans-serif", flexShrink: 0 }}>{r.name.charAt(0)}</span>
                   <div>
                     <div style={{ font: "700 15px/1.2 var(--font-manrope),sans-serif", color: "var(--ink)" }}>{r.name}</div>
-                    <div style={{ font: "500 12px/1.2 var(--font-manrope),sans-serif", color: "#9AA0A8", marginTop: 4 }}>{r.when}</div>
+                    <div style={{ font: "500 12px/1.2 var(--font-manrope),sans-serif", color: "#9AA0A8", marginTop: 3 }}>{r.when}</div>
                   </div>
                 </div>
-                <div style={{ font: "600 16px/1 var(--font-manrope),sans-serif", color: "var(--amber)", letterSpacing: ".06em", marginTop: 16 }}>{stars(r.rating)}</div>
-                <p style={{ font: "400 15px/1.6 var(--font-manrope),sans-serif", color: "#3A4048", margin: "12px 0 0" }}>{r.text}</p>
               </div>
             ))}
           </div>
@@ -270,6 +274,17 @@ function IconCard({ color }: { color: string }) {
     <svg {...svgBase} stroke={color}>
       <rect x="3" y="5" width="18" height="14" rx="2.5" />
       <path d="M3 9.5h18M7 14.5h4" />
+    </svg>
+  );
+}
+
+function GoogleG() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 48 48" aria-label="Google" style={{ flexShrink: 0 }}>
+      <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z" />
+      <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z" />
+      <path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z" />
+      <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z" />
     </svg>
   );
 }
