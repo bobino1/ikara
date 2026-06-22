@@ -1,0 +1,42 @@
+[
+  {
+    "id": "3/2026",
+    "category": "Skupina B1, B",
+    "signupBy": "2026-06-10",
+    "dateFrom": "2026-06-15",
+    "dateTo": "2026-07-25",
+    "capacity": 6,
+    "enrolled": 6,
+    "price": 1050
+  },
+  {
+    "id": "4/2026",
+    "category": "Skupina B1, B",
+    "signupBy": "2026-06-17",
+    "dateFrom": "2026-06-22",
+    "dateTo": "2026-07-30",
+    "capacity": 6,
+    "enrolled": 5,
+    "price": 1050
+  },
+  {
+    "id": "5/2026",
+    "category": "Skupina B1, B",
+    "signupBy": "2026-07-05",
+    "dateFrom": "2026-07-10",
+    "dateTo": "2026-08-20",
+    "capacity": 6,
+    "enrolled": 2,
+    "price": 1050
+  },
+  {
+    "id": "6/2026",
+    "category": "Skupina B1, B",
+    "signupBy": "2026-07-20",
+    "dateFrom": "2026-07-25",
+    "dateTo": "2026-09-04",
+    "capacity": 6,
+    "enrolled": 0,
+    "price": 1050
+  }
+]

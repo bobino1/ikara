@@ -1,0 +1,258 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --ink: #0e1a2b;
+  --blue: #2b5fe3;
+  --blue-dark: #1c46c0;
+  --blue-light: #7aa0ff;
+  --green: #15b66b;
+  --amber: #f5a623;
+  --red: #e5484d;
+  --muted: #5c636b;
+  --line: #eceee9;
+  --bg-soft: #f6f7f4;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  /* zabráni horizontálnemu posúvaniu na mobile */
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-manrope), -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--ink);
+  background: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* médiá nikdy nepretečú svoj kontajner */
+img,
+video,
+iframe,
+svg {
+  max-width: 100%;
+}
+
+/* pohodlnejšie zalamovanie dlhých nadpisov na mobile */
+h1,
+h2,
+h3 {
+  overflow-wrap: break-word;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* ---------- pulse dot (najbližší voľný kurz) ---------- */
+@keyframes ikpulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.6);
+    opacity: 0.45;
+  }
+}
+
+/* ---------- hero highlight card (najbližší voľný kurz) ---------- */
+@keyframes ikshimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: -200% 50%;
+  }
+}
+.hero-number {
+  background: linear-gradient(110deg, #ffffff 0%, #c7d6f7 30%, #ffffff 50%, #bfd0f5 70%, #ffffff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: ikshimmer 6s linear infinite;
+}
+.hero-tile {
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.hero-tile:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(122, 160, 255, 0.3);
+  transform: translateY(-2px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-number {
+    animation: none;
+  }
+}
+
+/* ---------- scroll reveal ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---------- card hover lift ---------- */
+.card-hover {
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 24px 44px -24px rgba(14, 26, 43, 0.3);
+}
+.card-hover--soft:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 40px -22px rgba(14, 26, 43, 0.28);
+}
+
+/* ---------- nav / footer links ---------- */
+.nav-link {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 9px 14px;
+  font: 600 15px/1 var(--font-manrope), sans-serif;
+  color: #3a4048;
+  transition: color 0.15s;
+}
+.nav-link:hover,
+.nav-link.is-active {
+  color: var(--blue);
+}
+.nav-underline {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 1px;
+  height: 2px;
+  background: var(--blue);
+  border-radius: 2px;
+}
+.footer-link {
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: 500 15px/1 var(--font-manrope), sans-serif;
+  color: #c2c8d2;
+  padding: 0;
+  transition: color 0.15s;
+}
+.footer-link:hover {
+  color: var(--blue-light);
+}
+
+/* ---------- buttons (hover handled in CSS so inline styles don't win) ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 13px;
+  cursor: pointer;
+  font-family: var(--font-manrope), sans-serif;
+  font-weight: 600;
+  line-height: 1;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s, border-color 0.2s;
+  text-decoration: none;
+}
+.btn:disabled {
+  cursor: not-allowed;
+}
+
+.btn--primary {
+  background: var(--blue);
+  color: #fff;
+  box-shadow: 0 14px 28px -12px rgba(43, 95, 227, 0.75);
+}
+.btn--primary:hover {
+  transform: translateY(-3px);
+  background: var(--blue-dark);
+  box-shadow: 0 20px 36px -12px rgba(43, 95, 227, 0.85);
+}
+
+.btn--outline {
+  background: #fff;
+  color: var(--ink);
+  border: 1.5px solid #e3e5e0;
+}
+.btn--outline:hover {
+  border-color: var(--ink);
+  transform: translateY(-3px);
+}
+
+.btn--navy {
+  background: var(--ink);
+  color: #fff;
+}
+.btn--navy:hover {
+  transform: translateY(-3px);
+}
+
+.btn--ghost-light {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+}
+.btn--ghost-light:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* dark "Mám záujem" on course cards */
+.btn--card {
+  background: var(--ink);
+  color: #fff;
+}
+.btn--card:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+.btn--card:disabled {
+  background: #f0f1ed;
+  color: #a8aeb6;
+}
+
+/* simple lift used in a few spots */
+.lift:hover {
+  transform: translateY(-2px);
+}
