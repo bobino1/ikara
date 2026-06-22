@@ -90,11 +90,11 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <Eyebrow color="#7AA0FF">{t("howEyebrow")}</Eyebrow>
             <h2 style={{ font: "700 clamp(28px,4vw,44px)/1.08 var(--font-space),sans-serif", letterSpacing: "-0.02em", margin: "14px 0 0" }}>{t("howTitle")}</h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 18, marginTop: 40 }}>
-            <Step n="01" title={t("step1Title")} text={t("step1Text")} />
-            <Step n="02" title={t("step2Title")} text={t("step2Text")} />
-            <Step n="03" title={t("step3Title")} text={t("step3Text")} />
-            <Step n="04" title={t("step4Title")} text={t("step4Text")} />
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(230px,1fr))", gap: 18, marginTop: 44 }}>
+            <Step n="01" icon={<StepBook />} title={t("step1Title")} text={t("step1Text")} />
+            <Step n="02" icon={<StepWheel />} title={t("step2Title")} text={t("step2Text")} />
+            <Step n="03" icon={<StepCone />} title={t("step3Title")} text={t("step3Text")} />
+            <Step n="04" icon={<StepCar />} title={t("step4Title")} text={t("step4Text")} />
           </div>
         </Container>
       </Reveal>
@@ -162,13 +162,71 @@ function Benefit({ icon, iconBg, title, text }: { icon: React.ReactNode; iconBg:
   );
 }
 
-function Step({ n, title, text }: { n: string; title: string; text: string }) {
+function Step({ n, icon, title, text }: { n: string; icon: React.ReactNode; title: string; text: string }) {
   return (
-    <div style={{ borderTop: "2px solid rgba(255,255,255,.14)", paddingTop: 20 }}>
-      <span style={{ font: "700 15px/1 var(--font-space),sans-serif", color: "#7AA0FF" }}>{n}</span>
-      <h3 style={{ font: "700 21px/1.2 var(--font-space),sans-serif", margin: "14px 0 0" }}>{title}</h3>
-      <p style={{ font: "400 15px/1.6 var(--font-manrope),sans-serif", color: "#A8AEB6", margin: "10px 0 0" }}>{text}</p>
+    <div
+      style={{
+        background: "rgba(255,255,255,.04)",
+        border: "1px solid rgba(255,255,255,.09)",
+        borderRadius: 18,
+        padding: 24,
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <span style={{ position: "absolute", top: 10, right: 16, font: "800 56px/1 var(--font-space),sans-serif", color: "rgba(122,160,255,.13)", letterSpacing: "-0.03em" }}>{n}</span>
+      <span style={{ position: "relative", display: "inline-flex", width: 48, height: 48, borderRadius: 14, background: "rgba(122,160,255,.14)", border: "1px solid rgba(122,160,255,.22)", alignItems: "center", justifyContent: "center" }}>
+        {icon}
+      </span>
+      <h3 style={{ position: "relative", font: "700 20px/1.2 var(--font-space),sans-serif", margin: "20px 0 0" }}>{title}</h3>
+      <p style={{ position: "relative", font: "400 15px/1.6 var(--font-manrope),sans-serif", color: "#A8AEB6", margin: "9px 0 0" }}>{text}</p>
     </div>
+  );
+}
+
+const stepSvg = {
+  width: 24,
+  height: 24,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "#AFC4FF",
+  strokeWidth: 1.9,
+  strokeLinecap: "round" as const,
+  strokeLinejoin: "round" as const,
+  "aria-hidden": true,
+};
+
+function StepBook() {
+  return (
+    <svg {...stepSvg}>
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z" />
+    </svg>
+  );
+}
+function StepWheel() {
+  return (
+    <svg {...stepSvg}>
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="12" r="2.5" />
+      <path d="M12 14.5V21M9.8 11 4.2 8.6M14.2 11 19.8 8.6" />
+    </svg>
+  );
+}
+function StepCone() {
+  return (
+    <svg {...stepSvg}>
+      <path d="M4.5 20h15M7 20 11 4h2l4 16M9 13h6" />
+    </svg>
+  );
+}
+function StepCar() {
+  return (
+    <svg {...stepSvg}>
+      <path d="M3 13l1.8-5.1A2 2 0 0 1 6.7 6.5h10.6a2 2 0 0 1 1.9 1.4L21 13v4h-2.5M3 17v-4m0 4h2.5M5.5 17h13" />
+      <circle cx="7.5" cy="17" r="1.7" />
+      <circle cx="16.5" cy="17" r="1.7" />
+    </svg>
   );
 }
 
