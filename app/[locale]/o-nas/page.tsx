@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Reveal } from "@/components/Reveal";
 import { Container, Eyebrow, ImageSlot } from "@/components/ui";
@@ -16,11 +17,8 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
   setRequestLocale(locale);
   const t = await getTranslations("about");
 
-  const cars = [
-    { title: t("car1Title"), note: t("car1Note"), photo: t("car1Photo"), desc: t("car1Desc") },
-    { title: t("car2Title"), note: t("car2Note"), photo: t("car2Photo"), desc: t("car2Desc") },
-  ];
   const services = [t("service1"), t("service2"), t("service3")];
+  const carChips = [t("carChip1"), t("carChip2"), t("carChip3")];
 
   return (
     <main>
@@ -68,17 +66,30 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           <p style={{ font: "400 16px/1.6 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "12px 0 0", maxWidth: 560 }}>
             {t("carsIntro")}
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 18, marginTop: 26 }}>
-            {cars.map((car) => (
-              <div key={car.title} style={{ background: "#fff", border: "1px solid #ECEEE9", borderRadius: 20, overflow: "hidden", display: "flex", flexDirection: "column" }}>
-                <ImageSlot label={car.photo} height={240} radius={0} />
-                <div style={{ padding: 24 }}>
-                  <h3 style={{ font: "700 21px/1.2 var(--font-space),sans-serif", margin: 0 }}>{car.title}</h3>
-                  <p style={{ font: "500 14px/1.4 var(--font-manrope),sans-serif", color: "var(--blue)", margin: "6px 0 0" }}>{car.note}</p>
-                  <p style={{ font: "400 15px/1.6 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "12px 0 0" }}>{car.desc}</p>
-                </div>
+          <div style={{ marginTop: 26, background: "#fff", border: "1px solid #ECEEE9", borderRadius: 22, overflow: "hidden" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 2, background: "#ECEEE9" }}>
+              <div style={{ position: "relative", height: "clamp(220px,28vw,330px)", background: "#fff" }}>
+                <Image src="/auta/i30-bok.jpg" alt={t("carPhoto1")} fill sizes="(max-width:900px) 100vw, 50vw" style={{ objectFit: "cover" }} />
               </div>
-            ))}
+              <div style={{ position: "relative", height: "clamp(220px,28vw,330px)", background: "#fff" }}>
+                <Image src="/auta/i30-zadok.jpg" alt={t("carPhoto2")} fill sizes="(max-width:900px) 100vw, 50vw" style={{ objectFit: "cover" }} />
+              </div>
+            </div>
+            <div style={{ padding: "clamp(22px,3vw,32px)" }}>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
+                <h3 style={{ font: "700 clamp(22px,3vw,28px)/1.1 var(--font-space),sans-serif", margin: 0 }}>{t("carName")}</h3>
+                <span style={{ font: "600 14px/1.3 var(--font-manrope),sans-serif", color: "var(--blue)" }}>{t("carNote")}</span>
+              </div>
+              <p style={{ font: "400 15px/1.65 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "12px 0 0", maxWidth: 640 }}>{t("carDesc")}</p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 18 }}>
+                {carChips.map((c) => (
+                  <span key={c} style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "7px 13px", background: "var(--bg-soft)", border: "1px solid #ECEEE9", borderRadius: 100, font: "600 13px/1 var(--font-manrope),sans-serif", color: "#5C636B" }}>
+                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--green)" }} />
+                    {c}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
         </Container>
       </Reveal>
