@@ -181,6 +181,14 @@ button {
 .footer-link:hover {
   color: var(--blue-light);
 }
+.wetrixo-credit {
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.wetrixo-credit:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(122, 160, 255, 0.4);
+  transform: translateY(-2px);
+}
 
 /* ---------- buttons (hover handled in CSS so inline styles don't win) ---------- */
 .btn {

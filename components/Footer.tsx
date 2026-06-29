@@ -102,9 +102,21 @@ export function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             title="IT a tvorba webových stránok — wetrixo.com"
-            style={{ display: "inline-flex", alignItems: "center", gap: 9, padding: "11px 18px", background: "rgba(43,95,227,.16)", border: "1px solid rgba(122,160,255,.32)", borderRadius: 100, font: "600 15px/1 var(--font-manrope),sans-serif", color: "#fff" }}
+            className="wetrixo-credit"
+            style={{ display: "inline-flex", alignItems: "center", gap: 11, padding: "10px 16px", background: "rgba(255,255,255,.04)", border: "1px solid rgba(255,255,255,.1)", borderRadius: 12 }}
           >
-            {t("madeBy")}<span style={{ color: "#7AA0FF", fontWeight: 700 }}>wetrixo.com</span>
+            <span style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 30, height: 30, borderRadius: 8, background: "linear-gradient(135deg,#2B5FE3,#7AA0FF)", flexShrink: 0 }}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="m4 13 4 4 12-12" opacity="0" />
+                <path d="M3 12h4l2-7 4 14 2-7h6" />
+              </svg>
+            </span>
+            <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.2 }}>
+              <span style={{ font: "600 9px/1 var(--font-manrope),sans-serif", letterSpacing: ".12em", textTransform: "uppercase", color: "#8A9098" }}>{t("madeBy")}</span>
+              <span style={{ font: "700 15px/1 var(--font-space),sans-serif", color: "#fff", marginTop: 4 }}>
+                wetrixo<span style={{ color: "#7AA0FF" }}>.com</span>
+              </span>
+            </span>
           </a>
         </div>
       </div>

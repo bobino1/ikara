@@ -35,6 +35,8 @@
     "interestArrow": "Prihlásiť sa na kurz →",
     "soldOut": "Obsadené",
     "courseFull": "Kurz je obsadený",
+    "inquire": "Informovať sa →",
+    "fullNote": "Kurz je plný — informuj sa o ďalšom termíne.",
     "occupied": "{taken}/{capacity} obsadené",
     "empty": "Momentálne nie sú vypísané žiadne termíny. Ozvi sa nám a radi ti poradíme.",
     "allTerms": "Všetky termíny →"
@@ -65,7 +67,7 @@
     "colContact": "Kontakt",
     "nearestCourses": "Najbližšie kurzy",
     "rights": "© 2026 Autoškola IKARA · Všetky práva vyhradené",
-    "madeBy": "IT a zastrešenie tvorby webov · ",
+    "madeBy": "IT a zastrešenie tvorby webov",
     "cookiePolicy": "Zásady cookies",
     "cookieSettings": "Nastavenia cookies",
     "nonstop": "NONSTOP"
