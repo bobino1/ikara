@@ -1,10 +1,11 @@
 import { createClient, type SanityClient } from "@sanity/client";
 
 /**
- * Sanity je zapojené iba ak je nastavené NEXT_PUBLIC_SANITY_PROJECT_ID
- * (viď .env.local). Ak nie je, appka beží na lokálnych dátach z data/courses.json.
+ * Sanity projekt Autoškoly IKARA. Project ID nie je tajné (je verejné),
+ * preto je tu aj ako predvolená hodnota — web sa napojí na Sanity aj bez env.
+ * Ak Sanity nevráti žiadne kurzy, appka spadne späť na data/courses.json.
  */
-export const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+export const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "npcqujal";
 export const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
 export const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2024-01-01";
 

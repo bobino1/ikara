@@ -6,7 +6,7 @@ import { schemaTypes } from "./schemaTypes";
 export default defineConfig({
   name: "default",
   title: "Autoškola IKARA",
-  projectId: process.env.SANITY_STUDIO_PROJECT_ID!,
+  projectId: process.env.SANITY_STUDIO_PROJECT_ID || "npcqujal",
   dataset: process.env.SANITY_STUDIO_DATASET || "production",
   plugins: [structureTool(), visionTool()],
   schema: { types: schemaTypes },
