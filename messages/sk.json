@@ -249,12 +249,12 @@
     "termOption": "Kurz {id} — začiatok {start} ({label})",
     "submit": "Záväzne sa prihlásiť →",
     "sending": "Odosielam…",
-    "confirm": "Záväzne sa prihlasujem na kurz {id} a beriem na vedomie, že ide o záväznú prihlášku.",
-    "confirmErr": "Pre odoslanie potvrď záväzné prihlásenie.",
+    "terms": "Oboznámil/a som sa s <link>podmienkami výcviku a cenou</link> kurzu.",
+    "agree": "Záväzne sa prihlasujem na kurz {id} a súhlasím so spracovaním osobných údajov.",
+    "confirmErr": "Pre odoslanie zaškrtni obe políčka.",
     "sentTitle": "Prihlásenie odoslané!",
     "sentText": "Záväzne sme ťa prihlásili na kurz {id}. Ozveme sa ti do 24 hodín s ďalšími krokmi.",
-    "done": "Hotovo",
-    "consent": "Odoslaním sa záväzne prihlasuješ na vybraný kurz a súhlasíš so spracovaním osobných údajov."
+    "done": "Hotovo"
   },
   "cookies": {
     "bannerTitle": "Používame cookies 🍪",

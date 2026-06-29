@@ -249,12 +249,12 @@
     "termOption": "Course {id} — start {start} ({label})",
     "submit": "Sign up (binding) →",
     "sending": "Sending…",
-    "confirm": "I am signing up for course {id} and acknowledge this is a binding application.",
-    "confirmErr": "Please confirm the binding sign-up to submit.",
+    "terms": "I have read the <link>training conditions and price</link> of the course.",
+    "agree": "I'm signing up for course {id} (binding) and agree to the processing of personal data.",
+    "confirmErr": "Please tick both boxes to submit.",
     "sentTitle": "Sign-up sent!",
     "sentText": "You've been signed up for course {id}. We'll get back to you within 24 hours with next steps.",
-    "done": "Done",
-    "consent": "By submitting you bindingly sign up for the selected course and agree to the processing of personal data."
+    "done": "Done"
   },
   "cookies": {
     "bannerTitle": "We use cookies 🍪",

@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import type { ComputedCourse } from "@/lib/courses";
 
 type SignupContextValue = {
@@ -39,7 +40,8 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
   const [errors, setErrors] = useState<Errors>({});
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
-  const [confirmed, setConfirmed] = useState(false);
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [agreeConsent, setAgreeConsent] = useState(false);
   const [confirmErr, setConfirmErr] = useState(false);
 
   const hot = useMemo(() => courses.find((c) => c.free > 0) ?? courses[0], [courses]);
@@ -53,7 +55,8 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
       setCourseId(id ?? hot?.id ?? null);
       setSubmitted(false);
       setErrors({});
-      setConfirmed(false);
+      setAgreeTerms(false);
+      setAgreeConsent(false);
       setConfirmErr(false);
       setIsOpen(true);
     },
@@ -77,7 +80,7 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
       setErrors(errs);
       return;
     }
-    if (!confirmed) {
+    if (!agreeTerms || !agreeConsent) {
       setConfirmErr(true);
       return;
     }
@@ -216,23 +219,40 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
                   </div>
                 </div>
 
-                <label style={{ display: "flex", gap: 10, alignItems: "flex-start", cursor: "pointer", background: confirmErr ? "#FDECEC" : "var(--bg-soft)", border: `1px solid ${confirmErr ? "#E5484D" : "#ECEEE9"}`, borderRadius: 12, padding: "12px 14px" }}>
-                  <input
-                    type="checkbox"
-                    checked={confirmed}
-                    onChange={(e) => { setConfirmed(e.target.checked); if (e.target.checked) setConfirmErr(false); }}
-                    style={{ width: 18, height: 18, marginTop: 1, accentColor: "var(--blue)", flexShrink: 0, cursor: "pointer" }}
-                  />
-                  <span style={{ font: "500 13px/1.5 var(--font-manrope),sans-serif", color: "#3A4048" }}>{t("confirm", { id: current?.id ?? "—" })}</span>
-                </label>
-                {confirmErr && <span style={{ font: "500 12px/1 var(--font-manrope),sans-serif", color: "#E5484D", display: "block", marginTop: -8 }}>{t("confirmErr")}</span>}
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  <label style={{ display: "flex", gap: 10, alignItems: "flex-start", cursor: "pointer", background: confirmErr && !agreeTerms ? "#FDECEC" : "var(--bg-soft)", border: `1px solid ${confirmErr && !agreeTerms ? "#E5484D" : "#ECEEE9"}`, borderRadius: 12, padding: "12px 14px" }}>
+                    <input
+                      type="checkbox"
+                      checked={agreeTerms}
+                      onChange={(e) => { setAgreeTerms(e.target.checked); if (e.target.checked) setConfirmErr(false); }}
+                      style={{ width: 18, height: 18, marginTop: 1, accentColor: "var(--blue)", flexShrink: 0, cursor: "pointer" }}
+                    />
+                    <span style={{ font: "500 13px/1.5 var(--font-manrope),sans-serif", color: "#3A4048" }}>
+                      {t.rich("terms", {
+                        link: (chunks) => (
+                          <Link href="/o-kurze" target="_blank" style={{ color: "var(--blue)", fontWeight: 600 }} onClick={(e) => e.stopPropagation()}>
+                            {chunks}
+                          </Link>
+                        ),
+                      })}
+                    </span>
+                  </label>
+
+                  <label style={{ display: "flex", gap: 10, alignItems: "flex-start", cursor: "pointer", background: confirmErr && !agreeConsent ? "#FDECEC" : "var(--bg-soft)", border: `1px solid ${confirmErr && !agreeConsent ? "#E5484D" : "#ECEEE9"}`, borderRadius: 12, padding: "12px 14px" }}>
+                    <input
+                      type="checkbox"
+                      checked={agreeConsent}
+                      onChange={(e) => { setAgreeConsent(e.target.checked); if (e.target.checked) setConfirmErr(false); }}
+                      style={{ width: 18, height: 18, marginTop: 1, accentColor: "var(--blue)", flexShrink: 0, cursor: "pointer" }}
+                    />
+                    <span style={{ font: "500 13px/1.5 var(--font-manrope),sans-serif", color: "#3A4048" }}>{t("agree", { id: current?.id ?? "—" })}</span>
+                  </label>
+                </div>
+                {confirmErr && <span style={{ font: "500 12px/1 var(--font-manrope),sans-serif", color: "#E5484D", display: "block" }}>{t("confirmErr")}</span>}
 
                 <button type="submit" disabled={sending} style={{ marginTop: 4, padding: 16, background: "var(--blue)", color: "#fff", border: "none", borderRadius: 12, font: "600 17px/1 var(--font-manrope),sans-serif", cursor: sending ? "wait" : "pointer", opacity: sending ? 0.75 : 1 }}>
                   {sending ? t("sending") : t("submit")}
                 </button>
-                <p style={{ font: "400 12px/1.5 var(--font-manrope),sans-serif", color: "#9AA0A8", textAlign: "center", margin: 0 }}>
-                  {t("consent")}
-                </p>
               </form>
             )}
           </div>
