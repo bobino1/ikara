@@ -3,7 +3,7 @@ import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Reveal } from "@/components/Reveal";
 import { Container, Eyebrow } from "@/components/ui";
-import { CarGallery, ImageGallery } from "@/components/Lightbox";
+import { ImageGallery } from "@/components/Lightbox";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -103,8 +103,30 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           <p style={{ font: "400 16px/1.6 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "12px 0 0", maxWidth: 560 }}>
             {t("carsIntro")}
           </p>
-          <div style={{ marginTop: 26 }}>
-            <CarGallery cars={cars} morePhotos={t("photos")} />
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 18, marginTop: 26 }}>
+            {cars.map((car) => (
+              <div key={car.name} style={{ background: "#fff", border: "1px solid #ECEEE9", borderRadius: 20, overflow: "hidden", display: "flex", flexDirection: "column" }}>
+                <div style={{ position: "relative", width: "100%", height: "clamp(200px,26vw,260px)" }}>
+                  <Image src={car.images[0].src} alt={car.images[0].alt} fill sizes="(max-width:900px) 100vw, 50vw" style={{ objectFit: "cover" }} />
+                </div>
+                {car.images.length > 1 && (
+                  <div style={{ display: "grid", gridTemplateColumns: `repeat(${car.images.length - 1},1fr)`, gap: 4, marginTop: 4 }}>
+                    {car.images.slice(1).map((im) => (
+                      <div key={im.src} style={{ position: "relative", width: "100%", height: "clamp(90px,13vw,130px)" }}>
+                        <Image src={im.src} alt={im.alt} fill sizes="(max-width:900px) 50vw, 25vw" style={{ objectFit: "cover" }} />
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <div style={{ padding: 24 }}>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
+                    <h3 style={{ font: "700 21px/1.2 var(--font-space),sans-serif", margin: 0 }}>{car.name}</h3>
+                    <span style={{ font: "600 13px/1.3 var(--font-manrope),sans-serif", color: "var(--blue)" }}>{car.note}</span>
+                  </div>
+                  <p style={{ font: "400 15px/1.6 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "10px 0 0" }}>{car.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </Container>
       </Reveal>
