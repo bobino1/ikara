@@ -106,15 +106,11 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 18, marginTop: 26 }}>
             {cars.map((car) => (
               <div key={car.name} style={{ background: "#fff", border: "1px solid #ECEEE9", borderRadius: 20, overflow: "hidden", display: "flex", flexDirection: "column" }}>
-                <div style={{ position: "relative", width: "100%", height: "clamp(200px,26vw,260px)" }}>
-                  <Image src={car.images[0].src} alt={car.images[0].alt} fill sizes="(max-width:900px) 100vw, 50vw" style={{ objectFit: "cover" }} />
-                </div>
+                <Image src={car.images[0].src} alt={car.images[0].alt} width={1920} height={1280} sizes="(max-width:900px) 100vw, 50vw" style={{ width: "100%", height: "auto", display: "block" }} />
                 {car.images.length > 1 && (
                   <div style={{ display: "grid", gridTemplateColumns: `repeat(${car.images.length - 1},1fr)`, gap: 4, marginTop: 4 }}>
                     {car.images.slice(1).map((im) => (
-                      <div key={im.src} style={{ position: "relative", width: "100%", height: "clamp(90px,13vw,130px)" }}>
-                        <Image src={im.src} alt={im.alt} fill sizes="(max-width:900px) 50vw, 25vw" style={{ objectFit: "cover" }} />
-                      </div>
+                      <Image key={im.src} src={im.src} alt={im.alt} width={1920} height={1280} sizes="(max-width:900px) 50vw, 25vw" style={{ width: "100%", height: "auto", display: "block" }} />
                     ))}
                   </div>
                 )}

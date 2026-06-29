@@ -52,7 +52,10 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
 
   const open = useCallback(
     (id?: string) => {
-      setCourseId(id ?? hot?.id ?? null);
+      // plný termín predvyplníme najbližším voľným, aby sa dalo prihlásiť
+      const wanted = id ? courses.find((c) => c.id === id) : undefined;
+      const preselect = wanted && wanted.free > 0 ? wanted.id : hot?.id ?? null;
+      setCourseId(preselect);
       setSubmitted(false);
       setErrors({});
       setAgreeTerms(false);
@@ -60,7 +63,7 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
       setConfirmErr(false);
       setIsOpen(true);
     },
-    [hot?.id]
+    [courses, hot?.id]
   );
 
   const close = () => setIsOpen(false);

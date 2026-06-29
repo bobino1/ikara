@@ -1,7 +1,6 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
 import type { ComputedCourse } from "@/lib/courses";
 import { useSignup } from "./SignupProvider";
 
@@ -73,15 +72,9 @@ export function CourseCard({ c }: { c: ComputedCourse }) {
         <div style={{ font: "700 26px/1.2 var(--font-space),sans-serif", color: "var(--ink)", letterSpacing: "-0.01em", marginTop: 8 }}>{c.start}</div>
       </div>
 
-      {c.full ? (
-        <div style={{ font: "500 14px/1.5 var(--font-manrope),sans-serif", color: "#E5484D", marginTop: 14 }}>
-          {t("fullNote")}
-        </div>
-      ) : (
-        <div style={{ font: "500 14px/1.4 var(--font-manrope),sans-serif", color: "var(--muted)", marginTop: 14 }}>
-          {t("signupBy")} <strong style={{ color: "var(--ink)", fontWeight: 600 }}>{c.signup}</strong>
-        </div>
-      )}
+      <div style={{ font: "500 14px/1.4 var(--font-manrope),sans-serif", color: "var(--muted)", marginTop: 14 }}>
+        {t("signupBy")} <strong style={{ color: "var(--ink)", fontWeight: 600 }}>{c.signup}</strong>
+      </div>
 
       <div style={{ marginTop: 16 }}>
         <OccupancyBar c={c} label={statusLabel(t, c)} />
@@ -89,15 +82,9 @@ export function CourseCard({ c }: { c: ComputedCourse }) {
 
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "auto", paddingTop: 22, borderTop: "1px solid #ECEEE9" }}>
         <span style={{ font: "700 22px/1 var(--font-space),sans-serif" }}>{c.priceLabel} €</span>
-        {c.full ? (
-          <Link href="/kontakt" className="btn btn--outline" style={{ padding: "12px 18px", borderRadius: 11, fontSize: 14 }}>
-            {t("inquire")}
-          </Link>
-        ) : (
-          <button className="btn btn--card" onClick={() => open(c.id)} style={{ padding: "12px 20px", borderRadius: 11, fontSize: 15 }}>
-            {t("interest")}
-          </button>
-        )}
+        <button className="btn btn--primary" onClick={() => open(c.id)} style={{ padding: "12px 20px", borderRadius: 11, fontSize: 15 }}>
+          {t("interest")}
+        </button>
       </div>
     </div>
   );
@@ -156,24 +143,14 @@ export function FeaturedCourseCard({ c }: { c: ComputedCourse }) {
 
       <div style={{ height: 1, background: "#ECEEE9", margin: "24px 0" }} />
 
-      {/* pätička — 0 € + CTA (alebo výzva pri plnom kurze) */}
+      {/* pätička — 0 € + CTA */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
-        {c.full ? (
-          <span style={{ font: "600 14px/1.4 var(--font-manrope),sans-serif", color: "#E5484D", maxWidth: 360 }}>{t("fullNote")}</span>
-        ) : (
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "7px 13px", background: "#E9F7EF", border: "1px solid rgba(21,182,107,.25)", borderRadius: 100, font: "600 13px/1 var(--font-manrope),sans-serif", color: "#0F9B5A" }}>
-            ✓ {t("noExamFee")}
-          </span>
-        )}
-        {c.full ? (
-          <Link href="/kontakt" className="btn btn--outline" style={{ padding: "15px 26px", fontSize: 16 }}>
-            {t("inquire")}
-          </Link>
-        ) : (
-          <button className="btn btn--primary" onClick={() => open(c.id)} style={{ padding: "15px 28px", fontSize: 16 }}>
-            {t("interestArrow")}
-          </button>
-        )}
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "7px 13px", background: "#E9F7EF", border: "1px solid rgba(21,182,107,.25)", borderRadius: 100, font: "600 13px/1 var(--font-manrope),sans-serif", color: "#0F9B5A" }}>
+          ✓ {t("noExamFee")}
+        </span>
+        <button className="btn btn--primary" onClick={() => open(c.id)} style={{ padding: "15px 28px", fontSize: 16 }}>
+          {t("interestArrow")}
+        </button>
       </div>
     </div>
   );
