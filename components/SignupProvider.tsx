@@ -39,6 +39,8 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
   const [errors, setErrors] = useState<Errors>({});
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
+  const [confirmed, setConfirmed] = useState(false);
+  const [confirmErr, setConfirmErr] = useState(false);
 
   const hot = useMemo(() => courses.find((c) => c.free > 0) ?? courses[0], [courses]);
   const openCourses = courses.filter((c) => c.free > 0);
@@ -51,6 +53,8 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
       setCourseId(id ?? hot?.id ?? null);
       setSubmitted(false);
       setErrors({});
+      setConfirmed(false);
+      setConfirmErr(false);
       setIsOpen(true);
     },
     [hot?.id]
@@ -71,6 +75,10 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
     if (form.phone.trim().length < 6) errs.phone = true;
     if (Object.keys(errs).length) {
       setErrors(errs);
+      return;
+    }
+    if (!confirmed) {
+      setConfirmErr(true);
       return;
     }
     setSending(true);
@@ -207,6 +215,17 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
                     {errors.phone && <span style={{ font: "500 12px/1 var(--font-manrope),sans-serif", color: "#E5484D", display: "block", marginTop: 6 }}>{tf("phoneErr")}</span>}
                   </div>
                 </div>
+
+                <label style={{ display: "flex", gap: 10, alignItems: "flex-start", cursor: "pointer", background: confirmErr ? "#FDECEC" : "var(--bg-soft)", border: `1px solid ${confirmErr ? "#E5484D" : "#ECEEE9"}`, borderRadius: 12, padding: "12px 14px" }}>
+                  <input
+                    type="checkbox"
+                    checked={confirmed}
+                    onChange={(e) => { setConfirmed(e.target.checked); if (e.target.checked) setConfirmErr(false); }}
+                    style={{ width: 18, height: 18, marginTop: 1, accentColor: "var(--blue)", flexShrink: 0, cursor: "pointer" }}
+                  />
+                  <span style={{ font: "500 13px/1.5 var(--font-manrope),sans-serif", color: "#3A4048" }}>{t("confirm", { id: current?.id ?? "—" })}</span>
+                </label>
+                {confirmErr && <span style={{ font: "500 12px/1 var(--font-manrope),sans-serif", color: "#E5484D", display: "block", marginTop: -8 }}>{t("confirmErr")}</span>}
 
                 <button type="submit" disabled={sending} style={{ marginTop: 4, padding: 16, background: "var(--blue)", color: "#fff", border: "none", borderRadius: 12, font: "600 17px/1 var(--font-manrope),sans-serif", cursor: sending ? "wait" : "pointer", opacity: sending ? 0.75 : 1 }}>
                   {sending ? t("sending") : t("submit")}

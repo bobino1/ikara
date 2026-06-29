@@ -27,6 +27,8 @@
     "signupBy": "Sign up by",
     "maxStudents": "Max {count} students",
     "fullPrice": "complete course",
+    "spotsLabel": "Available spots",
+    "price": "Price",
     "noExamFee": "No exam fee · 0 €",
     "courseNo": "Course {id}",
     "interest": "Sign up",
@@ -243,12 +245,14 @@
     "start": "Start",
     "changeTerm": "Change course date",
     "termOption": "Course {id} — start {start} ({label})",
-    "submit": "Send application →",
+    "submit": "Sign up (binding) →",
     "sending": "Sending…",
-    "sentTitle": "Application sent!",
-    "sentText": "We've registered your interest in course {id}. We'll get back to you within 24 hours with next steps.",
+    "confirm": "I am signing up for course {id} and acknowledge this is a binding application.",
+    "confirmErr": "Please confirm the binding sign-up to submit.",
+    "sentTitle": "Sign-up sent!",
+    "sentText": "You've been signed up for course {id}. We'll get back to you within 24 hours with next steps.",
     "done": "Done",
-    "consent": "By submitting you agree to the processing of personal data. This is not a binding order."
+    "consent": "By submitting you bindingly sign up for the selected course and agree to the processing of personal data."
   },
   "cookies": {
     "bannerTitle": "We use cookies 🍪",

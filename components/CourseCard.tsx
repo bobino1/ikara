@@ -19,13 +19,6 @@ function statusTag(t: T, c: ComputedCourse) {
   return t("tagFree");
 }
 
-function statusLabel(t: T, c: ComputedCourse) {
-  if (c.free <= 0) return t("full");
-  if (c.free === 1) return t("lastSpot");
-  if (c.free === 2) return t("lastSpots", { count: c.free });
-  return t("freeSpots", { count: c.free });
-}
-
 function EmptyState() {
   const t = useTranslations("course");
   return (
@@ -68,21 +61,18 @@ export function CourseCard({ c }: { c: ComputedCourse }) {
   );
 }
 
+function Fact({ label, value, color }: { label: string; value: string; color?: string }) {
+  return (
+    <div>
+      <div style={cellLabel}>{label}</div>
+      <div style={{ font: "700 18px/1.2 var(--font-space),sans-serif", color: color ?? "var(--ink)", marginTop: 6 }}>{value}</div>
+    </div>
+  );
+}
+
 export function FeaturedCourseCard({ c }: { c: ComputedCourse }) {
   const { open } = useSignup();
   const t = useTranslations("course");
-
-  const infoChip: React.CSSProperties = {
-    display: "inline-flex",
-    alignItems: "center",
-    gap: 7,
-    padding: "7px 13px",
-    background: "var(--bg-soft)",
-    border: "1px solid #ECEEE9",
-    borderRadius: 100,
-    font: "600 13px/1 var(--font-manrope),sans-serif",
-    color: "#5C636B",
-  };
 
   return (
     <div
@@ -91,62 +81,43 @@ export function FeaturedCourseCard({ c }: { c: ComputedCourse }) {
         border: "1px solid #ECEEE9",
         borderTop: `4px solid ${c.color}`,
         borderRadius: 24,
-        padding: "clamp(22px,3vw,36px)",
+        padding: "clamp(24px,3.4vw,40px)",
         boxShadow: "0 26px 52px -32px rgba(14,26,43,.28)",
       }}
     >
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(290px,1fr))", gap: "clamp(22px,3.5vw,40px)", alignItems: "stretch" }}>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-            <span style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "7px 13px", background: "#E9F0FE", color: "#1C46C0", borderRadius: 100, font: "600 12px/1 var(--font-manrope),sans-serif", letterSpacing: ".04em" }}>
-              <span style={{ width: 7, height: 7, background: "var(--green)", borderRadius: "50%", boxShadow: "0 0 0 4px rgba(21,182,107,.16)" }} />
-              {t("nearest")}
-            </span>
-            <span style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "6px 13px", borderRadius: 100, font: "700 12px/1 var(--font-manrope),sans-serif", background: c.color, color: "#fff" }}>{statusTag(t, c)}</span>
-          </div>
+      {/* hlavička */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "7px 13px", background: "#E9F0FE", color: "#1C46C0", borderRadius: 100, font: "600 12px/1 var(--font-manrope),sans-serif", letterSpacing: ".04em" }}>
+          <span style={{ width: 7, height: 7, background: "var(--green)", borderRadius: "50%", boxShadow: "0 0 0 4px rgba(21,182,107,.16)" }} />
+          {t("nearest")}
+        </span>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "6px 13px", borderRadius: 100, font: "700 12px/1 var(--font-manrope),sans-serif", background: c.color, color: "#fff" }}>{statusTag(t, c)}</span>
+      </div>
 
-          <div style={{ marginTop: 22 }}>
-            <div style={cellLabel}>{t("start")}</div>
-            <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 12 }}>
-              <span style={{ width: 52, height: 52, borderRadius: 14, background: "#E9F0FE", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <rect x="3" y="4.5" width="18" height="16" rx="2.5" />
-                  <path d="M3 9h18M8 2.5v4M16 2.5v4" />
-                </svg>
-              </span>
-              <span style={{ font: "700 clamp(30px,4vw,44px)/1 var(--font-space),sans-serif", color: "var(--ink)", letterSpacing: "-0.02em" }}>{c.start}</span>
-            </div>
-          </div>
+      {/* hlavný údaj — začiatok */}
+      <div style={{ marginTop: 22 }}>
+        <div style={{ font: "600 15px/1 var(--font-manrope),sans-serif", color: "#8A9088" }}>{t("courseNo", { id: c.id })} · {c.cat}</div>
+        <div style={{ ...cellLabel, marginTop: 14 }}>{t("start")}</div>
+        <div style={{ font: "700 clamp(32px,4.6vw,46px)/1.04 var(--font-space),sans-serif", color: "var(--ink)", letterSpacing: "-0.02em", marginTop: 8 }}>{c.start}</div>
+      </div>
 
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 22 }}>
-            <span style={infoChip}>{t("courseNo", { id: c.id })}</span>
-            <span style={infoChip}>{c.cat}</span>
-            <span style={infoChip}>{t("maxStudents", { count: c.capacity })}</span>
-          </div>
+      {/* fakty */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "18px 40px", marginTop: 24 }}>
+        <Fact label={t("signupBy")} value={c.signup} />
+        <Fact label={t("spotsLabel")} value={`${c.free} / ${c.capacity}`} color={c.color} />
+        <Fact label={t("price")} value={`${c.priceLabel} €`} />
+      </div>
 
-          <div style={{ font: "500 14px/1.4 var(--font-manrope),sans-serif", color: "var(--muted)", marginTop: "auto", paddingTop: 18 }}>
-            {t("signupBy")} <strong style={{ color: "var(--ink)", fontWeight: 600 }}>{c.signup}</strong>
-          </div>
-        </div>
+      <div style={{ height: 1, background: "#ECEEE9", margin: "26px 0" }} />
 
-        <div style={{ background: "var(--bg-soft)", border: "1px solid #ECEEE9", borderRadius: 18, padding: "clamp(20px,2.5vw,28px)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 9, font: "600 15px/1 var(--font-manrope),sans-serif", color: c.color }}>
-            <span style={{ width: 9, height: 9, background: c.color, borderRadius: "50%" }} />{statusLabel(t, c)}
-          </div>
-
-          <div style={{ display: "flex", alignItems: "baseline", gap: 7, marginTop: 16 }}>
-            <span style={{ font: "700 38px/1 var(--font-space),sans-serif", letterSpacing: "-0.02em" }}>{c.priceLabel}</span>
-            <span style={{ font: "600 20px/1 var(--font-space),sans-serif", color: "#5C636B" }}>€</span>
-            <span style={{ font: "500 13px/1 var(--font-manrope),sans-serif", color: "#9AA0A8" }}>{t("fullPrice")}</span>
-          </div>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 7, marginTop: 12, padding: "6px 12px", background: "#E9F7EF", border: "1px solid rgba(21,182,107,.25)", borderRadius: 100, alignSelf: "flex-start" }}>
-            <span style={{ font: "600 12px/1 var(--font-manrope),sans-serif", color: "#0F9B5A" }}>✓ {t("noExamFee")}</span>
-          </span>
-
-          <button className="btn btn--primary" disabled={c.full} onClick={() => !c.full && open(c.id)} style={{ width: "100%", marginTop: 22, padding: "16px 26px", fontSize: 16 }}>
-            {c.full ? t("courseFull") : t("interestArrow")}
-          </button>
-        </div>
+      {/* pätička — 0 € + CTA */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "7px 13px", background: "#E9F7EF", border: "1px solid rgba(21,182,107,.25)", borderRadius: 100, font: "600 13px/1 var(--font-manrope),sans-serif", color: "#0F9B5A" }}>
+          ✓ {t("noExamFee")}
+        </span>
+        <button className="btn btn--primary" disabled={c.full} onClick={() => !c.full && open(c.id)} style={{ padding: "15px 28px", fontSize: 16 }}>
+          {c.full ? t("courseFull") : t("interestArrow")}
+        </button>
       </div>
     </div>
   );
