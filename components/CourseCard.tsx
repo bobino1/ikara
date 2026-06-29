@@ -156,7 +156,8 @@ export function CoursesShowcase({ courses }: { courses: ComputedCourse[] }) {
   if (courses.length === 0) return <EmptyState />;
 
   const featured = courses.find((c) => c.free > 0) ?? courses[0];
-  const rest = courses.filter((c) => c.id !== featured.id);
+  // Pod hlavným kurzom zobrazíme najviac 2 ďalšie termíny.
+  const rest = courses.filter((c) => c.id !== featured.id).slice(0, 2);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
