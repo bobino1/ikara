@@ -46,20 +46,20 @@ export function Header() {
   const t = useTranslations("nav");
   const th = useTranslations("header");
   const pathname = usePathname();
-  const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { open: openSignup } = useSignup();
 
   useEffect(() => {
-    const onResize = () => setIsMobile(window.innerWidth < 880);
-    onResize();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
+
+  // zamkne scroll pozadia, keď je mobilné menu otvorené
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
 
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
@@ -81,39 +81,35 @@ export function Header() {
             <Logo height={54} />
           </Link>
 
-          {!isMobile && (
-            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              {navKeys.map((item) => (
-                <Link key={item.href} href={item.href} className={`nav-link ${isActive(item.href) ? "is-active" : ""}`}>
-                  {t(item.key)}
-                  {isActive(item.href) && <span className="nav-underline" />}
-                </Link>
-              ))}
-              <span style={{ marginLeft: 8 }}>
-                <LanguageSwitcher />
-              </span>
-            </div>
-          )}
-
-          {isMobile && (
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div className="nav-desktop">
+            {navKeys.map((item) => (
+              <Link key={item.href} href={item.href} className={`nav-link ${isActive(item.href) ? "is-active" : ""}`}>
+                {t(item.key)}
+                {isActive(item.href) && <span className="nav-underline" />}
+              </Link>
+            ))}
+            <span style={{ marginLeft: 8 }}>
               <LanguageSwitcher />
-              <button
-                onClick={() => setMenuOpen(true)}
-                aria-label={th("menu")}
-                style={{ display: "flex", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10 }}
-              >
-                <span style={{ width: 24, height: 2, background: "var(--ink)", borderRadius: 2 }} />
-                <span style={{ width: 24, height: 2, background: "var(--ink)", borderRadius: 2 }} />
-                <span style={{ width: 24, height: 2, background: "var(--ink)", borderRadius: 2 }} />
-              </button>
-            </div>
-          )}
+            </span>
+          </div>
+
+          <div className="nav-mobile">
+            <LanguageSwitcher />
+            <button
+              onClick={() => setMenuOpen(true)}
+              aria-label={th("menu")}
+              style={{ display: "flex", flexDirection: "column", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10 }}
+            >
+              <span style={{ width: 24, height: 2, background: "var(--ink)", borderRadius: 2 }} />
+              <span style={{ width: 24, height: 2, background: "var(--ink)", borderRadius: 2 }} />
+              <span style={{ width: 24, height: 2, background: "var(--ink)", borderRadius: 2 }} />
+            </button>
+          </div>
         </nav>
       </header>
 
       {menuOpen && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 100, background: "#fff", display: "flex", flexDirection: "column", padding: 22 }}>
+        <div style={{ position: "fixed", inset: 0, zIndex: 100, background: "#fff", display: "flex", flexDirection: "column", padding: 22, overflowY: "auto" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <Logo height={46} />
             <button onClick={() => setMenuOpen(false)} aria-label={th("close")} style={{ width: 42, height: 42, border: "1px solid #E3E5E0", background: "var(--bg-soft)", borderRadius: 12, cursor: "pointer", fontSize: 20, color: "var(--ink)" }}>

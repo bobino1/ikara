@@ -38,7 +38,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               <SignupButton style={{ padding: "16px 28px", fontSize: 17 }}>{t("heroSignup")}</SignupButton>
               <Link href="/o-kurze" className="btn btn--ghost-light" style={{ padding: "16px 26px", fontSize: 17 }}>{t("heroMore")}</Link>
             </div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 28, marginTop: 42 }}>
+            <div className="hero-stats" style={{ marginTop: 42 }}>
               <Stat value="20" valueColor="#fff" labelColor="#A6B4C8" label={t("statYears")} />
               <Divider color="rgba(255,255,255,.15)" />
               <Stat value="150+" valueColor="#fff" labelColor="#A6B4C8" label={t("statGraduates")} />
@@ -153,7 +153,7 @@ function Stat({ value, label, valueColor = "var(--ink)", labelColor = "#8A9088" 
 }
 
 function Divider({ color = "#ECEEE9" }: { color?: string }) {
-  return <div style={{ width: 1, background: color }} />;
+  return <div className="hero-stats__divider" style={{ background: color }} />;
 }
 
 function Benefit({ icon, iconBg, title, text }: { icon: React.ReactNode; iconBg: string; title: string; text: string }) {

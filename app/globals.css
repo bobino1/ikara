@@ -24,6 +24,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* jemnejší dotyk na mobile (žiadne sivé blikanie pri ťuknutí) */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 html,
 body {
   /* zabráni horizontálnemu posúvaniu na mobile */
@@ -142,6 +147,47 @@ button {
 .card-hover--soft:hover {
   transform: translateY(-4px);
   box-shadow: 0 22px 40px -22px rgba(14, 26, 43, 0.28);
+}
+
+/* ---------- hero stats: row + dividers on desktop, clean grid on mobile ---------- */
+.hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+}
+.hero-stats__divider {
+  width: 1px;
+  align-self: stretch;
+}
+@media (max-width: 560px) {
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .hero-stats__divider {
+    display: none;
+  }
+}
+
+/* ---------- responsive header (CSS-driven, no JS flash) ---------- */
+.nav-desktop {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-mobile {
+  display: none;
+  align-items: center;
+  gap: 10px;
+}
+@media (max-width: 879px) {
+  .nav-desktop {
+    display: none;
+  }
+  .nav-mobile {
+    display: flex;
+  }
 }
 
 /* ---------- nav / footer links ---------- */
