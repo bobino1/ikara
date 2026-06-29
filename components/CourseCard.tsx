@@ -20,6 +20,31 @@ function statusTag(t: T, c: ComputedCourse) {
   return t("tagFree");
 }
 
+function statusLabel(t: T, c: ComputedCourse) {
+  if (c.free <= 0) return t("full");
+  if (c.free === 1) return t("lastSpot");
+  if (c.free <= 2) return t("lastSpots", { count: c.free });
+  return t("freeSpots", { count: c.free });
+}
+
+function OccupancyBar({ c, label }: { c: ComputedCourse; label: string }) {
+  const pct = c.capacity > 0 ? Math.round((c.taken / c.capacity) * 100) : 0;
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 7, font: "600 13px/1 var(--font-manrope),sans-serif", color: c.color }}>
+          <span style={{ width: 8, height: 8, borderRadius: "50%", background: c.color }} />
+          {label}
+        </span>
+        <span style={{ font: "500 12px/1 var(--font-manrope),sans-serif", color: "#9AA0A8" }}>{c.taken}/{c.capacity}</span>
+      </div>
+      <div style={{ height: 6, borderRadius: 5, background: "#EDEFEA", overflow: "hidden" }}>
+        <div style={{ height: "100%", width: `${pct}%`, background: c.color, borderRadius: 5 }} />
+      </div>
+    </div>
+  );
+}
+
 function EmptyState() {
   const t = useTranslations("course");
   return (
@@ -57,6 +82,10 @@ export function CourseCard({ c }: { c: ComputedCourse }) {
           {t("signupBy")} <strong style={{ color: "var(--ink)", fontWeight: 600 }}>{c.signup}</strong>
         </div>
       )}
+
+      <div style={{ marginTop: 16 }}>
+        <OccupancyBar c={c} label={statusLabel(t, c)} />
+      </div>
 
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "auto", paddingTop: 22, borderTop: "1px solid #ECEEE9" }}>
         <span style={{ font: "700 22px/1 var(--font-space),sans-serif" }}>{c.priceLabel} €</span>
@@ -117,11 +146,15 @@ export function FeaturedCourseCard({ c }: { c: ComputedCourse }) {
       {/* fakty */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: "18px 40px", marginTop: 24 }}>
         <Fact label={t("signupBy")} value={c.signup} />
-        <Fact label={t("spotsLabel")} value={`${c.free} / ${c.capacity}`} color={c.color} />
         <Fact label={t("price")} value={`${c.priceLabel} €`} />
       </div>
 
-      <div style={{ height: 1, background: "#ECEEE9", margin: "26px 0" }} />
+      {/* obsadenosť */}
+      <div style={{ marginTop: 22 }}>
+        <OccupancyBar c={c} label={statusLabel(t, c)} />
+      </div>
+
+      <div style={{ height: 1, background: "#ECEEE9", margin: "24px 0" }} />
 
       {/* pätička — 0 € + CTA (alebo výzva pri plnom kurze) */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
