@@ -3,6 +3,7 @@ import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Reveal } from "@/components/Reveal";
 import { Container, Eyebrow } from "@/components/ui";
+import { CarGallery, ImageGallery } from "@/components/Lightbox";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -19,15 +20,39 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
 
   const services = [t("service1"), t("service2"), t("service3")];
   const cars = [
-    { src: "/auta/i30-bok.jpg", name: t("car1Name"), note: t("car1Note"), desc: t("car1Desc"), alt: t("car1Photo") },
-    { src: "/auta/i30kombi-bok.jpg", name: t("car2Name"), note: t("car2Note"), desc: t("car2Desc"), alt: t("car2Photo") },
+    {
+      name: t("car1Name"),
+      note: t("car1Note"),
+      desc: t("car1Desc"),
+      images: [
+        { src: "/auta/i30-bok.jpg", alt: t("car1Photo") },
+        { src: "/auta/i30-zadok.jpg", alt: t("car1Photo") },
+      ],
+    },
+    {
+      name: t("car2Name"),
+      note: t("car2Note"),
+      desc: t("car2Desc"),
+      images: [
+        { src: "/auta/i30kombi-bok.jpg", alt: t("car2Photo") },
+        { src: "/auta/i30kombi-predok.jpg", alt: t("car2Photo") },
+        { src: "/auta/i30kombi-zadok.jpg", alt: t("car2Photo") },
+      ],
+    },
   ];
   const cvicisko = [
-    { src: "/cvicisko/c1.jpg", span2: true, h: 300 },
-    { src: "/cvicisko/c2.jpg", span2: false, h: 300 },
-    { src: "/cvicisko/c3.jpg", span2: false, h: 220 },
-    { src: "/cvicisko/c4.jpg", span2: false, h: 220 },
-    { src: "/cvicisko/c5.jpg", span2: false, h: 220 },
+    { src: "/cvicisko/c1.jpg", alt: t("rangePhoto") },
+    { src: "/cvicisko/c2.jpg", alt: t("rangePhoto") },
+    { src: "/cvicisko/c3.jpg", alt: t("rangePhoto") },
+    { src: "/cvicisko/c4.jpg", alt: t("rangePhoto") },
+    { src: "/cvicisko/c5.jpg", alt: t("rangePhoto") },
+  ];
+  const cvicTiles = [
+    { span2: true, h: 300 },
+    { span2: false, h: 300 },
+    { span2: false, h: 220 },
+    { span2: false, h: 220 },
+    { span2: false, h: 220 },
   ];
 
   return (
@@ -78,21 +103,8 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           <p style={{ font: "400 16px/1.6 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "12px 0 0", maxWidth: 560 }}>
             {t("carsIntro")}
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 18, marginTop: 26 }}>
-            {cars.map((car) => (
-              <div key={car.name} style={{ background: "#fff", border: "1px solid #ECEEE9", borderRadius: 20, overflow: "hidden", display: "flex", flexDirection: "column" }}>
-                <div style={{ position: "relative", width: "100%", height: "clamp(200px,26vw,270px)" }}>
-                  <Image src={car.src} alt={car.alt} fill sizes="(max-width:900px) 100vw, 50vw" style={{ objectFit: "cover" }} />
-                </div>
-                <div style={{ padding: 24 }}>
-                  <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
-                    <h3 style={{ font: "700 21px/1.2 var(--font-space),sans-serif", margin: 0 }}>{car.name}</h3>
-                    <span style={{ font: "600 13px/1.3 var(--font-manrope),sans-serif", color: "var(--blue)" }}>{car.note}</span>
-                  </div>
-                  <p style={{ font: "400 15px/1.6 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "10px 0 0" }}>{car.desc}</p>
-                </div>
-              </div>
-            ))}
+          <div style={{ marginTop: 26 }}>
+            <CarGallery cars={cars} morePhotos={t("photos")} />
           </div>
         </Container>
       </Reveal>
@@ -117,12 +129,8 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           <p style={{ font: "400 16px/1.6 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "12px 0 0", maxWidth: 580 }}>
             {t("rangeDesc")}
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 14, marginTop: 26 }}>
-            {cvicisko.map((p, i) => (
-              <div key={i} style={{ position: "relative", height: p.h, borderRadius: 18, overflow: "hidden", minWidth: 0, gridColumn: p.span2 ? "span 2" : undefined }}>
-                <Image src={p.src} alt={t("rangePhoto")} fill sizes="(max-width:900px) 100vw, 33vw" style={{ objectFit: "cover" }} />
-              </div>
-            ))}
+          <div style={{ marginTop: 26 }}>
+            <ImageGallery images={cvicisko} tiles={cvicTiles} />
           </div>
         </Container>
       </Reveal>
