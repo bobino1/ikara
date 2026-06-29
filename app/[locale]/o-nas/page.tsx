@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Reveal } from "@/components/Reveal";
-import { Container, Eyebrow, ImageSlot } from "@/components/ui";
+import { Container, Eyebrow } from "@/components/ui";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -18,7 +18,17 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
   const t = await getTranslations("about");
 
   const services = [t("service1"), t("service2"), t("service3")];
-  const carChips = [t("carChip1"), t("carChip2"), t("carChip3")];
+  const cars = [
+    { src: "/auta/i30-bok.jpg", name: t("car1Name"), note: t("car1Note"), desc: t("car1Desc"), alt: t("car1Photo") },
+    { src: "/auta/i30kombi-bok.jpg", name: t("car2Name"), note: t("car2Note"), desc: t("car2Desc"), alt: t("car2Photo") },
+  ];
+  const cvicisko = [
+    { src: "/cvicisko/c1.jpg", span2: true, h: 300 },
+    { src: "/cvicisko/c2.jpg", span2: false, h: 300 },
+    { src: "/cvicisko/c3.jpg", span2: false, h: 220 },
+    { src: "/cvicisko/c4.jpg", span2: false, h: 220 },
+    { src: "/cvicisko/c5.jpg", span2: false, h: 220 },
+  ];
 
   return (
     <main>
@@ -68,30 +78,21 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           <p style={{ font: "400 16px/1.6 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "12px 0 0", maxWidth: 560 }}>
             {t("carsIntro")}
           </p>
-          <div style={{ marginTop: 26, background: "#fff", border: "1px solid #ECEEE9", borderRadius: 22, overflow: "hidden" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 2, background: "#ECEEE9" }}>
-              <div style={{ position: "relative", height: "clamp(220px,28vw,330px)", background: "#fff" }}>
-                <Image src="/auta/i30-bok.jpg" alt={t("carPhoto1")} fill sizes="(max-width:900px) 100vw, 50vw" style={{ objectFit: "cover" }} />
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 18, marginTop: 26 }}>
+            {cars.map((car) => (
+              <div key={car.name} style={{ background: "#fff", border: "1px solid #ECEEE9", borderRadius: 20, overflow: "hidden", display: "flex", flexDirection: "column" }}>
+                <div style={{ position: "relative", width: "100%", height: "clamp(200px,26vw,270px)" }}>
+                  <Image src={car.src} alt={car.alt} fill sizes="(max-width:900px) 100vw, 50vw" style={{ objectFit: "cover" }} />
+                </div>
+                <div style={{ padding: 24 }}>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
+                    <h3 style={{ font: "700 21px/1.2 var(--font-space),sans-serif", margin: 0 }}>{car.name}</h3>
+                    <span style={{ font: "600 13px/1.3 var(--font-manrope),sans-serif", color: "var(--blue)" }}>{car.note}</span>
+                  </div>
+                  <p style={{ font: "400 15px/1.6 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "10px 0 0" }}>{car.desc}</p>
+                </div>
               </div>
-              <div style={{ position: "relative", height: "clamp(220px,28vw,330px)", background: "#fff" }}>
-                <Image src="/auta/i30-zadok.jpg" alt={t("carPhoto2")} fill sizes="(max-width:900px) 100vw, 50vw" style={{ objectFit: "cover" }} />
-              </div>
-            </div>
-            <div style={{ padding: "clamp(22px,3vw,32px)" }}>
-              <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
-                <h3 style={{ font: "700 clamp(22px,3vw,28px)/1.1 var(--font-space),sans-serif", margin: 0 }}>{t("carName")}</h3>
-                <span style={{ font: "600 14px/1.3 var(--font-manrope),sans-serif", color: "var(--blue)" }}>{t("carNote")}</span>
-              </div>
-              <p style={{ font: "400 15px/1.65 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "12px 0 0", maxWidth: 640 }}>{t("carDesc")}</p>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 18 }}>
-                {carChips.map((c) => (
-                  <span key={c} style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "7px 13px", background: "var(--bg-soft)", border: "1px solid #ECEEE9", borderRadius: 100, font: "600 13px/1 var(--font-manrope),sans-serif", color: "#5C636B" }}>
-                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--green)" }} />
-                    {c}
-                  </span>
-                ))}
-              </div>
-            </div>
+            ))}
           </div>
         </Container>
       </Reveal>
@@ -116,12 +117,12 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           <p style={{ font: "400 16px/1.6 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "12px 0 0", maxWidth: 580 }}>
             {t("rangeDesc")}
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 18, marginTop: 26 }}>
-            <ImageSlot label={t("rangePhoto")} height={260} radius={18} style={{ gridColumn: "span 2", minWidth: 0 }} />
-            <ImageSlot label={t("rangePhoto")} height={260} radius={18} />
-            <ImageSlot label={t("rangePhoto")} height={200} radius={18} />
-            <ImageSlot label={t("rangePhoto")} height={200} radius={18} />
-            <ImageSlot label={t("rangePhoto")} height={200} radius={18} />
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 14, marginTop: 26 }}>
+            {cvicisko.map((p, i) => (
+              <div key={i} style={{ position: "relative", height: p.h, borderRadius: 18, overflow: "hidden", minWidth: 0, gridColumn: p.span2 ? "span 2" : undefined }}>
+                <Image src={p.src} alt={t("rangePhoto")} fill sizes="(max-width:900px) 100vw, 33vw" style={{ objectFit: "cover" }} />
+              </div>
+            ))}
           </div>
         </Container>
       </Reveal>
