@@ -1,13 +1,34 @@
 import { NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 import { Resend } from "resend";
 import { getCourses, computeCourse } from "@/lib/courses";
 import { site } from "@/lib/site";
 
+// nodemailer vyžaduje Node.js runtime (nie edge).
+export const runtime = "nodejs";
+
 /** Kam majú chodiť notifikácie (default: e-mail autoškoly). */
 const TO_EMAIL = process.env.CONTACT_EMAIL || site.email;
-/** Odosielateľ. Bez vlastnej overenej domény funguje onboarding@resend.dev. */
-const FROM_EMAIL = process.env.RESEND_FROM || "Autoškola IKARA <onboarding@resend.dev>";
 
+/** SMTP (napr. hukot) — ak je nastavené, posielame cez vlastnú schránku. */
+const SMTP_HOST = process.env.SMTP_HOST;
+const SMTP_PORT = Number(process.env.SMTP_PORT || 465);
+const SMTP_USER = process.env.SMTP_USER;
+const SMTP_PASS = process.env.SMTP_PASS;
+const SMTP_FROM = process.env.SMTP_FROM || (SMTP_USER ? `Autoškola IKARA <${SMTP_USER}>` : "");
+
+const smtpTransport =
+  SMTP_HOST && SMTP_USER && SMTP_PASS
+    ? nodemailer.createTransport({
+        host: SMTP_HOST,
+        port: SMTP_PORT,
+        secure: SMTP_PORT === 465, // 465 = SSL, 587 = STARTTLS
+        auth: { user: SMTP_USER, pass: SMTP_PASS },
+      })
+    : null;
+
+/** Resend ostáva ako záloha, ak SMTP nie je nastavené. */
+const FROM_EMAIL = process.env.RESEND_FROM || "Autoškola IKARA <onboarding@resend.dev>";
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 const esc = (s: string) =>
@@ -75,20 +96,28 @@ export async function POST(req: Request) {
   // Zaloguj vždy (záloha, keď e-mail nie je nastavený / zlyhá).
   console.log("[prihlaska]", { type, courseId, name, email, phone, message, at: new Date().toISOString() });
 
-  if (resend) {
+  let sent = false;
+
+  // 1) Najprv SMTP (vlastná hukot schránka), ak je nastavené.
+  if (smtpTransport) {
     try {
-      await resend.emails.send({
-        from: FROM_EMAIL,
-        to: TO_EMAIL,
-        replyTo: email,
-        subject,
-        html,
-      });
+      await smtpTransport.sendMail({ from: SMTP_FROM, to: TO_EMAIL, replyTo: email, subject, html });
+      sent = true;
     } catch (err) {
-      console.error("[prihlaska] odoslanie e-mailu zlyhalo:", err);
-      // Nezhadzujeme požiadavku — záujem máme zalogovaný.
+      console.error("[prihlaska] SMTP odoslanie zlyhalo:", err);
     }
   }
 
+  // 2) Záloha cez Resend, ak SMTP nie je / zlyhalo.
+  if (!sent && resend) {
+    try {
+      await resend.emails.send({ from: FROM_EMAIL, to: TO_EMAIL, replyTo: email, subject, html });
+      sent = true;
+    } catch (err) {
+      console.error("[prihlaska] Resend odoslanie zlyhalo:", err);
+    }
+  }
+
+  // Nezhadzujeme požiadavku ani pri zlyhaní — záujem máme zalogovaný.
   return NextResponse.json({ ok: true });
 }
