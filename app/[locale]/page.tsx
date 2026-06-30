@@ -23,6 +23,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       {/* HERO */}
       <Reveal style={{ ...sectionPad("clamp(80px,12vw,150px) 22px"), position: "relative", display: "flex", alignItems: "center", minHeight: "clamp(480px,76vh,760px)", background: "linear-gradient(155deg,#16294A 0%,#0E1A2B 55%,#0B1626 100%)", color: "#fff" }}>
         <BackgroundVideo />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/znacky.png" alt="Dopravné značky" className="hero-signs" />
         <Container style={{ position: "relative", zIndex: 1, width: "100%" }}>
           <div style={{ maxWidth: 760 }}>
             <span style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "7px 14px", background: "rgba(122,160,255,.14)", border: "1px solid rgba(122,160,255,.24)", color: "#CFD9F7", borderRadius: 100, font: "600 13px/1 var(--font-manrope),sans-serif" }}>
