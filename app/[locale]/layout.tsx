@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const t = await getTranslations({ locale, namespace: "home" });
   const isEn = locale === "en";
   return {
-    metadataBase: new URL("https://autoskola-ikara.sk"),
+    metadataBase: new URL("https://www.autoskola-ikara.sk"),
     title: {
       default: isEn
         ? "Autoškola IKARA — category B1, B driving school in Petržalka, Bratislava"
@@ -37,12 +37,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     },
     description: t("heroText"),
     alternates: {
-      languages: { sk: "/sk", en: "/en" },
+      languages: { sk: "/", en: "/en" },
     },
     openGraph: {
       title: "Autoškola IKARA",
       description: t("heroText"),
-      url: isEn ? "/en" : "/sk",
+      url: isEn ? "/en" : "/",
       siteName: "Autoškola IKARA",
       locale: isEn ? "en_US" : "sk_SK",
       type: "website",
