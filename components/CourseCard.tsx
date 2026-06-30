@@ -162,12 +162,13 @@ export function FeaturedCourse({ courses }: { courses: ComputedCourse[] }) {
   return <FeaturedCourseCard c={featured} />;
 }
 
-export function CoursesShowcase({ courses }: { courses: ComputedCourse[] }) {
+export function CoursesShowcase({ courses, limit = 2 }: { courses: ComputedCourse[]; limit?: number }) {
   if (courses.length === 0) return <EmptyState />;
 
-  const featured = courses.find((c) => c.free > 0) ?? courses[0];
-  // Pod hlavným kurzom zobrazíme najviac 2 ďalšie termíny.
-  const rest = courses.filter((c) => c.id !== featured.id).slice(0, 2);
+  // Hlavný kurz = ten označený v CMS (featured); inak najbližší voľný; inak prvý.
+  const featured = courses.find((c) => c.featured) ?? courses.find((c) => c.free > 0) ?? courses[0];
+  // Pod hlavným kurzom zobrazíme ostatné termíny (na domovskej max `limit`, na stránke kurzy všetky).
+  const rest = courses.filter((c) => c.id !== featured.id).slice(0, limit);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>

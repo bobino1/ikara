@@ -46,7 +46,7 @@ export default async function KurzyPage({ params }: { params: Promise<{ locale: 
 
       <Reveal style={{ padding: "clamp(36px,5vw,56px) 22px clamp(48px,6vw,80px)" }}>
         <Container style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-          <CoursesShowcase courses={courses} />
+          <CoursesShowcase courses={courses} limit={Infinity} />
           <div style={{ height: 1, width: 90, background: "#E3E5E0", borderRadius: 2, margin: "10px auto" }} />
           <IndividualCourse />
         </Container>

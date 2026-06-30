@@ -23,6 +23,10 @@ export type Course = {
   enrolled: number;
   /** Cena kompletného kurzu v € */
   price: number;
+  /** Označený ako hlavný kurz (veľká karta hore). */
+  featured?: boolean;
+  /** Poradie zobrazenia (menšie = vyššie). */
+  sortOrder?: number;
 };
 
 export type ComputedCourse = Course & {
@@ -105,7 +109,7 @@ export function computeCourse(c: Course): ComputedCourse {
 }
 
 /** GROQ dotaz na kurzy zo Sanity, namapovaný presne na typ Course. */
-const COURSES_QUERY = `*[_type == "course"] | order(dateFrom asc){
+const COURSES_QUERY = `*[_type == "course"] | order(coalesce(sortOrder, 9999) asc, dateFrom asc){
   "id": id,
   "category": category,
   "signupBy": signupBy,
@@ -113,7 +117,9 @@ const COURSES_QUERY = `*[_type == "course"] | order(dateFrom asc){
   "dateTo": dateTo,
   "capacity": capacity,
   "enrolled": enrolled,
-  "price": price
+  "price": price,
+  "featured": featured,
+  "sortOrder": sortOrder
 }`;
 
 /**
