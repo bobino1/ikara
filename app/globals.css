@@ -31,9 +31,10 @@ html {
 
 html,
 body {
-  /* zabráni horizontálnemu posúvaniu na mobile */
+  /* zabráni horizontálnemu posúvaniu na mobile.
+     `clip` (nie hidden) — hidden by z body spravil scroll-kontajner a pokazil sticky navbar */
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -336,10 +337,10 @@ button {
   animation: fcIn 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 .fc-btn--call {
-  background: var(--green);
+  background: var(--amber);
 }
 .fc-btn--mail {
-  background: var(--blue);
+  background: var(--green);
   animation-delay: 0.08s;
 }
 .fc-icon {
@@ -383,9 +384,9 @@ button {
   }
   .fc-btn,
   .fc-icon {
-    width: 52px;
-    height: 52px;
-    flex-basis: 52px;
+    width: 46px;
+    height: 46px;
+    flex-basis: 46px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
