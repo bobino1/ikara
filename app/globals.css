@@ -318,7 +318,8 @@ button {
   top: 50%;
   transform: translateY(-50%);
   z-index: 120;
-  display: flex;
+  /* len na mobile — na PC skryté */
+  display: none;
   flex-direction: column;
   gap: 12px;
 }
@@ -350,12 +351,8 @@ button {
   justify-content: center;
 }
 .fc-label {
-  white-space: nowrap;
-  color: #fff;
-  font: 700 14px/1 var(--font-manrope), sans-serif;
-  opacity: 0;
-  padding-left: 18px;
-  transition: opacity 0.2s;
+  /* iba ikonky — štítok s číslom/e-mailom skrytý */
+  display: none;
 }
 .fc-btn:hover {
   width: auto;
@@ -377,6 +374,7 @@ button {
 }
 @media (max-width: 700px) {
   .floating-contact {
+    display: flex;
     right: 12px;
     top: auto;
     bottom: 16px;
@@ -385,9 +383,9 @@ button {
   }
   .fc-btn,
   .fc-icon {
-    width: 50px;
-    height: 50px;
-    flex-basis: 50px;
+    width: 52px;
+    height: 52px;
+    flex-basis: 52px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
