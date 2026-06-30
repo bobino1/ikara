@@ -108,37 +108,41 @@ export function ImageGallery({ images, tiles }: { images: Photo[]; tiles?: { spa
   );
 }
 
-export type Car = { name: string; note: string; desc: string; images: Photo[] };
-
-/** Karty áut — každá s galériou fotiek (klik otvorí prezerač s priblížením). */
-export function CarGallery({ cars, morePhotos }: { cars: Car[]; morePhotos: string }) {
-  const [lb, setLb] = useState<{ images: Photo[]; index: number } | null>(null);
+/** Fotky jedného auta — celé (neorezané), na celú šírku; klik každú zväčší. */
+export function CarPhotos({ images }: { images: Photo[] }) {
+  const [open, setOpen] = useState<number | null>(null);
   return (
     <>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 18 }}>
-        {cars.map((car) => (
-          <div key={car.name} style={{ background: "#fff", border: "1px solid #ECEEE9", borderRadius: 20, overflow: "hidden", display: "flex", flexDirection: "column" }}>
-            <button
-              onClick={() => setLb({ images: car.images, index: 0 })}
-              style={{ position: "relative", width: "100%", height: "clamp(200px,26vw,270px)", padding: 0, border: "none", cursor: "zoom-in", display: "block" }}
-            >
-              <Image src={car.images[0].src} alt={car.images[0].alt} fill sizes="(max-width:900px) 100vw, 50vw" style={{ objectFit: "cover" }} />
-              <span style={{ position: "absolute", bottom: 12, right: 12, display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 11px", borderRadius: 100, background: "rgba(8,12,20,.62)", color: "#fff", font: "600 12px/1 var(--font-manrope),sans-serif", backdropFilter: "blur(4px)" }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="2" /><circle cx="12" cy="13" r="3.2" /><path d="M8 6l1.5-2h5L16 6" /></svg>
-                {car.images.length} {morePhotos}
-              </span>
-            </button>
-            <div style={{ padding: 24 }}>
-              <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
-                <h3 style={{ font: "700 21px/1.2 var(--font-space),sans-serif", margin: 0 }}>{car.name}</h3>
-                <span style={{ font: "600 13px/1.3 var(--font-manrope),sans-serif", color: "var(--blue)" }}>{car.note}</span>
-              </div>
-              <p style={{ font: "400 15px/1.6 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "10px 0 0" }}>{car.desc}</p>
-            </div>
-          </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        {images.map((im, i) => (
+          <button
+            key={im.src}
+            onClick={() => setOpen(i)}
+            aria-label="Zväčšiť fotku"
+            style={{ display: "block", width: "100%", padding: 0, border: "none", background: "none", cursor: "zoom-in" }}
+          >
+            <Image src={im.src} alt={im.alt} width={1920} height={1280} sizes="(max-width:900px) 100vw, 50vw" style={{ width: "100%", height: "auto", display: "block" }} />
+          </button>
         ))}
       </div>
-      {lb && <LightboxOverlay images={lb.images} index={lb.index} onIndex={(i) => setLb((s) => (s ? { ...s, index: i } : s))} onClose={() => setLb(null)} />}
+      {open !== null && <LightboxOverlay images={images} index={open} onIndex={setOpen} onClose={() => setOpen(null)} />}
+    </>
+  );
+}
+
+/** Jedna fotka v pevnom ráme (orezaná na výplň); klik ju zväčší naplno. */
+export function ZoomTile({ src, alt, height = 320, radius = 18 }: { src: string; alt: string; height?: number | string; radius?: number }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button
+        onClick={() => setOpen(true)}
+        aria-label="Zväčšiť fotku"
+        style={{ position: "relative", width: "100%", height, borderRadius: radius, overflow: "hidden", padding: 0, border: "none", cursor: "zoom-in", display: "block" }}
+      >
+        <Image src={src} alt={alt} fill sizes="(max-width:900px) 100vw, 50vw" style={{ objectFit: "cover" }} />
+      </button>
+      {open && <LightboxOverlay images={[{ src, alt }]} index={0} onIndex={() => {}} onClose={() => setOpen(false)} />}
     </>
   );
 }

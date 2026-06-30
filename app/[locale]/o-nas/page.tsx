@@ -3,7 +3,7 @@ import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Reveal } from "@/components/Reveal";
 import { Container, Eyebrow } from "@/components/ui";
-import { ImageGallery } from "@/components/Lightbox";
+import { ImageGallery, CarPhotos, ZoomTile } from "@/components/Lightbox";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -106,14 +106,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 18, marginTop: 26 }}>
             {cars.map((car) => (
               <div key={car.name} style={{ background: "#fff", border: "1px solid #ECEEE9", borderRadius: 20, overflow: "hidden", display: "flex", flexDirection: "column" }}>
-                <Image src={car.images[0].src} alt={car.images[0].alt} width={1920} height={1280} sizes="(max-width:900px) 100vw, 50vw" style={{ width: "100%", height: "auto", display: "block" }} />
-                {car.images.length > 1 && (
-                  <div style={{ display: "grid", gridTemplateColumns: `repeat(${car.images.length - 1},1fr)`, gap: 4, marginTop: 4 }}>
-                    {car.images.slice(1).map((im) => (
-                      <Image key={im.src} src={im.src} alt={im.alt} width={1920} height={1280} sizes="(max-width:900px) 50vw, 25vw" style={{ width: "100%", height: "auto", display: "block" }} />
-                    ))}
-                  </div>
-                )}
+                <CarPhotos images={car.images} />
                 <div style={{ padding: 24 }}>
                   <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
                     <h3 style={{ font: "700 21px/1.2 var(--font-space),sans-serif", margin: 0 }}>{car.name}</h3>
@@ -135,9 +128,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
               {t("simDesc")}
             </p>
           </div>
-          <div style={{ position: "relative", width: "100%", height: "clamp(240px,30vw,340px)", borderRadius: 18, overflow: "hidden" }}>
-            <Image src="/auta/trenazer.jpg" alt={t("simPhoto")} fill sizes="(max-width:900px) 100vw, 50vw" style={{ objectFit: "cover" }} />
-          </div>
+          <ZoomTile src="/auta/trenazer.jpg" alt={t("simPhoto")} height="clamp(240px,30vw,340px)" />
         </Container>
       </Reveal>
 
