@@ -16,6 +16,7 @@ export const sanityClient: SanityClient | null = sanityConfigured
       projectId: projectId!,
       dataset,
       apiVersion,
-      useCdn: true,
+      // false = vždy čerstvé dáta (web sa aj tak cachuje cez ISR), aby zmeny v CMS naskočili spoľahlivo
+      useCdn: false,
     })
   : null;

@@ -23,6 +23,9 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
+// Obnov stránky každých 30 s, aby sa zmeny v CMS (kurzy) spoľahlivo prejavili.
+export const revalidate = 30;
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "home" });

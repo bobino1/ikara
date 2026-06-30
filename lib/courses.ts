@@ -129,10 +129,12 @@ const COURSES_QUERY = `*[_type == "course"] | order(coalesce(sortOrder, 9999) as
 export async function getCourses(): Promise<Course[]> {
   if (sanityClient) {
     try {
-      const data = await sanityClient.fetch<Course[]>(COURSES_QUERY, {}, { next: { revalidate: 60 } });
-      if (Array.isArray(data) && data.length > 0) return data;
+      const data = await sanityClient.fetch<Course[]>(COURSES_QUERY, {}, { next: { revalidate: 30 } });
+      // Sanity je zdroj pravdy — vrátime aj prázdny zoznam (web ukáže „žiadne kurzy").
+      if (Array.isArray(data)) return data;
     } catch (err) {
       console.error("[courses] Sanity fetch zlyhal, použijem lokálne dáta:", err);
+      return courses; // záloha len pri skutočnej chybe spojenia
     }
   }
   return courses;
