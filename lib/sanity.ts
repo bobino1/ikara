@@ -20,3 +20,13 @@ export const sanityClient: SanityClient | null = sanityConfigured
       useCdn: false,
     })
   : null;
+
+/**
+ * Zapisovací klient — potrebuje token (SANITY_API_TOKEN, rola Editor).
+ * Používa sa na automatické navýšenie počtu prihlásených pri záväznej prihláške.
+ */
+const writeToken = process.env.SANITY_API_TOKEN;
+export const sanityWriteClient: SanityClient | null =
+  sanityConfigured && writeToken
+    ? createClient({ projectId: projectId!, dataset, apiVersion, useCdn: false, token: writeToken })
+    : null;

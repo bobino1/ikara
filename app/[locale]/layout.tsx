@@ -7,6 +7,7 @@ import { manrope, spaceGrotesk } from "../fonts";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MapBand } from "@/components/MapBand";
+import { FloatingContact } from "@/components/FloatingContact";
 import { SignupProvider } from "@/components/SignupProvider";
 import { CookieConsentProvider } from "@/components/CookieConsent";
 import { getComputedCourses } from "@/lib/courses";
@@ -85,6 +86,7 @@ export default async function LocaleLayout({
                 <MapBand />
                 <Footer />
               </div>
+              <FloatingContact />
             </SignupProvider>
           </CookieConsentProvider>
         </NextIntlClientProvider>

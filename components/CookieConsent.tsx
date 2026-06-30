@@ -130,8 +130,11 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
             }}
           >
             <div>
-              <h2 style={{ font: "700 18px/1.2 var(--font-space),sans-serif", margin: 0, color: "var(--ink)" }}>{t("bannerTitle")}</h2>
-              <p style={{ font: "400 14px/1.6 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "8px 0 0" }}>
+              <h2 style={{ display: "flex", alignItems: "center", gap: 9, font: "700 18px/1.2 var(--font-space),sans-serif", margin: 0, color: "var(--ink)" }}>
+                <span aria-hidden style={{ width: 30, height: 30, borderRadius: 9, background: "#E9F0FE", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>🍪</span>
+                {t("bannerTitle")}
+              </h2>
+              <p style={{ font: "400 14px/1.6 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "10px 0 0" }}>
                 {t("bannerText")}
                 <Link href="/cookies" style={{ color: "var(--blue)", fontWeight: 600 }}>{t("policyLink")}</Link>.
               </p>

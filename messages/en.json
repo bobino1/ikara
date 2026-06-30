@@ -220,7 +220,11 @@
     "wed": "Wednesday",
     "thu": "Thursday",
     "fri": "Friday",
-    "closed": "closed"
+    "closed": "closed",
+    "ctaTitle": "Reach us the fastest",
+    "ctaText": "Call or write — we'll get back to you as soon as possible and help with the course and dates.",
+    "call": "Call",
+    "write": "Write an e-mail"
   },
   "form": {
     "name": "Full name",

@@ -89,13 +89,14 @@ export function ImageGallery({ images, tiles }: { images: Photo[]; tiles?: { spa
   const [open, setOpen] = useState<number | null>(null);
   return (
     <>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 14 }}>
+      <div className="gallery-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 14 }}>
         {images.map((im, i) => {
           const tile = tiles?.[i];
           return (
             <button
               key={im.src}
               onClick={() => setOpen(i)}
+              className="gallery-tile"
               style={{ position: "relative", height: tile?.h ?? 240, borderRadius: 18, overflow: "hidden", minWidth: 0, padding: 0, border: "none", cursor: "zoom-in", gridColumn: tile?.span2 ? "span 2" : undefined }}
             >
               <Image src={im.src} alt={im.alt} fill sizes="(max-width:900px) 100vw, 33vw" style={{ objectFit: "cover" }} />

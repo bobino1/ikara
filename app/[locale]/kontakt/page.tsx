@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Reveal } from "@/components/Reveal";
 import { Container, Eyebrow } from "@/components/ui";
-import { ContactForm } from "@/components/ContactForm";
 import { site } from "@/lib/site";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -77,7 +76,16 @@ export default async function KontaktPage({ params }: { params: Promise<{ locale
             </div>
           </div>
 
-          <ContactForm />
+          <div style={{ background: "var(--bg-soft)", borderRadius: 24, padding: "clamp(24px,3.4vw,40px)", display: "flex", flexDirection: "column", gap: 16, alignSelf: "start" }}>
+            <h2 style={{ font: "700 22px/1.2 var(--font-space),sans-serif", margin: 0 }}>{t("ctaTitle")}</h2>
+            <p style={{ font: "400 15px/1.6 var(--font-manrope),sans-serif", color: "var(--muted)", margin: 0 }}>{t("ctaText")}</p>
+            <a href={site.mobileHref} className="btn btn--primary" style={{ padding: 16, fontSize: 16 }}>
+              {t("call")} · {site.mobile}
+            </a>
+            <a href={`mailto:${site.email}`} className="btn btn--outline" style={{ padding: 16, fontSize: 16 }}>
+              {t("write")}
+            </a>
+          </div>
         </Container>
       </Reveal>
     </main>

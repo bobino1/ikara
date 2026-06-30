@@ -220,7 +220,11 @@
     "wed": "Streda",
     "thu": "Štvrtok",
     "fri": "Piatok",
-    "closed": "zatvorené"
+    "closed": "zatvorené",
+    "ctaTitle": "Najrýchlejšie nás zastihneš",
+    "ctaText": "Zavolaj alebo napíš — ozveme sa ti čo najskôr a poradíme s kurzom aj termínom.",
+    "call": "Zavolať",
+    "write": "Napísať e-mail"
   },
   "form": {
     "name": "Meno a priezvisko",

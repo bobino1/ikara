@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { Resend } from "resend";
 import { getCourses, computeCourse } from "@/lib/courses";
+import { sanityWriteClient } from "@/lib/sanity";
 import { site } from "@/lib/site";
 
 // nodemailer vyžaduje Node.js runtime (nie edge).
@@ -92,6 +93,21 @@ export async function POST(req: Request) {
           .join("")}
       </table>
     </div>`;
+
+  // Záväzná prihláška na kurz → automaticky navýš počet prihlásených v CMS.
+  if (type === "kurz" && courseId && sanityWriteClient) {
+    try {
+      const docId = await sanityWriteClient.fetch<string | null>(
+        `*[_type == "course" && id == $id][0]._id`,
+        { id: courseId }
+      );
+      if (docId) {
+        await sanityWriteClient.patch(docId).setIfMissing({ enrolled: 0 }).inc({ enrolled: 1 }).commit();
+      }
+    } catch (err) {
+      console.error("[prihlaska] navýšenie počtu prihlásených zlyhalo:", err);
+    }
+  }
 
   // Zaloguj vždy (záloha, keď e-mail nie je nastavený / zlyhá).
   console.log("[prihlaska]", { type, courseId, name, email, phone, message, at: new Date().toISOString() });
