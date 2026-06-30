@@ -8,6 +8,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MapBand } from "@/components/MapBand";
 import { FloatingContact } from "@/components/FloatingContact";
+import { TrafficLight } from "@/components/TrafficLight";
 import { SignupProvider } from "@/components/SignupProvider";
 import { CookieConsentProvider } from "@/components/CookieConsent";
 import { getComputedCourses } from "@/lib/courses";
@@ -33,6 +34,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const isEn = locale === "en";
   return {
     metadataBase: new URL("https://www.autoskola-ikara.sk"),
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "any" },
+        { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+        { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+      ],
+      apple: "/apple-touch-icon.png",
+    },
+    manifest: "/site.webmanifest",
     title: {
       default: isEn
         ? "Autoškola IKARA — category B1, B driving school in Petržalka, Bratislava"
@@ -87,6 +97,7 @@ export default async function LocaleLayout({
                 <Footer />
               </div>
               <FloatingContact />
+              <TrafficLight />
             </SignupProvider>
           </CookieConsentProvider>
         </NextIntlClientProvider>
