@@ -131,7 +131,13 @@ export async function POST(req: Request) {
   try {
     const fsRes = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(TO_EMAIL)}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        // Formsubmit vyžaduje Referer/Origin (inak požiadavku odmietne)
+        Referer: "https://www.autoskola-ikara.sk",
+        Origin: "https://www.autoskola-ikara.sk",
+      },
       body: JSON.stringify({
         name,
         email,
