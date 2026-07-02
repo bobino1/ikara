@@ -127,8 +127,30 @@ export async function POST(req: Request) {
 
   let sent = false;
 
-  // 1) Najprv SMTP (vlastná hukot schránka), ak je nastavené.
-  if (smtpTransport) {
+  // 0) Formsubmit — najjednoduchšie doručenie na e-mail (bez hesla/kľúča/DNS).
+  try {
+    const fsRes = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(TO_EMAIL)}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        name,
+        email,
+        phone,
+        ...(courseLine ? { kurz: courseLine } : {}),
+        ...(message ? { sprava: message } : {}),
+        _subject: subject,
+        _template: "table",
+        _captcha: "false",
+      }),
+    });
+    if (fsRes.ok) sent = true;
+    else console.error("[prihlaska] formsubmit HTTP", fsRes.status);
+  } catch (err) {
+    console.error("[prihlaska] formsubmit zlyhal:", err);
+  }
+
+  // 1) Záloha cez SMTP (vlastná hukot schránka), ak je nastavené a Formsubmit zlyhal.
+  if (!sent && smtpTransport) {
     try {
       await smtpTransport.sendMail({ from: SMTP_FROM, to: TO_EMAIL, replyTo: email, subject, html });
       sent = true;
