@@ -94,18 +94,31 @@ export async function POST(req: Request) {
       </table>
     </div>`;
 
-  // Záväzná prihláška na kurz → automaticky navýš počet prihlásených v CMS.
+  // Záväzná prihláška na kurz → ulož žiaka do systému a navýš počet prihlásených v CMS.
   if (type === "kurz" && courseId && sanityWriteClient) {
     try {
       const docId = await sanityWriteClient.fetch<string | null>(
         `*[_type == "course" && id == $id][0]._id`,
         { id: courseId }
       );
+      // 1) Vytvor záznam prihlášky (žiak priradený ku kurzu) — klient ho vidí v studiu.
+      await sanityWriteClient.create({
+        _type: "prihlaska",
+        name,
+        email,
+        phone,
+        courseId,
+        courseLabel: courseLine || `Kurz ${courseId}`,
+        ...(docId ? { course: { _type: "reference", _ref: docId } } : {}),
+        createdAt: new Date().toISOString(),
+        status: "nová",
+      });
+      // 2) Navýš počet prihlásených na kurze.
       if (docId) {
         await sanityWriteClient.patch(docId).setIfMissing({ enrolled: 0 }).inc({ enrolled: 1 }).commit();
       }
     } catch (err) {
-      console.error("[prihlaska] navýšenie počtu prihlásených zlyhalo:", err);
+      console.error("[prihlaska] uloženie prihlášky / navýšenie počtu zlyhalo:", err);
     }
   }
 

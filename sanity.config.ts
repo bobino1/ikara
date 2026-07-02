@@ -3,6 +3,7 @@
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { course } from "./sanity/course";
+import { prihlaska } from "./sanity/prihlaska";
 
 export default defineConfig({
   basePath: "/studio",
@@ -11,5 +12,5 @@ export default defineConfig({
   projectId: "npcqujal",
   dataset: "production",
   plugins: [structureTool()],
-  schema: { types: [course] },
+  schema: { types: [course, prihlaska] },
 });
