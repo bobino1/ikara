@@ -93,6 +93,31 @@ export default async function CoursePage({ params }: { params: Promise<{ locale:
         </Container>
       </Reveal>
 
+      <Reveal style={{ padding: "0 22px clamp(40px,5vw,60px)" }}>
+        <Container>
+          <div style={{ background: "#FFF7E8", border: "1px solid #F3D89B", borderRadius: 22, padding: "clamp(24px,3.6vw,40px)", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: "clamp(20px,3vw,40px)", alignItems: "center" }}>
+            <div>
+              <Eyebrow color="#B5791B">{t("docsEyebrow")}</Eyebrow>
+              <h2 style={{ font: "700 clamp(22px,3vw,30px)/1.15 var(--font-space),sans-serif", letterSpacing: "-0.02em", margin: "12px 0 0" }}>{t("docsTitle")}</h2>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 16 }}>
+                {[t("docsPoint1"), t("docsPoint2")].map((p) => (
+                  <div key={p} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                    <span style={{ width: 8, height: 8, background: "#E0A22B", borderRadius: "50%", marginTop: 7, flexShrink: 0 }} />
+                    <span style={{ font: "400 15px/1.55 var(--font-manrope),sans-serif", color: "#3A4048" }}>{p}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "flex-start" }}>
+              <a href="/ziadost-o-vodicske-opravnenie.pdf" target="_blank" rel="noopener noreferrer" className="btn btn--primary" style={{ padding: 16, fontSize: 16 }}>
+                {t("docsDownload")}
+              </a>
+              <p style={{ font: "500 13px/1.5 var(--font-manrope),sans-serif", color: "#8A6D2B", margin: 0 }}>{t("docsPrintNote")}</p>
+            </div>
+          </div>
+        </Container>
+      </Reveal>
+
       <Reveal style={{ padding: "0 22px clamp(48px,6vw,80px)" }}>
         <Container style={{ background: "#E9F0FE", borderRadius: 22, padding: "clamp(28px,4vw,48px)" }}>
           <h2 style={{ font: "700 clamp(24px,3.4vw,34px)/1.1 var(--font-space),sans-serif", letterSpacing: "-0.02em", margin: 0 }}>{t("includedTitle")}</h2>

@@ -48,17 +48,19 @@ export async function POST(req: Request) {
   const phone = String(data.phone ?? "").trim();
   const message = String(data.message ?? "").trim();
   const courseId = data.courseId ? String(data.courseId) : "";
+  const courseDocId = data.courseDocId ? String(data.courseDocId) : "";
   const type = data.type === "kurz" ? "kurz" : "kontakt";
 
   if (!name || !/^\S+@\S+\.\S+$/.test(email) || phone.length < 6) {
     return NextResponse.json({ ok: false, error: "Chýbajúce alebo neplatné polia" }, { status: 422 });
   }
 
-  // Doplň detaily kurzu (dátumy) podľa ID, ak ide o prihlášku.
+  // Doplň detaily kurzu (dátumy) podľa _id (presnejšie) alebo čísla kurzu.
   let courseLine = "";
-  if (type === "kurz" && courseId) {
+  if (type === "kurz" && (courseId || courseDocId)) {
     try {
-      const course = (await getCourses()).find((c) => c.id === courseId);
+      const all = await getCourses();
+      const course = (courseDocId && all.find((c) => c._id === courseDocId)) || all.find((c) => c.id === courseId);
       if (course) {
         const cc = computeCourse(course);
         courseLine = `Kurz ${cc.id} — začiatok ${cc.start}, prihlásenie do ${cc.signup} (${cc.label})`;
@@ -95,12 +97,12 @@ export async function POST(req: Request) {
     </div>`;
 
   // Záväzná prihláška na kurz → ulož žiaka do systému a navýš počet prihlásených v CMS.
-  if (type === "kurz" && courseId && sanityWriteClient) {
+  if (type === "kurz" && (courseId || courseDocId) && sanityWriteClient) {
     try {
-      const docId = await sanityWriteClient.fetch<string | null>(
-        `*[_type == "course" && id == $id][0]._id`,
-        { id: courseId }
-      );
+      // Presne ten kurz: najprv podľa _id (rozlíši dva kurzy s rovnakým číslom), inak podľa čísla.
+      const docId =
+        courseDocId ||
+        (await sanityWriteClient.fetch<string | null>(`*[_type == "course" && id == $id][0]._id`, { id: courseId }));
       // 1) Vytvor záznam prihlášky (žiak priradený ku kurzu) — klient ho vidí v studiu.
       await sanityWriteClient.create({
         _type: "prihlaska",

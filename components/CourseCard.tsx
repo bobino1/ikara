@@ -82,7 +82,7 @@ export function CourseCard({ c }: { c: ComputedCourse }) {
 
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "auto", paddingTop: 22, borderTop: "1px solid #ECEEE9" }}>
         <span style={{ font: "700 22px/1 var(--font-space),sans-serif" }}>{c.priceLabel} €</span>
-        <button className="btn btn--primary" onClick={() => open(c.id)} style={{ padding: "12px 20px", borderRadius: 11, fontSize: 15 }}>
+        <button className="btn btn--primary" onClick={() => open(c._id ?? c.id)} style={{ padding: "12px 20px", borderRadius: 11, fontSize: 15 }}>
           {t("interest")}
         </button>
       </div>
@@ -148,7 +148,7 @@ export function FeaturedCourseCard({ c }: { c: ComputedCourse }) {
         <span style={{ display: "inline-flex", alignItems: "center", gap: 7, padding: "7px 13px", background: "#E9F7EF", border: "1px solid rgba(21,182,107,.25)", borderRadius: 100, font: "600 13px/1 var(--font-manrope),sans-serif", color: "#0F9B5A" }}>
           ✓ {t("noExamFee")}
         </span>
-        <button className="btn btn--primary" onClick={() => open(c.id)} style={{ padding: "15px 28px", fontSize: 16 }}>
+        <button className="btn btn--primary" onClick={() => open(c._id ?? c.id)} style={{ padding: "15px 28px", fontSize: 16 }}>
           {t("interestArrow")}
         </button>
       </div>
@@ -167,8 +167,9 @@ export function CoursesShowcase({ courses, limit = 2 }: { courses: ComputedCours
 
   // Hlavný kurz = ten označený v CMS (featured); inak najbližší voľný; inak prvý.
   const featured = courses.find((c) => c.featured) ?? courses.find((c) => c.free > 0) ?? courses[0];
-  // Pod hlavným kurzom zobrazíme ostatné termíny (na domovskej max `limit`, na stránke kurzy všetky).
-  const rest = courses.filter((c) => c.id !== featured.id).slice(0, limit);
+  // Pod hlavným kurzom zobrazíme ostatné termíny. Filtrujeme podľa OBJEKTU (nie čísla kurzu),
+  // aby fungovali aj dva kurzy s rovnakým číslom (napr. dva 5/2026 – drahší a lacnejší).
+  const rest = courses.filter((c) => c !== featured).slice(0, limit);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
@@ -182,8 +183,8 @@ export function CoursesGrid({ courses, minCol = 300 }: { courses: ComputedCourse
   if (courses.length === 0) return <EmptyState />;
   return (
     <div style={{ display: "grid", gridTemplateColumns: `repeat(auto-fit,minmax(${minCol}px,1fr))`, gap: 18 }}>
-      {courses.map((c) => (
-        <CourseCard key={c.id} c={c} />
+      {courses.map((c, i) => (
+        <CourseCard key={c._id ?? `${c.id}-${i}`} c={c} />
       ))}
     </div>
   );

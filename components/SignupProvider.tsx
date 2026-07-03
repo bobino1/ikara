@@ -44,17 +44,20 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
   const [agreeConsent, setAgreeConsent] = useState(false);
   const [confirmErr, setConfirmErr] = useState(false);
 
+  // Kurzy rozlišujeme podľa unikátneho _id (funguje aj pri dvoch kurzoch s rovnakým číslom).
+  const keyOf = (c: ComputedCourse) => c._id ?? c.id;
+
   const hot = useMemo(() => courses.find((c) => c.free > 0) ?? courses[0], [courses]);
   const openCourses = courses.filter((c) => c.free > 0);
 
-  const activeId = courseId ?? hot?.id ?? "";
-  const current = courses.find((c) => c.id === activeId) ?? hot;
+  const activeKey = courseId ?? (hot ? keyOf(hot) : "");
+  const current = courses.find((c) => keyOf(c) === activeKey) ?? hot;
 
   const open = useCallback(
-    (id?: string) => {
+    (key?: string) => {
       // plný termín predvyplníme najbližším voľným, aby sa dalo prihlásiť
-      const wanted = id ? courses.find((c) => c.id === id) : undefined;
-      const preselect = wanted && wanted.free > 0 ? wanted.id : hot?.id ?? null;
+      const wanted = key ? courses.find((c) => (c._id ?? c.id) === key) : undefined;
+      const preselect = wanted && wanted.free > 0 ? wanted._id ?? wanted.id : hot ? hot._id ?? hot.id : null;
       setCourseId(preselect);
       setSubmitted(false);
       setErrors({});
@@ -63,7 +66,7 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
       setConfirmErr(false);
       setIsOpen(true);
     },
-    [courses, hot?.id]
+    [courses, hot]
   );
 
   const close = () => setIsOpen(false);
@@ -92,7 +95,7 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
       await fetch("/api/prihlaska", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, courseId: activeId, type: "kurz" }),
+        body: JSON.stringify({ ...form, courseId: current?.id ?? activeKey, courseDocId: current?._id, type: "kurz" }),
       });
     } catch {
       /* prihlášku evidujeme aj tak — neskôr napojiť na e-mail/CRM */
@@ -190,13 +193,13 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
                   <div>
                     <label style={{ font: "600 13px/1 var(--font-manrope),sans-serif", color: "#3A4048", display: "block", marginBottom: 8 }}>{t("changeTerm")}</label>
                     <select
-                      value={activeId}
+                      value={activeKey}
                       onChange={(e) => setCourseId(e.target.value)}
                       style={{ ...inputStyle(), cursor: "pointer" }}
                     >
                       {openCourses.map((c) => (
-                        <option key={c.id} value={c.id}>
-                          {t("termOption", { id: c.id, start: c.start, label: statusLabel(c) })}
+                        <option key={keyOf(c)} value={keyOf(c)}>
+                          {t("termOption", { id: c.id, start: c.start, label: statusLabel(c) })} · {c.priceLabel} €
                         </option>
                       ))}
                     </select>

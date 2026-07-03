@@ -7,6 +7,8 @@ import { sanityClient } from "./sanity";
  * Dátumy sú v ISO formáte RRRR-MM-DD.
  */
 export type Course = {
+  /** Unikátne ID dokumentu zo Sanity (na spoľahlivé rozlíšenie kurzov). */
+  _id?: string;
   /** Číslo / označenie kurzu, napr. "4/2026" */
   id: string;
   /** Skupina / popis, napr. "Skupina B1, B" */
@@ -110,6 +112,7 @@ export function computeCourse(c: Course): ComputedCourse {
 
 /** GROQ dotaz na kurzy zo Sanity, namapovaný presne na typ Course. */
 const COURSES_QUERY = `*[_type == "course"] | order(coalesce(sortOrder, 9999) asc, dateFrom asc){
+  "_id": _id,
   "id": id,
   "category": category,
   "signupBy": signupBy,
