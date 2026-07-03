@@ -65,6 +65,23 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <Benefit icon={<IconCar color="var(--blue)" />} iconBg="#E9F0FE" title={t("benefit3Title")} text={t("benefit3Text")} />
             <Benefit icon={<IconCard color="var(--green)" />} iconBg="#E9F7EF" title={t("benefit4Title")} text={t("benefit4Text")} />
           </div>
+
+          {/* Inštruktor */}
+          <div style={{ marginTop: 24, background: "#fff", border: "1px solid #ECEEE9", borderRadius: 22, padding: "clamp(24px,3.4vw,40px)", display: "flex", gap: "clamp(18px,3vw,32px)", alignItems: "center", flexWrap: "wrap" }}>
+            <div style={{ width: "clamp(76px,10vw,96px)", height: "clamp(76px,10vw,96px)", borderRadius: "50%", background: "linear-gradient(150deg,#2B5FE3,#1C46C0)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", font: "700 clamp(28px,3.4vw,36px)/1 var(--font-space),sans-serif", flexShrink: 0, boxShadow: "0 16px 30px -14px rgba(43,95,227,.6)" }}>
+              JD
+            </div>
+            <div style={{ flex: 1, minWidth: 240 }}>
+              <Eyebrow>{t("instrEyebrow")}</Eyebrow>
+              <h3 style={{ font: "700 clamp(24px,3vw,32px)/1.1 var(--font-space),sans-serif", letterSpacing: "-0.02em", margin: "10px 0 0" }}>
+                {t("instrName")} <span style={{ font: "600 15px/1 var(--font-manrope),sans-serif", color: "var(--blue)", marginLeft: 6, whiteSpace: "nowrap" }}>· {t("instrRole")}</span>
+              </h3>
+              <p style={{ font: "400 15px/1.65 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "12px 0 0", maxWidth: 620 }}>{t("instrText")}</p>
+              <a href="#recenzie" className="nav-link" style={{ display: "inline-block", padding: 0, marginTop: 12, color: "var(--blue)", font: "600 14px/1.3 var(--font-manrope),sans-serif" }}>
+                {t("instrReviews")}
+              </a>
+            </div>
+          </div>
         </Container>
       </Reveal>
 
@@ -104,12 +121,13 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       </Reveal>
 
       {/* RECENZIE */}
-      <Reveal style={{ ...sectionPad("clamp(48px,6vw,80px) 22px"), background: "var(--bg-soft)" }}>
+      <Reveal id="recenzie" style={{ ...sectionPad("clamp(48px,6vw,80px) 22px"), background: "var(--bg-soft)", scrollMarginTop: 80 }}>
         <Container>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 20, alignItems: "center", justifyContent: "space-between" }}>
             <div>
               <Eyebrow>{t("reviewsEyebrow")}</Eyebrow>
               <h2 style={{ font: "700 clamp(28px,4vw,44px)/1.08 var(--font-space),sans-serif", letterSpacing: "-0.02em", margin: "14px 0 0" }}>{t("reviewsTitle")}</h2>
+              <p style={{ font: "400 15px/1.6 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "10px 0 0", maxWidth: 460 }}>{t("reviewsInstr")}</p>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 16, background: "#fff", border: "1px solid #ECEEE9", borderRadius: 16, padding: "16px 22px" }}>
               <span style={{ font: "700 40px/1 var(--font-space),sans-serif", color: "var(--ink)" }}>4,4</span>

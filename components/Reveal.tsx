@@ -7,13 +7,14 @@ type RevealProps = {
   as?: ElementType;
   style?: CSSProperties;
   className?: string;
+  id?: string;
 };
 
 /**
  * Odhalí obsah pri scrollovaní do viewportu — port `data-reveal` správania
  * z pôvodnej stránky. Pri prefers-reduced-motion sa obsah zobrazí okamžite (CSS).
  */
-export function Reveal({ children, as, style, className = "" }: RevealProps) {
+export function Reveal({ children, as, style, className = "", id }: RevealProps) {
   const Tag = (as ?? "section") as ElementType;
   const ref = useRef<HTMLElement | null>(null);
 
@@ -51,7 +52,7 @@ export function Reveal({ children, as, style, className = "" }: RevealProps) {
   }, []);
 
   return (
-    <Tag ref={ref} className={`reveal ${className}`.trim()} style={style}>
+    <Tag id={id} ref={ref} className={`reveal ${className}`.trim()} style={style}>
       {children}
     </Tag>
   );

@@ -21,7 +21,7 @@ export function BackgroundVideo({
     { src: "/videos/hero.mov", type: "video/quicktime" },
   ],
   poster,
-  overlay = "linear-gradient(180deg, rgba(8,16,28,.58) 0%, rgba(8,16,28,.48) 45%, rgba(8,16,28,.68) 100%)",
+  overlay = "linear-gradient(180deg, rgba(8,16,28,.50) 0%, rgba(8,16,28,.40) 45%, rgba(8,16,28,.62) 100%)",
   style,
 }: BackgroundVideoProps) {
   return (
