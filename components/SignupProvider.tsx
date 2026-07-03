@@ -44,6 +44,10 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [agreeConsent, setAgreeConsent] = useState(false);
   const [confirmErr, setConfirmErr] = useState(false);
+  // Úvodný krok: potvrdenie, že žiadateľ vie o lekárskej prehliadke a tlačive.
+  const [ackDone, setAckDone] = useState(false);
+  const [ackCheck, setAckCheck] = useState(false);
+  const [ackErr, setAckErr] = useState(false);
 
   // Kurzy rozlišujeme podľa unikátneho _id (funguje aj pri dvoch kurzoch s rovnakým číslom).
   const keyOf = (c: ComputedCourse) => c._id ?? c.id;
@@ -65,6 +69,9 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
       setAgreeTerms(false);
       setAgreeConsent(false);
       setConfirmErr(false);
+      setAckDone(false);
+      setAckCheck(false);
+      setAckErr(false);
       setIsOpen(true);
     },
     [courses, hot]
@@ -193,6 +200,41 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
                 </p>
                 <button onClick={close} style={{ marginTop: 24, padding: "14px 28px", background: "var(--blue)", color: "#fff", border: "none", borderRadius: 12, font: "600 16px/1 var(--font-manrope),sans-serif", cursor: "pointer" }}>
                   {t("done")}
+                </button>
+              </div>
+            ) : !ackDone ? (
+              <div style={{ display: "flex", flexDirection: "column", gap: 16, marginTop: 22 }}>
+                <div style={{ background: "#FFF7E8", border: "1px solid #F3D89B", borderRadius: 14, padding: 18 }}>
+                  <h4 style={{ font: "700 17px/1.2 var(--font-space),sans-serif", margin: 0, color: "var(--ink)" }}>{t("reqTitle")}</h4>
+                  <p style={{ font: "400 14px/1.6 var(--font-manrope),sans-serif", color: "#5C4A1E", margin: "8px 0 0" }}>{t("reqText")}</p>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 12 }}>
+                    {[t("reqPoint1"), t("reqPoint2")].map((p) => (
+                      <div key={p} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                        <span style={{ width: 7, height: 7, background: "#E0A22B", borderRadius: "50%", marginTop: 6, flexShrink: 0 }} />
+                        <span style={{ font: "400 14px/1.5 var(--font-manrope),sans-serif", color: "#3A4048" }}>{p}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <a href="/ziadost-o-vodicske-opravnenie.pdf" target="_blank" rel="noopener noreferrer" className="btn btn--outline" style={{ marginTop: 14, padding: "12px 18px", fontSize: 14 }}>
+                    {t("reqDownload")}
+                  </a>
+                </div>
+                <label style={{ display: "flex", gap: 10, alignItems: "flex-start", cursor: "pointer", background: ackErr && !ackCheck ? "#FDECEC" : "var(--bg-soft)", border: `1px solid ${ackErr && !ackCheck ? "#E5484D" : "#ECEEE9"}`, borderRadius: 12, padding: "12px 14px" }}>
+                  <input
+                    type="checkbox"
+                    checked={ackCheck}
+                    onChange={(e) => { setAckCheck(e.target.checked); if (e.target.checked) setAckErr(false); }}
+                    style={{ width: 18, height: 18, marginTop: 1, accentColor: "var(--blue)", flexShrink: 0, cursor: "pointer" }}
+                  />
+                  <span style={{ font: "500 13px/1.5 var(--font-manrope),sans-serif", color: "#3A4048" }}>{t("reqCheck")}</span>
+                </label>
+                {ackErr && <span style={{ font: "500 12px/1 var(--font-manrope),sans-serif", color: "#E5484D" }}>{t("reqErr")}</span>}
+                <button
+                  type="button"
+                  onClick={() => { if (!ackCheck) { setAckErr(true); return; } setAckDone(true); }}
+                  style={{ marginTop: 4, padding: 16, background: "var(--blue)", color: "#fff", border: "none", borderRadius: 12, font: "600 17px/1 var(--font-manrope),sans-serif", cursor: "pointer" }}
+                >
+                  {t("reqContinue")}
                 </button>
               </div>
             ) : (
