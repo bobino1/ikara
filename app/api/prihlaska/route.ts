@@ -130,41 +130,11 @@ export async function POST(req: Request) {
   let sent = false;
   let via = "";
 
-  // 0) Formsubmit — najjednoduchšie doručenie na e-mail (bez hesla/kľúča/DNS).
-  try {
-    const fsRes = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(TO_EMAIL)}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        // Formsubmit vyžaduje Referer/Origin (inak požiadavku odmietne)
-        Referer: "https://www.autoskola-ikara.sk",
-        Origin: "https://www.autoskola-ikara.sk",
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        phone,
-        ...(courseLine ? { kurz: courseLine } : {}),
-        ...(message ? { sprava: message } : {}),
-        _subject: subject,
-        _template: "table",
-        _captcha: "false",
-      }),
-    });
-    // Formsubmit vráti HTTP 200 aj pri "needs activation" — treba overiť telo odpovede.
-    const fsJson = (await fsRes.json().catch(() => null)) as { success?: string; message?: string } | null;
-    if (fsRes.ok && fsJson && String(fsJson.success) === "true") {
-      sent = true;
-      via = "formsubmit";
-    } else {
-      console.error("[prihlaska] formsubmit neodoslal:", fsRes.status, fsJson?.message);
-    }
-  } catch (err) {
-    console.error("[prihlaska] formsubmit zlyhal:", err);
-  }
+  // Pozn.: E-mail cez Formsubmit sa posiela Z PREHLIADAČA (v SignupProvider),
+  // lebo Formsubmit vyžaduje hlavičku Referer, ktorú serverový fetch (undici) zahadzuje.
+  // Server tu rieši uloženie do CMS (vyššie) a voliteľné SMTP/Resend zálohy nižšie.
 
-  // 1) Záloha cez SMTP (vlastná hukot schránka), ak je nastavené a Formsubmit zlyhal.
+  // 1) SMTP (vlastná hukot schránka), ak je nastavené.
   if (!sent && smtpTransport) {
     try {
       await smtpTransport.sendMail({ from: SMTP_FROM, to: TO_EMAIL, replyTo: email, subject, html });

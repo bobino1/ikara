@@ -11,6 +11,7 @@ import {
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { ComputedCourse } from "@/lib/courses";
+import { site } from "@/lib/site";
 
 type SignupContextValue = {
   /** Otvorí modal s prihláškou. Voliteľne predvyplní konkrétny kurz. */
@@ -91,14 +92,32 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
       return;
     }
     setSending(true);
+    const kurzLabel = current ? `Kurz ${current.id} — začiatok ${current.start} · ${current.priceLabel} €` : activeKey;
     try {
-      await fetch("/api/prihlaska", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, courseId: current?.id ?? activeKey, courseDocId: current?._id, type: "kurz" }),
-      });
+      await Promise.allSettled([
+        // Server: uloží žiaka do systému (Prihláška) + navýši počet (potrebuje token).
+        fetch("/api/prihlaska", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...form, courseId: current?.id ?? activeKey, courseDocId: current?._id, type: "kurz" }),
+        }),
+        // E-mail inštruktorovi cez Formsubmit — POSIELA SA Z PREHLIADAČA (Referer pošle prehliadač sám).
+        fetch(`https://formsubmit.co/ajax/${encodeURIComponent(site.email)}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            name: form.name,
+            email: form.email,
+            phone: form.phone,
+            kurz: kurzLabel,
+            _subject: `Nová prihláška na kurz ${current?.id ?? ""}`.trim(),
+            _template: "table",
+            _captcha: "false",
+          }),
+        }),
+      ]);
     } catch {
-      /* prihlášku evidujeme aj tak — neskôr napojiť na e-mail/CRM */
+      /* prihlášku evidujeme aj tak */
     } finally {
       setSending(false);
       setSubmitted(true);
