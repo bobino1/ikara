@@ -39,7 +39,10 @@
     "fullNote": "Kurz je plný — informuj sa o ďalšom termíne.",
     "occupied": "{taken}/{capacity} obsadené",
     "empty": "Momentálne nie sú vypísané žiadne termíny. Ozvi sa nám a radi ti poradíme.",
-    "allTerms": "Všetky termíny →"
+    "allTerms": "Všetky termíny →",
+    "reqBannerTitle": "Pred prihlásením na kurz",
+    "reqBannerText": "Potrebuješ lekársku prehliadku a vyplnené tlačivo žiadosti — vytlač ho obojstranne a prines potvrdené lekárom.",
+    "reqBannerDownload": "Stiahnuť tlačivo (PDF) ↓"
   },
   "individual": {
     "badge": "Individuálny kurz",

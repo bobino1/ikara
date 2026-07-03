@@ -5,6 +5,7 @@ import { Container, Eyebrow } from "@/components/ui";
 import { SignupButton } from "@/components/SignupButton";
 import { BackgroundVideo } from "@/components/BackgroundVideo";
 import { CoursesShowcase } from "@/components/CourseCard";
+import { CourseRequirementsNote } from "@/components/CourseRequirementsNote";
 import { IndividualCourse } from "@/components/IndividualCourse";
 import { getComputedCourses } from "@/lib/courses";
 import { reviews, stars } from "@/lib/reviews";
@@ -78,6 +79,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <Link href="/kurzy" className="nav-link" style={{ padding: 0 }}>{tc("allTerms")}</Link>
           </div>
           <div style={{ marginTop: 32, display: "flex", flexDirection: "column", gap: 18 }}>
+            <CourseRequirementsNote />
             <CoursesShowcase courses={courses} />
             <div style={{ height: 1, width: 90, background: "#E3E5E0", borderRadius: 2, margin: "10px auto" }} />
             <IndividualCourse />
