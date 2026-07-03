@@ -128,6 +128,7 @@ export async function POST(req: Request) {
   console.log("[prihlaska]", { type, courseId, name, email, phone, message, at: new Date().toISOString() });
 
   let sent = false;
+  let via = "";
 
   // 0) Formsubmit — najjednoduchšie doručenie na e-mail (bez hesla/kľúča/DNS).
   try {
@@ -151,8 +152,14 @@ export async function POST(req: Request) {
         _captcha: "false",
       }),
     });
-    if (fsRes.ok) sent = true;
-    else console.error("[prihlaska] formsubmit HTTP", fsRes.status);
+    // Formsubmit vráti HTTP 200 aj pri "needs activation" — treba overiť telo odpovede.
+    const fsJson = (await fsRes.json().catch(() => null)) as { success?: string; message?: string } | null;
+    if (fsRes.ok && fsJson && String(fsJson.success) === "true") {
+      sent = true;
+      via = "formsubmit";
+    } else {
+      console.error("[prihlaska] formsubmit neodoslal:", fsRes.status, fsJson?.message);
+    }
   } catch (err) {
     console.error("[prihlaska] formsubmit zlyhal:", err);
   }
@@ -162,6 +169,7 @@ export async function POST(req: Request) {
     try {
       await smtpTransport.sendMail({ from: SMTP_FROM, to: TO_EMAIL, replyTo: email, subject, html });
       sent = true;
+      via = "smtp";
     } catch (err) {
       console.error("[prihlaska] SMTP odoslanie zlyhalo:", err);
     }
@@ -172,11 +180,13 @@ export async function POST(req: Request) {
     try {
       await resend.emails.send({ from: FROM_EMAIL, to: TO_EMAIL, replyTo: email, subject, html });
       sent = true;
+      via = "resend";
     } catch (err) {
       console.error("[prihlaska] Resend odoslanie zlyhalo:", err);
     }
   }
 
   // Nezhadzujeme požiadavku ani pri zlyhaní — záujem máme zalogovaný.
-  return NextResponse.json({ ok: true });
+  // `delivered`/`via` slúžia na kontrolu, či mail reálne odišiel.
+  return NextResponse.json({ ok: true, delivered: sent, via });
 }
