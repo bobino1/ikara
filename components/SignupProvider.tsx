@@ -48,6 +48,9 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
   const [ackDone, setAckDone] = useState(false);
   const [ackCheck, setAckCheck] = useState(false);
   const [ackErr, setAckErr] = useState(false);
+  // Anti-spam: honeypot (skryté pole, ktoré vyplnia len boti) + čas otvorenia (proti okamžitým odoslaniam).
+  const [hp, setHp] = useState("");
+  const [openedAt, setOpenedAt] = useState(0);
 
   // Kurzy rozlišujeme podľa unikátneho _id (funguje aj pri dvoch kurzoch s rovnakým číslom).
   const keyOf = (c: ComputedCourse) => c._id ?? c.id;
@@ -72,6 +75,8 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
       setAckDone(false);
       setAckCheck(false);
       setAckErr(false);
+      setHp("");
+      setOpenedAt(Date.now());
       setIsOpen(true);
     },
     [courses, hot]
@@ -88,8 +93,8 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
     ev.preventDefault();
     const errs: Errors = {};
     if (!form.name.trim()) errs.name = true;
-    if (!/^\S+@\S+\.\S+$/.test(form.email)) errs.email = true;
-    if (form.phone.trim().length < 6) errs.phone = true;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email)) errs.email = true;
+    if (form.phone.trim().replace(/[^\d+]/g, "").length < 9) errs.phone = true;
     if (Object.keys(errs).length) {
       setErrors(errs);
       return;
@@ -98,6 +103,14 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
       setConfirmErr(true);
       return;
     }
+
+    // Anti-spam: honeypot vyplnený (bot), alebo odoslané podozrivo rýchlo → tichý "úspech", nič neposielame.
+    const looksLikeBot = hp.trim().length > 0 || (openedAt > 0 && Date.now() - openedAt < 2500);
+    if (looksLikeBot) {
+      setSubmitted(true);
+      return;
+    }
+
     setSending(true);
     const kurzLabel = current ? `Kurz ${current.id} — začiatok ${current.start} · ${current.priceLabel} €` : activeKey;
     try {
@@ -106,7 +119,7 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
         fetch("/api/prihlaska", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...form, courseId: current?.id ?? activeKey, courseDocId: current?._id, type: "kurz" }),
+          body: JSON.stringify({ ...form, website: hp, courseId: current?.id ?? activeKey, courseDocId: current?._id, type: "kurz" }),
         }),
         // E-mail inštruktorovi cez Formsubmit — POSIELA SA Z PREHLIADAČA (Referer pošle prehliadač sám).
         fetch(`https://formsubmit.co/ajax/${encodeURIComponent(site.email)}`, {
@@ -120,6 +133,7 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
             _subject: `Nová prihláška na kurz ${current?.id ?? ""}`.trim(),
             _template: "table",
             _captcha: "false",
+            _honey: hp, // Formsubmit sám zahodí, ak je honeypot vyplnený
           }),
         }),
       ]);
@@ -239,6 +253,17 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
               </div>
             ) : (
               <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: 16, marginTop: 22 }}>
+                {/* honeypot — skryté pole proti botom; človek ho nevidí */}
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={hp}
+                  onChange={(e) => setHp(e.target.value)}
+                  aria-hidden="true"
+                  style={{ position: "absolute", left: "-9999px", width: 1, height: 1, opacity: 0, pointerEvents: "none" }}
+                />
                 <div style={{ background: "var(--bg-soft)", borderRadius: 14, padding: 16, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
                   <div>
                     <div style={{ font: labelMuted, color: "#9AA0A8", letterSpacing: ".06em", textTransform: "uppercase" }}>{t("selectedCourse")}</div>

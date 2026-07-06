@@ -50,8 +50,16 @@ export async function POST(req: Request) {
   const courseId = data.courseId ? String(data.courseId) : "";
   const courseDocId = data.courseDocId ? String(data.courseDocId) : "";
   const type = data.type === "kurz" ? "kurz" : "kontakt";
+  const honeypot = String(data.website ?? "").trim(); // skryté pole — vyplní ho len bot
 
-  if (!name || !/^\S+@\S+\.\S+$/.test(email) || phone.length < 6) {
+  // Bot (honeypot vyplnený) → tvárime sa, že OK, ale nič nespracujeme.
+  if (honeypot) {
+    return NextResponse.json({ ok: true, delivered: false, via: "" });
+  }
+
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+  const phoneDigits = phone.replace(/[^\d+]/g, "").length;
+  if (!name || name.length > 120 || !emailOk || phoneDigits < 9 || message.length > 3000) {
     return NextResponse.json({ ok: false, error: "Chýbajúce alebo neplatné polia" }, { status: 422 });
   }
 
