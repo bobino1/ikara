@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -89,6 +90,14 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} className={`${manrope.variable} ${spaceGrotesk.variable}`}>
       <body>
+        {/* Google tag (gtag.js) — Google Ads AW-760765003 */}
+        <Script src="https://www.googletagmanager.com/gtag/js?id=AW-760765003" strategy="afterInteractive" />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'AW-760765003');`}
+        </Script>
         <NextIntlClientProvider>
           <CookieConsentProvider>
             <SignupProvider courses={courses}>

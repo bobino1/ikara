@@ -60,26 +60,37 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <h2 style={{ font: "700 clamp(28px,4vw,44px)/1.08 var(--font-space),sans-serif", letterSpacing: "-0.02em", margin: "14px 0 0" }}>{t("whyTitle")}</h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 18, marginTop: 40 }}>
-            <Benefit icon={<IconMonitor color="var(--blue)" />} iconBg="#E9F0FE" title={t("benefit1Title")} text={t("benefit1Text")} />
-            <Benefit icon={<IconHeart color="var(--green)" />} iconBg="#E9F7EF" title={t("benefit2Title")} text={t("benefit2Text")} />
-            <Benefit icon={<IconCar color="var(--blue)" />} iconBg="#E9F0FE" title={t("benefit3Title")} text={t("benefit3Text")} />
-            <Benefit icon={<IconCard color="var(--green)" />} iconBg="#E9F7EF" title={t("benefit4Title")} text={t("benefit4Text")} />
+            <Benefit index="01" icon={<IconMonitor color="var(--blue)" />} iconBg="#E9F0FE" ring="rgba(43,95,227,.16)" title={t("benefit1Title")} text={t("benefit1Text")} />
+            <Benefit index="02" icon={<IconHeart color="var(--green)" />} iconBg="#E9F7EF" ring="rgba(21,182,107,.18)" title={t("benefit2Title")} text={t("benefit2Text")} />
+            <Benefit index="03" icon={<IconCar color="var(--blue)" />} iconBg="#E9F0FE" ring="rgba(43,95,227,.16)" title={t("benefit3Title")} text={t("benefit3Text")} />
+            <Benefit index="04" icon={<IconCard color="var(--green)" />} iconBg="#E9F7EF" ring="rgba(21,182,107,.18)" title={t("benefit4Title")} text={t("benefit4Text")} />
           </div>
 
-          {/* Inštruktor */}
-          <div style={{ marginTop: 24, background: "#fff", border: "1px solid #ECEEE9", borderRadius: 22, padding: "clamp(24px,3.4vw,40px)", display: "flex", gap: "clamp(18px,3vw,32px)", alignItems: "center", flexWrap: "wrap" }}>
-            <div style={{ width: "clamp(76px,10vw,96px)", height: "clamp(76px,10vw,96px)", borderRadius: "50%", background: "linear-gradient(150deg,#2B5FE3,#1C46C0)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", font: "700 clamp(28px,3.4vw,36px)/1 var(--font-space),sans-serif", flexShrink: 0, boxShadow: "0 16px 30px -14px rgba(43,95,227,.6)" }}>
-              JD
-            </div>
-            <div style={{ flex: 1, minWidth: 240 }}>
-              <Eyebrow>{t("instrEyebrow")}</Eyebrow>
-              <h3 style={{ font: "700 clamp(24px,3vw,32px)/1.1 var(--font-space),sans-serif", letterSpacing: "-0.02em", margin: "10px 0 0" }}>
-                {t("instrName")} <span style={{ font: "600 15px/1 var(--font-manrope),sans-serif", color: "var(--blue)", marginLeft: 6, whiteSpace: "nowrap" }}>· {t("instrRole")}</span>
-              </h3>
-              <p style={{ font: "400 15px/1.65 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "12px 0 0", maxWidth: 620 }}>{t("instrText")}</p>
-              <a href="#recenzie" className="nav-link" style={{ display: "inline-block", padding: 0, marginTop: 12, color: "var(--blue)", font: "600 14px/1.3 var(--font-manrope),sans-serif" }}>
-                {t("instrReviews")}
-              </a>
+          {/* Inštruktor — prémiová tmavá karta */}
+          <div style={{ marginTop: 24, position: "relative", overflow: "hidden", borderRadius: 26, padding: "clamp(26px,3.6vw,46px)", background: "linear-gradient(135deg,#16294A 0%,#0E1A2B 62%,#0B1626 100%)", color: "#fff", boxShadow: "0 34px 64px -36px rgba(14,26,43,.55)", border: "1px solid rgba(122,160,255,.14)" }}>
+            <div aria-hidden style={{ position: "absolute", top: -100, right: -80, width: 300, height: 300, background: "radial-gradient(circle,rgba(43,95,227,.45),transparent 70%)", pointerEvents: "none" }} />
+            <div aria-hidden style={{ position: "absolute", bottom: -120, left: -60, width: 260, height: 260, background: "radial-gradient(circle,rgba(21,182,107,.16),transparent 70%)", pointerEvents: "none" }} />
+            <div style={{ position: "relative", display: "flex", gap: "clamp(20px,3vw,36px)", alignItems: "center", flexWrap: "wrap" }}>
+              <div style={{ position: "relative", flexShrink: 0 }}>
+                <div style={{ width: "clamp(88px,10vw,112px)", height: "clamp(88px,10vw,112px)", borderRadius: "50%", background: "linear-gradient(150deg,#3B6EF0,#1C46C0)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", font: "700 clamp(32px,3.8vw,44px)/1 var(--font-space),sans-serif", boxShadow: "0 0 0 6px rgba(122,160,255,.15), 0 20px 38px -16px rgba(43,95,227,.75)" }}>
+                  JD
+                </div>
+                <span aria-hidden style={{ position: "absolute", bottom: 4, right: 4, width: 32, height: 32, borderRadius: "50%", background: "var(--green)", border: "3px solid #0E1A2B", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
+                </span>
+              </div>
+              <div style={{ flex: 1, minWidth: 250 }}>
+                <span style={{ font: "600 12px/1 var(--font-manrope),sans-serif", letterSpacing: ".16em", textTransform: "uppercase", color: "#7AA0FF" }}>{t("instrEyebrow")}</span>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", margin: "12px 0 0" }}>
+                  <h3 style={{ font: "700 clamp(25px,3.2vw,36px)/1.05 var(--font-space),sans-serif", letterSpacing: "-0.02em", margin: 0 }}>{t("instrName")}</h3>
+                  <span style={{ font: "600 12px/1 var(--font-manrope),sans-serif", color: "#DDE7FF", background: "rgba(122,160,255,.16)", border: "1px solid rgba(122,160,255,.3)", padding: "7px 13px", borderRadius: 100 }}>{t("instrRole")}</span>
+                </div>
+                <p style={{ font: "400 15px/1.7 var(--font-manrope),sans-serif", color: "rgba(255,255,255,.82)", margin: "14px 0 0", maxWidth: 640 }}>{t("instrText")}</p>
+                <a href="#recenzie" className="lift" style={{ display: "inline-flex", alignItems: "center", gap: 9, marginTop: 20, padding: "12px 18px", borderRadius: 100, background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.18)", color: "#fff", font: "600 14px/1 var(--font-manrope),sans-serif", transition: "background .2s, transform .2s" }}>
+                  <span style={{ color: "#F5A623", letterSpacing: 1 }}>★★★★★</span>
+                  {t("instrReviews")}
+                </a>
+              </div>
             </div>
           </div>
         </Container>
@@ -178,12 +189,13 @@ function Divider({ color = "#ECEEE9" }: { color?: string }) {
   return <div className="hero-stats__divider" style={{ background: color }} />;
 }
 
-function Benefit({ icon, iconBg, title, text }: { icon: React.ReactNode; iconBg: string; title: string; text: string }) {
+function Benefit({ index, icon, iconBg, ring, title, text }: { index: string; icon: React.ReactNode; iconBg: string; ring: string; title: string; text: string }) {
   return (
-    <div className="card-hover card-hover--soft" style={{ background: "#fff", border: "1px solid #ECEEE9", borderRadius: 20, padding: 26 }}>
-      <div style={{ width: 48, height: 48, borderRadius: 14, background: iconBg, display: "flex", alignItems: "center", justifyContent: "center" }}>{icon}</div>
-      <h3 style={{ font: "700 19px/1.2 var(--font-space),sans-serif", margin: "18px 0 0" }}>{title}</h3>
-      <p style={{ font: "400 15px/1.6 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "10px 0 0" }}>{text}</p>
+    <div className="card-hover card-hover--soft" style={{ position: "relative", overflow: "hidden", background: "#fff", border: "1px solid #ECEEE9", borderRadius: 22, padding: 26 }}>
+      <span aria-hidden style={{ position: "absolute", top: 10, right: 18, font: "800 46px/1 var(--font-space),sans-serif", color: "rgba(14,26,43,0.045)", letterSpacing: "-0.03em", pointerEvents: "none" }}>{index}</span>
+      <div style={{ position: "relative", width: 54, height: 54, borderRadius: 16, background: iconBg, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `inset 0 0 0 1px ${ring}` }}>{icon}</div>
+      <h3 style={{ position: "relative", font: "700 19px/1.25 var(--font-space),sans-serif", letterSpacing: "-0.01em", margin: "18px 0 0" }}>{title}</h3>
+      <p style={{ position: "relative", font: "400 15px/1.6 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "10px 0 0" }}>{text}</p>
     </div>
   );
 }

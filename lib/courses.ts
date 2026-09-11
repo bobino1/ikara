@@ -76,11 +76,11 @@ export function computeCourse(c: Course): ComputedCourse {
     tag = "Plný";
   } else if (free <= 2) {
     color = "#F5A623";
-    label = free === 1 ? "Posledné voľné miesto" : `${free} posledné miesta`;
+    label = "Posledné miesta";
     tag = "Takmer plný";
   } else {
     color = "#15B66B";
-    label = `${free} voľných miest`;
+    label = "Voľné";
     tag = "Voľné";
   }
 
