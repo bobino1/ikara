@@ -34,7 +34,7 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
   const tf = useTranslations("form");
   const tc = useTranslations("course");
   const statusLabel = (c: ComputedCourse) =>
-    c.free <= 0 ? tc("full") : c.free === 1 ? tc("lastSpot") : c.free === 2 ? tc("lastSpots", { count: c.free }) : tc("freeSpots", { count: c.free });
+    c.free <= 0 ? tc("full") : c.free <= 2 ? tc("tagAlmost") : tc("tagFree");
   const [isOpen, setIsOpen] = useState(false);
   const [courseId, setCourseId] = useState<string | null>(null);
   const [form, setForm] = useState<FormState>({ name: "", email: "", phone: "" });
@@ -163,6 +163,7 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
       {isOpen && (
         <div
           onClick={close}
+          className="ik-overlay"
           style={{
             position: "fixed",
             inset: 0,
@@ -176,6 +177,7 @@ export function SignupProvider({ children, courses }: { children: ReactNode; cou
           }}
         >
           <div
+            className="ik-sheet"
             onClick={(e) => e.stopPropagation()}
             style={{
               background: "#fff",

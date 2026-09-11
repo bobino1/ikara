@@ -47,11 +47,20 @@ export function Header() {
   const th = useTranslations("header");
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { open: openSignup } = useSignup();
 
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
+
+  // Jemný scroll-edge tieň, keď stránka nie je úplne hore
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // zamkne scroll pozadia, keď je mobilné menu otvorené
   useEffect(() => {
@@ -66,14 +75,16 @@ export function Header() {
   return (
     <>
       <header
+        className={scrolled ? "header-scrolled" : undefined}
         style={{
           position: "sticky",
           top: 0,
           zIndex: 60,
-          background: "rgba(255,255,255,.82)",
-          backdropFilter: "blur(14px)",
-          WebkitBackdropFilter: "blur(14px)",
+          background: scrolled ? "rgba(255,255,255,.72)" : "rgba(255,255,255,.82)",
+          backdropFilter: "blur(18px) saturate(180%)",
+          WebkitBackdropFilter: "blur(18px) saturate(180%)",
           borderBottom: "1px solid #ECEEE9",
+          transition: "background .25s ease, box-shadow .25s ease",
         }}
       >
         <nav style={{ maxWidth: 1200, margin: "0 auto", padding: "14px 22px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>

@@ -20,27 +20,19 @@ function statusTag(t: T, c: ComputedCourse) {
 }
 
 function statusLabel(t: T, c: ComputedCourse) {
+  // Bez počtu miest — len stav: Obsadený / Takmer plný / Voľné.
   if (c.free <= 0) return t("full");
-  if (c.free === 1) return t("lastSpot");
-  if (c.free <= 2) return t("lastSpots", { count: c.free });
-  return t("freeSpots", { count: c.free });
+  if (c.free <= 2) return t("tagAlmost");
+  return t("tagFree");
 }
 
+/** Stavový riadok bez čísel — len farebná bodka + „Voľné". */
 function OccupancyBar({ c, label }: { c: ComputedCourse; label: string }) {
-  const pct = c.capacity > 0 ? Math.round((c.taken / c.capacity) * 100) : 0;
   return (
-    <div>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-        <span style={{ display: "inline-flex", alignItems: "center", gap: 7, font: "600 13px/1 var(--font-manrope),sans-serif", color: c.color }}>
-          <span style={{ width: 8, height: 8, borderRadius: "50%", background: c.color }} />
-          {label}
-        </span>
-        <span style={{ font: "500 12px/1 var(--font-manrope),sans-serif", color: "#9AA0A8" }}>{c.taken}/{c.capacity}</span>
-      </div>
-      <div style={{ height: 6, borderRadius: 5, background: "#EDEFEA", overflow: "hidden" }}>
-        <div style={{ height: "100%", width: `${pct}%`, background: c.color, borderRadius: 5 }} />
-      </div>
-    </div>
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 8, font: "600 14px/1 var(--font-manrope),sans-serif", color: c.color }}>
+      <span style={{ width: 9, height: 9, borderRadius: "50%", background: c.color }} />
+      {label}
+    </span>
   );
 }
 

@@ -115,6 +115,7 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
           style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 300, padding: "0 16px 16px" }}
         >
           <div
+            className="ik-pop"
             style={{
               maxWidth: 1080,
               margin: "0 auto",
@@ -152,11 +153,13 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
       {mounted && settingsOpen && (
         <div
           onClick={() => setSettingsOpen(false)}
+          className="ik-overlay"
           style={{ position: "fixed", inset: 0, zIndex: 310, background: "rgba(15,17,21,.55)", backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}
         >
           <div
             role="dialog"
             aria-label={t("settingsTitle")}
+            className="ik-pop"
             onClick={(e) => e.stopPropagation()}
             style={{ background: "#fff", width: "100%", maxWidth: 520, maxHeight: "90vh", overflowY: "auto", borderRadius: 22, padding: "clamp(22px,3vw,30px)" }}
           >
