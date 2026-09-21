@@ -64,30 +64,12 @@ export function formatDate(iso: string): string {
 export function computeCourse(c: Course): ComputedCourse {
   const cap = Math.max(0, c.capacity);
   const taken = Math.min(Math.max(0, c.enrolled), cap);
-  const free = cap - taken;
 
-  let color: string;
-  let label: string;
-  let tag: string;
-
-  if (free <= 0) {
-    color = "#E5484D";
-    label = "Obsadený";
-    tag = "Plný";
-  } else if (free <= 2) {
-    color = "#F5A623";
-    label = "Posledné miesta";
-    tag = "Takmer plný";
-  } else {
-    color = "#15B66B";
-    label = "Voľné";
-    tag = "Voľné";
-  }
-
-  const segs: { bg: string }[] = [];
-  for (let i = 0; i < cap; i++) {
-    segs.push({ bg: i < taken ? "#E4E6E1" : color });
-  }
+  // Počet žiakov nesledujeme — kurz je VŽDY „Voľné" (nikdy „Takmer plný" ani „Obsadený").
+  const free = 99; // kladné → vždy v ponuke, nikdy plný
+  const color = "#15B66B";
+  const label = "Voľné";
+  const tag = "Voľné";
 
   const start = formatDate(c.dateFrom);
   const end = formatDate(c.dateTo);
@@ -105,8 +87,8 @@ export function computeCourse(c: Course): ComputedCourse {
     color,
     label,
     tag,
-    segs,
-    full: free <= 0,
+    segs: [],
+    full: false,
   };
 }
 

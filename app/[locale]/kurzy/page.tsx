@@ -19,12 +19,6 @@ export default async function KurzyPage({ params }: { params: Promise<{ locale: 
   const t = await getTranslations("kurzy");
   const courses = await getComputedCourses();
 
-  const legend = [
-    { color: "var(--green)", label: t("legendFree") },
-    { color: "var(--amber)", label: t("legendAlmost") },
-    { color: "var(--red)", label: t("legendFull") },
-  ];
-
   return (
     <main>
       <Reveal style={{ padding: "clamp(48px,7vw,88px) 22px 0" }}>
@@ -34,14 +28,6 @@ export default async function KurzyPage({ params }: { params: Promise<{ locale: 
           <p style={{ font: "400 clamp(16px,2vw,19px)/1.65 var(--font-manrope),sans-serif", color: "var(--muted)", maxWidth: 620, margin: "20px 0 0" }}>
             {t("intro")}
           </p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 18, marginTop: 24, alignItems: "center" }}>
-            {legend.map((l) => (
-              <div key={l.label} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ width: 11, height: 11, background: l.color, borderRadius: "50%" }} />
-                <span style={{ font: "500 13px/1 var(--font-manrope),sans-serif", color: "var(--muted)" }}>{l.label}</span>
-              </div>
-            ))}
-          </div>
         </Container>
       </Reveal>
 
