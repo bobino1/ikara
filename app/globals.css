@@ -532,3 +532,43 @@ textarea:focus-visible,
   .nav-link:active { transform: none; }
   .ik-overlay, .ik-sheet, .ik-pop { animation: none; }
 }
+
+/* ================= Hero — vlastný „živý" entrance + fokusový nadpis ================= */
+.hero-content > * {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: heroRise 0.62s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.hero-content > *:nth-child(1) { animation-delay: 0.06s; }
+.hero-content > *:nth-child(2) { animation-delay: 0.14s; }
+.hero-content > *:nth-child(3) { animation-delay: 0.22s; }
+.hero-content > *:nth-child(4) { animation-delay: 0.30s; }
+.hero-content > *:nth-child(5) { animation-delay: 0.38s; }
+@keyframes heroRise {
+  to { opacity: 1; transform: none; }
+}
+
+/* Fokusové slovo v nadpise — jemný gradient (biela → modrá) */
+.hero-accent {
+  background: linear-gradient(103deg, #EAF1FF 0%, #8FB2FF 55%, #4E86FF 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Jemný vignette pre hĺbku (aby hero nebol plochý obdĺžnik) */
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 30% 15%, transparent 45%, rgba(6, 12, 22, 0.45) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-content > * {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}
