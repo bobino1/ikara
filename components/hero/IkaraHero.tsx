@@ -6,8 +6,8 @@ import { CountUp } from "./CountUp";
 import { CourseCountdown } from "./CourseCountdown";
 import "./ikara-hero.css";
 
-/** Cena „od" v texte, keď nie je k dispozícii žiadny nadchádzajúci kurz. */
-const FALLBACK_PRICE = 1100;
+/** Cena „od" zobrazená v hero (vodičák B). */
+const PRICE_FROM_EUR = 1100;
 
 const STEPS = [
   { key: "step1", left: "22%", on: "ih-on1" },
@@ -26,7 +26,7 @@ const icon = {
 
 const STAR_PATH = "M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z";
 
-export type HeroCourse = { dateFrom: string; price: number };
+export type HeroCourse = { dateFrom: string };
 
 type T = Awaited<ReturnType<typeof getTranslations<"hero">>>;
 
@@ -40,7 +40,7 @@ function formatCourseDate(iso: string, locale: string): string {
 
 export async function IkaraHero({ locale, nextCourse }: { locale: string; nextCourse: HeroCourse | null }) {
   const t = await getTranslations("hero");
-  const price = new Intl.NumberFormat(locale === "sk" ? "sk-SK" : "en-GB").format(nextCourse?.price ?? FALLBACK_PRICE);
+  const price = new Intl.NumberFormat(locale === "sk" ? "sk-SK" : "en-GB").format(PRICE_FROM_EUR);
   const decimalSeparator = locale === "sk" ? "," : ".";
 
   return (
@@ -75,7 +75,6 @@ export async function IkaraHero({ locale, nextCourse }: { locale: string; nextCo
                   <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z" />
                 </svg>
                 <span>{site.mobile}</span>
-                <small>{t("phoneNote")}</small>
               </a>
             </div>
             <div className="ih-stats ih-rise ih-d6">
@@ -96,7 +95,7 @@ export async function IkaraHero({ locale, nextCourse }: { locale: string; nextCo
                   <span>
                     <CountUp value={4.4} decimals={1} decimalSeparator={decimalSeparator} />
                   </span>
-                  <svg width="30" height="30" viewBox="0 0 24 24" style={{ fill: "var(--ih-acc)" }} aria-hidden>
+                  <svg width="30" height="30" viewBox="0 0 24 24" style={{ fill: "var(--amber)" }} aria-hidden>
                     <path d={STAR_PATH} stroke="#0E1A2B" strokeWidth="1" strokeLinejoin="round" />
                   </svg>
                 </b>
@@ -192,7 +191,7 @@ function HeroVisual({ t }: { t: T }) {
       </div>
 
       <div className="ih-chip ih-chipA">
-        <svg width="22" height="22" viewBox="0 0 24 24" style={{ fill: "#F2A900" }} aria-hidden>
+        <svg width="22" height="22" viewBox="0 0 24 24" style={{ fill: "var(--amber)" }} aria-hidden>
           <path d={STAR_PATH} />
         </svg>
         <div>

@@ -572,3 +572,56 @@ textarea:focus-visible,
     animation: none;
   }
 }
+
+/* ---------- cookie lišta: malá karta vľavo dole so semaforom ---------- */
+.ik-cookie {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 300;
+  width: min(384px, calc(100% - 32px));
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.97);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid #e3e5e0;
+  border-radius: 16px;
+  box-shadow: 0 14px 34px -20px rgba(14, 26, 43, 0.45);
+}
+.ik-cookie__lights {
+  display: inline-flex;
+  gap: 4px;
+  padding: 5px 7px;
+  border-radius: 999px;
+  background: var(--ink);
+  flex-shrink: 0;
+}
+.ik-cookie__lights > span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.ik-cookie__go {
+  animation: ikCookieGo 1.8s ease-in-out infinite;
+}
+@keyframes ikCookieGo {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(21, 182, 107, 0.6); }
+  50% { box-shadow: 0 0 6px 1px rgba(21, 182, 107, 0.8); }
+}
+.ik-cookie__link {
+  margin-left: auto;
+  padding: 6px 2px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font: 600 13px/1 var(--font-manrope), sans-serif;
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.ik-cookie__link:hover {
+  color: var(--ink);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ik-cookie__go { animation: none; }
+}

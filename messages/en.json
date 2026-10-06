@@ -292,11 +292,10 @@
     "done": "Done"
   },
   "cookies": {
-    "bannerTitle": "We use cookies 🍪",
-    "bannerText": "We need necessary cookies to run the site. With your consent we'll also use analytics and marketing cookies (e.g. to show the Google map). More in the ",
-    "policyLink": "cookie policy",
+    "bannerTitle": "Give us the green light?",
+    "bannerText": "Essential cookies keep the site running. With your consent we'll also switch on statistics and the Google map on the contact page.",
+    "policyLink": "More about cookies",
     "settings": "Settings",
-    "reject": "Reject",
     "acceptAll": "Accept all",
     "settingsTitle": "Cookie settings",
     "settingsIntro": "Choose which cookies we may use. You can change your choice at any time.",
@@ -314,7 +313,9 @@
     "always": "Always on",
     "optional": "Optional",
     "consentTitle": "Your consent",
-    "consentText": "You can adjust your cookie settings at any time. You can also remove cookies directly in your browser settings."
+    "consentText": "You can adjust your cookie settings at any time. You can also remove cookies directly in your browser settings.",
+    "bannerReject": "Essential only",
+    "bannerAccept": "Green light"
   },
   "hero": {
     "eyebrow": "Autoškola IKARA · Bratislava-Petržalka",
@@ -323,7 +324,6 @@
     "title3": "confidence.",
     "sub": "Category B licence course from {price} € — and with us the exam fee is 0 €. You drive modern Hyundai cars with driver-assist systems, taught by an instructor with 20 years of experience.",
     "cta": "Reserve your spot",
-    "phoneNote": "24/7",
     "statGraduates": "happy graduates",
     "statYears": "years of experience",
     "statRating": "Google rating",

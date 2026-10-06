@@ -9,7 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import { CookieBanner } from "./CookieBanner";
 
 export type CookieConsent = {
   necessary: true;
@@ -18,6 +18,8 @@ export type CookieConsent = {
 };
 
 const STORAGE_KEY = "ikara_cookie_consent_v1";
+/** Lišta sa ukáže až chvíľu po načítaní, aby neprekrývala prvý dojem z hero. */
+const BANNER_DELAY_MS = 1800;
 const DEFAULT: CookieConsent = { necessary: true, analytics: false, marketing: false };
 
 type CookieContextValue = {
@@ -70,12 +72,13 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
         setConsent(loaded);
         setDraft({ analytics: loaded.analytics, marketing: loaded.marketing });
         setDecided(true);
-      } else {
-        setBannerOpen(true);
+        return;
       }
     } catch {
-      setBannerOpen(true);
+      /* poškodený záznam → spýtame sa znova */
     }
+    const timer = setTimeout(() => setBannerOpen(true), BANNER_DELAY_MS);
+    return () => clearTimeout(timer);
   }, []);
 
   const save = useCallback((c: CookieConsent) => {
@@ -109,44 +112,7 @@ export function CookieConsentProvider({ children }: { children: ReactNode }) {
 
       {/* ---- LIŠTA (prvá návšteva) ---- */}
       {mounted && bannerOpen && !settingsOpen && (
-        <div
-          role="dialog"
-          aria-label={t("bannerTitle")}
-          style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 300, padding: "0 16px 16px" }}
-        >
-          <div
-            className="ik-pop"
-            style={{
-              maxWidth: 1080,
-              margin: "0 auto",
-              background: "#fff",
-              border: "1px solid #E3E5E0",
-              borderRadius: 18,
-              boxShadow: "0 24px 60px -24px rgba(14,26,43,.4)",
-              padding: "clamp(18px,2.4vw,24px)",
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
-              gap: 18,
-              alignItems: "center",
-            }}
-          >
-            <div>
-              <h2 style={{ display: "flex", alignItems: "center", gap: 9, font: "700 18px/1.2 var(--font-space),sans-serif", margin: 0, color: "var(--ink)" }}>
-                <span aria-hidden style={{ width: 30, height: 30, borderRadius: 9, background: "#E9F0FE", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>🍪</span>
-                {t("bannerTitle")}
-              </h2>
-              <p style={{ font: "400 14px/1.6 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "10px 0 0" }}>
-                {t("bannerText")}
-                <Link href="/cookies" style={{ color: "var(--blue)", fontWeight: 600 }}>{t("policyLink")}</Link>.
-              </p>
-            </div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "flex-end" }}>
-              <button onClick={() => setSettingsOpen(true)} className="btn btn--outline" style={{ padding: "12px 18px", fontSize: 14 }}>{t("settings")}</button>
-              <button onClick={rejectAll} className="btn btn--outline" style={{ padding: "12px 18px", fontSize: 14 }}>{t("reject")}</button>
-              <button onClick={acceptAll} className="btn btn--primary" style={{ padding: "12px 20px", fontSize: 14 }}>{t("acceptAll")}</button>
-            </div>
-          </div>
-        </div>
+        <CookieBanner onReject={rejectAll} onAccept={acceptAll} onSettings={() => setSettingsOpen(true)} />
       )}
 
       {/* ---- PANEL NASTAVENÍ ---- */}

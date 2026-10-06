@@ -292,11 +292,10 @@
     "done": "Hotovo"
   },
   "cookies": {
-    "bannerTitle": "Používame cookies 🍪",
-    "bannerText": "Nevyhnutné cookies potrebujeme na chod stránky. S tvojím súhlasom použijeme aj analytické a marketingové (napr. zobrazenie Google mapy). Viac v ",
-    "policyLink": "zásadách používania cookies",
+    "bannerTitle": "Dáš nám zelenú?",
+    "bannerText": "Nevyhnutné cookies držia web v chode. S tvojím súhlasom zapneme aj štatistiky a Google mapu na kontakte.",
+    "policyLink": "Viac o cookies",
     "settings": "Nastavenia",
-    "reject": "Odmietnuť",
     "acceptAll": "Prijať všetko",
     "settingsTitle": "Nastavenia cookies",
     "settingsIntro": "Vyber, ktoré cookies môžeme používať. Svoju voľbu môžeš kedykoľvek zmeniť.",
@@ -314,7 +313,9 @@
     "always": "Vždy aktívne",
     "optional": "Voliteľné",
     "consentTitle": "Tvoj súhlas",
-    "consentText": "Nastavenia cookies môžeš kedykoľvek upraviť. Cookies vieš odstrániť aj priamo v nastaveniach svojho prehliadača."
+    "consentText": "Nastavenia cookies môžeš kedykoľvek upraviť. Cookies vieš odstrániť aj priamo v nastaveniach svojho prehliadača.",
+    "bannerReject": "Len nevyhnutné",
+    "bannerAccept": "Dávam zelenú"
   },
   "hero": {
     "eyebrow": "Autoškola IKARA · Bratislava-Petržalka",
@@ -323,7 +324,6 @@
     "title3": "s istotou.",
     "sub": "Kurz na vodičák B od {price} € — a skúškový poplatok u nás platíš 0 €. Jazdíš na moderných Hyundai s asistenčnými systémami, s inštruktorom s 20-ročnou praxou.",
     "cta": "Rezervovať miesto v kurze",
-    "phoneNote": "24/7",
     "statGraduates": "spokojných absolventov",
     "statYears": "rokov praxe",
     "statRating": "hodnotenie na Google",
