@@ -6,6 +6,7 @@ import { site } from "@/lib/site";
 import { useSignup } from "./SignupProvider";
 import { useCookieConsent } from "./CookieConsent";
 import { Logo } from "./Logo";
+import { WetrixoCredit } from "./WetrixoCredit";
 
 const colHead: React.CSSProperties = {
   font: "700 12px/1 var(--font-manrope),sans-serif",
@@ -91,25 +92,14 @@ export function Footer() {
           </div>
         </div>
 
+        <WetrixoCredit />
+
         <div style={{ borderTop: "1px solid rgba(255,255,255,.08)", marginTop: 44, paddingTop: 24, display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "space-between", alignItems: "center" }}>
           <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px 18px" }}>
             <span style={{ font: "400 13px/1 var(--font-manrope),sans-serif", color: "#6B717A" }}>{t("rights")}</span>
             <Link href="/cookies" className="footer-link" style={{ fontSize: 13 }}>{t("cookiePolicy")}</Link>
             <button onClick={openSettings} className="footer-link" style={{ fontSize: 13, cursor: "pointer" }}>{t("cookieSettings")}</button>
           </div>
-          <a
-            href="https://wetrixo.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="IT a tvorba webových stránok — wetrixo.com"
-            className="footer-link"
-            style={{ display: "inline-flex", alignItems: "baseline", gap: 8, font: "500 13px/1.4 var(--font-manrope),sans-serif" }}
-          >
-            <span style={{ color: "#6B717A" }}>{t("madeBy")} ·</span>
-            <span style={{ font: "700 14px/1 var(--font-space),sans-serif", color: "#fff" }}>
-              wetrixo<span style={{ color: "#7AA0FF" }}>.com</span>
-            </span>
-          </a>
         </div>
       </div>
     </footer>

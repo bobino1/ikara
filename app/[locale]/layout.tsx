@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import "../globals.css";
-import { manrope, spaceGrotesk } from "../fonts";
+import { archivo, manrope, spaceGrotesk } from "../fonts";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { MapBand } from "@/components/MapBand";
@@ -88,7 +88,7 @@ export default async function LocaleLayout({
   const courses = await getComputedCourses();
 
   return (
-    <html lang={locale} className={`${manrope.variable} ${spaceGrotesk.variable}`}>
+    <html lang={locale} className={`${manrope.variable} ${spaceGrotesk.variable} ${archivo.variable}`}>
       <body>
         {/* Google tag (gtag.js) — Google Ads AW-760765003 */}
         <Script src="https://www.googletagmanager.com/gtag/js?id=AW-760765003" strategy="afterInteractive" />

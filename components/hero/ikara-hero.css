@@ -1,0 +1,154 @@
+/* Autoškola IKARA – hero (zdroj: animácie-web/_CO-SEM-PATRI.md). Všetky triedy majú prefix ih-. */
+.ih{--ih-acc:#FFC629;--ih-grn:#22C55E;font-family:var(--font-archivo),system-ui,sans-serif;background:#FFFFFF;color:#0E1A2B;width:100%;box-sizing:border-box;position:relative;overflow:hidden}
+.ih *,.ih *::before,.ih *::after{box-sizing:border-box}
+.ih-wrap{max-width:1280px;margin:0 auto;padding:72px clamp(20px,5vw,72px) 64px;display:flex;flex-direction:column;gap:56px}
+.ih-top{display:flex;flex-wrap:wrap;gap:48px;align-items:center}
+.ih-left{flex:1 1 520px;min-width:0;display:flex;flex-direction:column;gap:28px}
+.ih-disp{font-stretch:66%}
+.ih-ln{display:block}
+
+@keyframes ih-rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+.ih-rise{animation:ih-rise .5s cubic-bezier(.2,.8,.2,1) both}
+.ih-d1{animation-delay:.05s}.ih-d2{animation-delay:.1s}.ih-d3{animation-delay:.15s}.ih-d4{animation-delay:.22s}.ih-d5{animation-delay:.3s}.ih-d6{animation-delay:.38s}.ih-d7{animation-delay:.45s}
+
+.ih-eyebrow{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;border:1px solid #E1E6ED;background:#F6F8FA;color:#3A4659;font-size:14px;font-weight:600}
+.ih-h1{margin:0;font-size:clamp(56px,7vw,108px);line-height:.9;font-weight:800;text-transform:uppercase;letter-spacing:-.005em;color:#0E1A2B}
+.ih-hl{position:relative;z-index:0;white-space:nowrap;padding:0 .06em}
+.ih-hl::after{content:"";position:absolute;z-index:-1;left:0;right:0;bottom:.04em;height:.42em;background:var(--ih-acc);transform-origin:left;animation:ih-draw .5s .45s cubic-bezier(.6,0,.2,1) both}
+@keyframes ih-draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.ih-sub{margin:0;max-width:34em;font-size:19px;line-height:1.55;color:#4F5B6E}
+
+@keyframes ih-ping{0%{box-shadow:0 0 0 0 rgba(24,169,104,.5)}100%{box-shadow:0 0 0 10px rgba(24,169,104,0)}}
+.ih-ping{width:8px;height:8px;border-radius:50%;background:#18A968;animation:ih-ping 1.6s ease-out infinite}
+
+.ih-ctas{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.ih-btn{border:0;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:12px;min-height:58px;padding:0 30px;border-radius:999px;background:var(--ih-acc);color:#0E1A2B;font-weight:800;font-size:17px;text-decoration:none;position:relative;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease;box-shadow:0 10px 24px rgba(14,26,43,.14)}
+.ih-btn:hover{color:#0E1A2B;transform:translateY(-2px);box-shadow:0 16px 32px rgba(14,26,43,.2)}
+.ih-btn::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.7),transparent);animation:ih-glint 3.5s 1s ease-in-out infinite}
+@keyframes ih-glint{0%{left:-60%}22%,100%{left:130%}}
+.ih-arr{display:inline-flex;animation:ih-nudge 1.2s ease-in-out infinite}
+@keyframes ih-nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+.ih-btn2{display:inline-flex;align-items:center;gap:12px;min-height:58px;padding:0 26px;border-radius:999px;border:1.5px solid rgba(14,26,43,.2);color:#0E1A2B;font-weight:700;font-size:17px;text-decoration:none;transition:border-color .2s ease,background .2s ease}
+.ih-btn2:hover{color:#0E1A2B;border-color:#0E1A2B;background:rgba(14,26,43,.04)}
+.ih-btn2 small{font-size:13px;font-weight:600;color:#5B6779}
+
+.ih-stats{display:flex;flex-wrap:wrap;gap:36px;padding-top:8px}
+.ih-stat{display:flex;flex-direction:column;gap:2px}
+.ih-stat b{font-size:46px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;display:inline-flex;align-items:center;gap:8px}
+.ih-stat>span{font-size:14px;color:#5B6779}
+
+.ih-right{flex:1 1 400px;min-width:0;position:relative;min-height:520px;display:flex;align-items:center;justify-content:center}
+.ih-bgroad{position:absolute;inset:-6%;width:112%;height:112%;pointer-events:none}
+.ih-lane{stroke-dasharray:30 26;animation:ih-march .9s linear infinite}
+@keyframes ih-march{to{stroke-dashoffset:-56}}
+
+.ih-cardin{position:relative;z-index:2;width:min(400px,86%);animation:ih-cardin .6s .15s cubic-bezier(.2,.9,.25,1.2) both}
+@keyframes ih-cardin{from{opacity:0;transform:translateY(60px) scale(.9)}to{opacity:1;transform:none}}
+.ih-cardwrap{animation:ih-float 5s ease-in-out infinite;transform:rotate(-5deg)}
+@keyframes ih-float{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-14px) rotate(-3deg)}}
+.ih-lic{position:relative;overflow:hidden;aspect-ratio:1.586;border-radius:20px;background:#0E1A2B;color:#FFFFFF;box-shadow:0 34px 70px rgba(14,26,43,.28);display:flex;flex-direction:column}
+.ih-lic::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.22) 50%,transparent 62%);transform:translateX(-130%);animation:ih-shine 4s .8s ease-in-out infinite}
+@keyframes ih-shine{0%{transform:translateX(-130%)}28%,100%{transform:translateX(130%)}}
+.ih-lic-top{display:flex;justify-content:space-between;align-items:center;padding:18px 22px 0}
+.ih-lic-top b{font-size:12px;font-weight:800;letter-spacing:.16em;display:block}
+.ih-lic-top small{font-size:11px;color:#9FB0C6;letter-spacing:.04em}
+.ih-b{width:46px;height:46px;border-radius:10px;background:var(--ih-acc);color:#0E1A2B;display:grid;place-items:center;font-size:34px;font-weight:900}
+.ih-lic-mid{flex:1;display:flex;gap:18px;align-items:center;padding:12px 22px}
+.ih-photo{width:26%;aspect-ratio:.8;border-radius:10px;background:#1C2C45;display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.ih-fields{display:flex;flex-direction:column;gap:8px;min-width:0}
+.ih-fields div{display:flex;flex-direction:column}
+.ih-fields small{font-size:10px;font-weight:700;letter-spacing:.12em;color:#9FB0C6}
+.ih-fields span{font-size:15px;font-weight:700}
+.ih-fields .ih-name{font-size:34px;font-weight:900;line-height:1}
+.ih-lic-bot{height:30px;background:#16253C;display:flex;align-items:center;padding:0 22px}
+.ih-lic-bot div{flex:1;height:4px;background:repeating-linear-gradient(90deg,var(--ih-acc) 0 22px,transparent 22px 38px)}
+
+.ih-sticker{position:absolute;top:4%;right:2%;z-index:3;animation:ih-stamp .5s .6s cubic-bezier(.3,1.6,.5,1) both;transform:rotate(8deg)}
+@keyframes ih-stamp{0%{opacity:0;transform:scale(2.4) rotate(-30deg)}100%{opacity:1;transform:scale(1) rotate(8deg)}}
+.ih-wob{width:136px;height:136px;border-radius:50%;background:var(--ih-acc);color:#0E1A2B;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 14px 30px rgba(14,26,43,.2);border:4px dashed rgba(14,26,43,.22);animation:ih-wob 3s 1.2s ease-in-out infinite}
+@keyframes ih-wob{0%,100%{transform:rotate(0)}50%{transform:rotate(-7deg)}}
+.ih-wob b{font-size:52px;font-weight:900;line-height:.9}
+.ih-wob span{font-size:11px;font-weight:800;letter-spacing:.08em;text-align:center;line-height:1.25}
+
+.ih-chip{position:absolute;left:0;z-index:3;display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:16px;background:#FFFFFF;color:#0E1A2B;border:1px solid #E1E6ED;box-shadow:0 16px 36px rgba(14,26,43,.14);animation:ih-chipin .5s both,ih-bob 6s ease-in-out infinite}
+.ih-chip div{display:flex;flex-direction:column}
+.ih-chip b{font-size:16px;font-weight:800}
+.ih-chip small{font-size:12px;color:#5B6779}
+.ih-chipA{bottom:6%;animation-delay:.8s,1.3s}
+.ih-chipB{top:12%;padding:10px 16px 10px 10px;gap:12px;animation-delay:.95s,2.2s}
+.ih-chipB b{font-size:14px}
+.ih-chipico{width:36px;height:36px;border-radius:10px;background:var(--ih-acc);color:#0E1A2B;display:grid;place-items:center}
+@keyframes ih-chipin{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes ih-bob{0%,100%{translate:0 0}50%{translate:0 -10px}}
+
+/* cesta k vodičáku */
+.ih-band{border-radius:24px;background:#F5F7FA;border:1px solid #E5E9EF;padding:28px clamp(18px,3vw,36px) 32px;display:flex;flex-direction:column;gap:26px}
+.ih-bandhead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px}
+.ih-bandtitle{display:flex;flex-direction:column;gap:4px}
+.ih-kicker{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;letter-spacing:.14em;color:#5B6779}
+.ih-kicker i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.ih-next{font-size:30px;font-weight:800;text-transform:uppercase;color:#0E1A2B}
+.ih-tiles{display:flex;gap:10px}
+.ih-tile{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:64px;height:66px;border-radius:12px;background:#FFFFFF;border:1px solid #E1E6ED;box-shadow:0 2px 6px rgba(14,26,43,.04)}
+.ih-tnum{font-size:30px;font-weight:800;font-stretch:70%;line-height:1;font-variant-numeric:tabular-nums;color:#0E1A2B}
+.ih-tlab{font-size:10px;font-weight:700;letter-spacing:.12em;color:#5B6779;margin-top:4px}
+
+.ih-stations{position:relative;height:92px}
+.ih-road{position:relative;height:64px;background:#2A3A55;border-radius:12px}
+.ih-road::before{content:"";position:absolute;left:14px;right:14px;top:50%;height:4px;margin-top:-2px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.35) 0 26px,transparent 26px 46px)}
+.ih-trail{position:absolute;left:0;right:0;top:50%;height:4px;margin-top:-2px;border-radius:4px;background:linear-gradient(90deg,#EF3B33 5%,#FFB020 35%,#22C55E 65%);clip-path:inset(0 7% 0 0);animation:ih-trail 7s ease-in-out infinite}
+.ih-car{position:absolute;bottom:4px;left:93%;width:clamp(88px,10vw,136px);transform:translateX(-50%);animation:ih-drive 7s ease-in-out infinite;z-index:3}
+.ih-carbody{display:block;animation:ih-carbob .5s ease-in-out infinite alternate}
+@keyframes ih-carbob{from{transform:translateY(0)}to{transform:translateY(-1.5px)}}
+.ih-spin{transform-box:fill-box;transform-origin:center;animation:ih-spin 7s ease-in-out infinite}
+@keyframes ih-drive{
+0%{left:7%;opacity:0}3%{left:7%;opacity:1}10%{left:7%}
+19%{left:22%}23%{left:22%}
+32%{left:40%}36%{left:40%}
+45%{left:58%}49%{left:58%}
+58%{left:76%}62%{left:76%}
+72%{left:93%}90%{left:93%;opacity:1}95%{left:93%;opacity:0}100%{left:7%;opacity:0}}
+@keyframes ih-trail{
+0%,10%{clip-path:inset(0 93% 0 0);opacity:1}
+19%,23%{clip-path:inset(0 78% 0 0)}
+32%,36%{clip-path:inset(0 60% 0 0)}
+45%,49%{clip-path:inset(0 42% 0 0)}
+58%,62%{clip-path:inset(0 24% 0 0)}
+72%,90%{clip-path:inset(0 7% 0 0);opacity:1}
+95%{clip-path:inset(0 7% 0 0);opacity:0}
+100%{clip-path:inset(0 93% 0 0);opacity:0}}
+@keyframes ih-spin{
+0%,10%{transform:rotate(0)}19%,23%{transform:rotate(720deg)}32%,36%{transform:rotate(1440deg)}45%,49%{transform:rotate(2160deg)}58%,62%{transform:rotate(2880deg)}72%,100%{transform:rotate(3600deg)}}
+
+.ih-mini{position:absolute;bottom:0;left:2.5%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center}
+.ih-minih{display:flex;flex-direction:column;gap:4px;padding:5px;background:#0E1A2B;border-radius:9px}
+.ih-md{width:12px;height:12px;border-radius:50%;display:block}
+.ih-mr{background:#EF3B33;animation:ih-mr 7s linear infinite}
+.ih-ma{background:#FFB020;opacity:.2;animation:ih-ma 7s linear infinite}
+.ih-mg{background:#22C55E;opacity:.2;animation:ih-mg 7s linear infinite}
+@keyframes ih-mr{0%,9.5%{opacity:1;box-shadow:0 0 10px #EF3B33}10%,94%{opacity:.2;box-shadow:none}95%,100%{opacity:1;box-shadow:0 0 10px #EF3B33}}
+@keyframes ih-ma{0%,5%{opacity:.2;box-shadow:none}5.5%,9.5%{opacity:1;box-shadow:0 0 10px #FFB020}10%,100%{opacity:.2;box-shadow:none}}
+@keyframes ih-mg{0%,9.5%{opacity:.2;box-shadow:none}10%,94%{opacity:1;box-shadow:0 0 10px #22C55E}95%,100%{opacity:.2;box-shadow:none}}
+.ih-minip{width:3px;height:10px;background:#2A3A55}
+
+.ih-st{position:absolute;bottom:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center}
+.ih-stk{display:grid}
+.ih-lay{grid-area:1/1;display:flex;flex-direction:column;align-items:center;justify-self:center;align-self:end;gap:8px}
+.ih-lbl{font-size:13px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap}
+.ih-off .ih-lbl{color:#5B6779}.ih-on .ih-lbl{color:#0E1A2B}
+.ih-dot{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:14px}
+.ih-off .ih-dot{border:2px solid rgba(14,26,43,.22);color:#5B6779;background:#FFFFFF}
+.ih-on .ih-dot{background:var(--ih-grn);color:#0E1A2B;box-shadow:0 0 0 6px rgba(34,197,94,.18)}
+.ih-post{width:2px;height:14px;background:rgba(14,26,43,.15)}
+.ih-on1{animation:ih-on1 7s ease-out infinite}.ih-on2{animation:ih-on2 7s ease-out infinite}.ih-on3{animation:ih-on3 7s ease-out infinite}.ih-on4{animation:ih-on4 7s ease-out infinite}.ih-on5{animation:ih-on5 7s ease-out infinite}
+@keyframes ih-on1{0%,18.5%{opacity:0;transform:scale(.7)}20.5%{opacity:1;transform:scale(1.15)}22.5%,94%{opacity:1;transform:scale(1)}96%,100%{opacity:0;transform:scale(1)}}
+@keyframes ih-on2{0%,31.5%{opacity:0;transform:scale(.7)}33.5%{opacity:1;transform:scale(1.15)}35.5%,94%{opacity:1;transform:scale(1)}96%,100%{opacity:0;transform:scale(1)}}
+@keyframes ih-on3{0%,44.5%{opacity:0;transform:scale(.7)}46.5%{opacity:1;transform:scale(1.15)}48.5%,94%{opacity:1;transform:scale(1)}96%,100%{opacity:0;transform:scale(1)}}
+@keyframes ih-on4{0%,57.5%{opacity:0;transform:scale(.7)}59.5%{opacity:1;transform:scale(1.15)}61.5%,94%{opacity:1;transform:scale(1)}96%,100%{opacity:0;transform:scale(1)}}
+@keyframes ih-on5{0%,71.5%{opacity:0;transform:scale(.5) translateY(10px)}74%{opacity:1;transform:scale(1.2) translateY(-4px)}77%,94%{opacity:1;transform:scale(1)}96%,100%{opacity:0;transform:scale(1)}}
+.ih-pill{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;border-radius:999px;background:var(--ih-grn);color:#0E1A2B;font-weight:800;font-size:13px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;box-shadow:0 8px 20px rgba(34,197,94,.3)}
+
+@media (prefers-reduced-motion: reduce){.ih *,.ih *::before,.ih *::after{animation:none !important}}
+@media (max-width:640px){.ih-lbl{font-size:10px;letter-spacing:.02em}.ih-dot{width:26px;height:26px;font-size:12px}.ih-pill{font-size:11px;padding:0 10px;height:30px}.ih-tile{min-width:54px;height:58px}.ih-tnum{font-size:24px}.ih-right{min-height:440px}.ih-wob{width:110px;height:110px}.ih-wob b{font-size:40px}}
+/* Úzke telefóny: popisky staníc sa nezmestia vedľa seba — ostanú čísla, bublina „Vodičák" nevytŕča z pásu. */
+@media (max-width:480px){.ih-lay>.ih-lbl{display:none}.ih-pill{transform:translateX(-30%)}}

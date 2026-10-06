@@ -2,8 +2,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Reveal } from "@/components/Reveal";
 import { Container, Eyebrow } from "@/components/ui";
-import { SignupButton } from "@/components/SignupButton";
-import { BackgroundVideo } from "@/components/BackgroundVideo";
+import { IkaraHero } from "@/components/hero/IkaraHero";
 import { CoursesShowcase } from "@/components/CourseCard";
 import { CourseRequirementsNote } from "@/components/CourseRequirementsNote";
 import { IndividualCourse } from "@/components/IndividualCourse";
@@ -18,40 +17,31 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const t = await getTranslations("home");
   const tc = await getTranslations("course");
   const courses = await getComputedCourses();
+  const today = new Date().toISOString().slice(0, 10);
+  const nextCourse = courses.filter((c) => c.dateFrom >= today).sort((a, b) => a.dateFrom.localeCompare(b.dateFrom))[0] ?? null;
 
   return (
     <main>
-      {/* HERO */}
-      <section style={{ ...sectionPad("clamp(80px,12vw,150px) 22px"), position: "relative", overflow: "hidden", display: "flex", alignItems: "center", minHeight: "clamp(480px,76vh,760px)", background: "linear-gradient(155deg,#16294A 0%,#0E1A2B 55%,#0B1626 100%)", color: "#fff" }}>
-        <BackgroundVideo />
-        <div className="hero-vignette" />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/znacky.png" alt="Dopravné značky" className="hero-signs" />
-        <Container style={{ position: "relative", zIndex: 1, width: "100%" }}>
-          <div className="hero-content" style={{ maxWidth: 760 }}>
-            <span style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "7px 14px", background: "rgba(122,160,255,.14)", border: "1px solid rgba(122,160,255,.24)", color: "#CFD9F7", borderRadius: 100, font: "600 13px/1 var(--font-manrope),sans-serif" }}>
-              <span style={{ width: 7, height: 7, background: "#7AA0FF", borderRadius: "50%" }} /> {t("heroBadge")}
-            </span>
-            <h1 style={{ font: "700 clamp(34px,7vw,70px)/1.04 var(--font-space),sans-serif", letterSpacing: "-0.025em", margin: "20px 0 0", color: "#fff" }}>
-              {t("heroTitle1")}<br /><span className="hero-accent">{t("heroTitle2")}</span>
-            </h1>
-            <p style={{ font: "400 clamp(16px,2vw,19px)/1.6 var(--font-manrope),sans-serif", color: "rgba(255,255,255,.82)", maxWidth: 600, margin: "22px 0 0" }}>
-              {t("heroText")}
-            </p>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 34 }}>
-              <SignupButton style={{ padding: "16px 28px", fontSize: 17 }}>{t("heroSignup")}</SignupButton>
-              <Link href="/o-kurze" className="btn btn--ghost-light" style={{ padding: "16px 26px", fontSize: 17 }}>{t("heroMore")}</Link>
+      <IkaraHero locale={locale} nextCourse={nextCourse} />
+
+      {/* NAJBLIŽŠIE KURZY */}
+      <Reveal style={sectionPad("clamp(48px,6vw,80px) 22px")}>
+        <Container>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 16, alignItems: "flex-end", justifyContent: "space-between" }}>
+            <div>
+              <Eyebrow>{t("coursesEyebrow")}</Eyebrow>
+              <h2 style={{ font: "700 clamp(28px,4vw,44px)/1.08 var(--font-space),sans-serif", letterSpacing: "-0.02em", margin: "14px 0 0" }}>{t("coursesTitle")}</h2>
             </div>
-            <div className="hero-stats" style={{ marginTop: 42 }}>
-              <Stat value="20" valueColor="#fff" labelColor="#A6B4C8" label={t("statYears")} />
-              <Divider color="rgba(255,255,255,.15)" />
-              <Stat value="150+" valueColor="#fff" labelColor="#A6B4C8" label={t("statGraduates")} />
-              <Divider color="rgba(255,255,255,.15)" />
-              <Stat value="0 €" valueColor="#7AA0FF" labelColor="#A6B4C8" label={t("statFee")} />
-            </div>
+            <Link href="/kurzy" className="nav-link" style={{ padding: 0 }}>{tc("allTerms")}</Link>
+          </div>
+          <div style={{ marginTop: 32, display: "flex", flexDirection: "column", gap: 18 }}>
+            <CourseRequirementsNote />
+            <CoursesShowcase courses={courses} />
+            <div style={{ height: 1, width: 90, background: "#E3E5E0", borderRadius: 2, margin: "10px auto" }} />
+            <IndividualCourse />
           </div>
         </Container>
-      </section>
+      </Reveal>
 
       {/* VÝHODY */}
       <Reveal style={{ ...sectionPad("clamp(48px,6vw,80px) 22px"), background: "var(--bg-soft)" }}>
@@ -93,25 +83,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 </a>
               </div>
             </div>
-          </div>
-        </Container>
-      </Reveal>
-
-      {/* NAJBLIŽŠIE KURZY */}
-      <Reveal style={sectionPad("clamp(48px,6vw,80px) 22px")}>
-        <Container>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 16, alignItems: "flex-end", justifyContent: "space-between" }}>
-            <div>
-              <Eyebrow>{t("coursesEyebrow")}</Eyebrow>
-              <h2 style={{ font: "700 clamp(28px,4vw,44px)/1.08 var(--font-space),sans-serif", letterSpacing: "-0.02em", margin: "14px 0 0" }}>{t("coursesTitle")}</h2>
-            </div>
-            <Link href="/kurzy" className="nav-link" style={{ padding: 0 }}>{tc("allTerms")}</Link>
-          </div>
-          <div style={{ marginTop: 32, display: "flex", flexDirection: "column", gap: 18 }}>
-            <CourseRequirementsNote />
-            <CoursesShowcase courses={courses} />
-            <div style={{ height: 1, width: 90, background: "#E3E5E0", borderRadius: 2, margin: "10px auto" }} />
-            <IndividualCourse />
           </div>
         </Container>
       </Reveal>
@@ -175,19 +146,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       </Reveal>
     </main>
   );
-}
-
-function Stat({ value, label, valueColor = "var(--ink)", labelColor = "#8A9088" }: { value: string; label: React.ReactNode; valueColor?: string; labelColor?: string }) {
-  return (
-    <div>
-      <div style={{ font: "700 30px/1 var(--font-space),sans-serif", color: valueColor }}>{value}</div>
-      <div style={{ font: "500 13px/1.3 var(--font-manrope),sans-serif", color: labelColor, marginTop: 6, maxWidth: 110 }}>{label}</div>
-    </div>
-  );
-}
-
-function Divider({ color = "#ECEEE9" }: { color?: string }) {
-  return <div className="hero-stats__divider" style={{ background: color }} />;
 }
 
 function Benefit({ index, icon, iconBg, ring, title, text }: { index: string; icon: React.ReactNode; iconBg: string; ring: string; title: string; text: string }) {
