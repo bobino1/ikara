@@ -1,6 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
 import { SignupButton } from "@/components/SignupButton";
+import { GoogleG } from "@/components/GoogleG";
 import { site } from "@/lib/site";
 import { CountUp } from "./CountUp";
 import { CourseCountdown } from "./CourseCountdown";
@@ -8,6 +9,8 @@ import "./ikara-hero.css";
 
 /** Cena „od" zobrazená v hero (vodičák B). */
 const PRICE_FROM_EUR = 1100;
+const GOOGLE_RATING = 4.4;
+const STAR_COUNT = 5;
 
 const STEPS = [
   { key: "step1", left: "22%", on: "ih-on1" },
@@ -42,25 +45,28 @@ export async function IkaraHero({ locale, nextCourse }: { locale: string; nextCo
   const t = await getTranslations("hero");
   const price = new Intl.NumberFormat(locale === "sk" ? "sk-SK" : "en-GB").format(PRICE_FROM_EUR);
   const decimalSeparator = locale === "sk" ? "," : ".";
+  const courseDate = nextCourse ? formatCourseDate(nextCourse.dateFrom, locale) : null;
 
   return (
     <section className="ih">
       <div className="ih-wrap">
         <div className="ih-top">
           <div className="ih-left">
-            <div className="ih-eyebrow ih-rise">
+            <div className="ih-label ih-rise">
               <span className="ih-ping" />
-              <span>{t("eyebrow")}</span>
+              <span>{t("label")}</span>
             </div>
-            <h1 className="ih-h1 ih-disp">
-              <span className="ih-ln ih-rise ih-d1">{t("title1")}</span>
-              <span className="ih-ln ih-rise ih-d2">{t("title2")}</span>
-              <span className="ih-ln ih-rise ih-d3">
-                <span className="ih-hl">{t("title3")}</span>
+            <h1 className="ih-h1 ih-gro ih-rise ih-d1">
+              {t("titleLead")}{" "}
+              <span className="ih-hl">
+                {t("titleAccent")}
+                <svg className="ih-swoosh" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden>
+                  <path d="M4 14 C 80 4, 200 2, 296 9" pathLength={1} fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
+                </svg>
               </span>
             </h1>
-            <p className="ih-sub ih-rise ih-d4">{t("sub", { price })}</p>
-            <div className="ih-ctas ih-rise ih-d5">
+            <p className="ih-sub ih-rise ih-d2">{t("sub", { price })}</p>
+            <div className="ih-ctas ih-rise ih-d3">
               <SignupButton className="ih-btn">
                 {t("cta")}
                 <span className="ih-arr">
@@ -77,49 +83,50 @@ export async function IkaraHero({ locale, nextCourse }: { locale: string; nextCo
                 <span>{site.mobile}</span>
               </a>
             </div>
-            <div className="ih-stats ih-rise ih-d6">
-              <div className="ih-stat">
-                <b className="ih-disp">
-                  <CountUp value={150} suffix="+" />
-                </b>
-                <span>{t("statGraduates")}</span>
-              </div>
-              <div className="ih-stat">
-                <b className="ih-disp">
-                  <CountUp value={20} />
-                </b>
-                <span>{t("statYears")}</span>
-              </div>
-              <div className="ih-stat">
-                <b className="ih-disp">
-                  <span>
-                    <CountUp value={4.4} decimals={1} decimalSeparator={decimalSeparator} />
+
+            <div className="ih-trust ih-rise ih-d4">
+              <div className="ih-gcard">
+                <div className="ih-gslot">
+                  <GoogleG size={24} />
+                </div>
+                <div>
+                  <div className="ih-grow">
+                    <span className="ih-gnum ih-gro">
+                      <CountUp value={GOOGLE_RATING} decimals={1} decimalSeparator={decimalSeparator} />
+                    </span>
+                    <Stars label={t("ratingAria")} />
+                  </div>
+                  <span className="ih-gsrc">
+                    <b>Google</b> · {t("googleReviews")}
                   </span>
-                  <svg width="30" height="30" viewBox="0 0 24 24" style={{ fill: "var(--amber)" }} aria-hidden>
-                    <path d={STAR_PATH} stroke="#0E1A2B" strokeWidth="1" strokeLinejoin="round" />
-                  </svg>
-                </b>
-                <span>{t("statRating")}</span>
+                </div>
+              </div>
+              <div className="ih-mini-stats">
+                <div>
+                  <b className="ih-gro">
+                    <CountUp value={150} suffix="+" />
+                  </b>
+                  <span>{t("statGraduates")}</span>
+                </div>
+                <div className="ih-vsep" />
+                <div>
+                  <b className="ih-gro">
+                    <CountUp value={20} />
+                  </b>
+                  <span>{t("statYears")}</span>
+                </div>
               </div>
             </div>
           </div>
 
-          <HeroVisual t={t} />
+          <HeroVisual t={t} courseDate={courseDate} />
         </div>
 
-        <div className="ih-band ih-rise ih-d7">
+        <div className="ih-band ih-rise ih-d5">
           <div className="ih-bandhead">
             <CourseCountdown
               startISO={nextCourse?.dateFrom ?? null}
-              kicker={
-                <span className="ih-kicker">
-                  <i style={{ background: "#EF3B33" }} />
-                  <i style={{ background: "#FFB020" }} />
-                  <i style={{ background: "#22C55E", marginRight: 4 }} />
-                  {t("bandKicker")}
-                </span>
-              }
-              nextLabel={nextCourse ? t("nextCourse", { date: formatCourseDate(nextCourse.dateFrom, locale) }) : ""}
+              title={t("bandTitle")}
               noCourseLabel={t("noCourse")}
               ariaLabel={t("countdownLabel")}
               units={{ d: t("days"), h: t("hours"), m: t("minutes"), s: t("seconds") }}
@@ -132,13 +139,31 @@ export async function IkaraHero({ locale, nextCourse }: { locale: string; nextCo
   );
 }
 
-/** Pravý stĺpec: vodičák „TY", nálepka 0 € a plávajúce čipy. */
-function HeroVisual({ t }: { t: T }) {
+/** Päť sivých hviezdičiek a nad nimi zlaté, orezané na hodnotenie (šírka sa animuje v CSS). */
+function Stars({ label }: { label: string }) {
+  const row = (fill: string) =>
+    Array.from({ length: STAR_COUNT }, (_, i) => (
+      <svg key={i} width="18" height="18" viewBox="0 0 24 24" fill={fill}>
+        <path d={STAR_PATH} />
+      </svg>
+    ));
+  return (
+    <span className="ih-stars" role="img" aria-label={label}>
+      <span>{row("#E3E6EB")}</span>
+      <span className="ih-fg" style={{ width: `${(GOOGLE_RATING / STAR_COUNT) * 100}%` }}>
+        {row("#FBBC04")}
+      </span>
+    </span>
+  );
+}
+
+/** Pravý stĺpec: vodičák „Ty", nálepka 0 € a plávajúce čipy. */
+function HeroVisual({ t, courseDate }: { t: T; courseDate: string | null }) {
   return (
     <div className="ih-right">
       <svg className="ih-bgroad" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice" aria-hidden>
-        <path d="M-60 600 C 140 500, 120 300, 300 250 S 560 140, 680 -40" fill="none" stroke="#F0F3F7" strokeWidth="96" strokeLinecap="round" />
-        <path className="ih-lane" d="M-60 600 C 140 500, 120 300, 300 250 S 560 140, 680 -40" fill="none" stroke="#C5CDD8" strokeWidth="4" />
+        <path d="M-60 600 C 140 500, 120 300, 300 250 S 560 140, 680 -40" fill="none" stroke="#F3F5F8" strokeWidth="96" strokeLinecap="round" />
+        <path className="ih-lane" d="M-60 600 C 140 500, 120 300, 300 250 S 560 140, 680 -40" fill="none" stroke="#D3D9E2" strokeWidth="4" />
       </svg>
       <div className="ih-cardin">
         <div className="ih-cardwrap">
@@ -148,19 +173,19 @@ function HeroVisual({ t }: { t: T }) {
                 <b>{t("licenseTitle")}</b>
                 <small>{t("licenseSub")}</small>
               </div>
-              <span className="ih-b ih-disp">B</span>
+              <span className="ih-b ih-gro">B</span>
             </div>
             <div className="ih-lic-mid">
               <div className="ih-photo">
                 <svg viewBox="0 0 80 100" width="100%" aria-hidden>
-                  <circle cx="40" cy="38" r="17" fill="#34496B" />
-                  <path d="M8 100c0-20 14-34 32-34s32 14 32 34z" fill="#34496B" />
+                  <circle cx="40" cy="38" r="17" fill="#33466A" />
+                  <path d="M8 100c0-20 14-34 32-34s32 14 32 34z" fill="#33466A" />
                 </svg>
               </div>
               <div className="ih-fields">
                 <div>
                   <small>{t("licenseNameLabel")}</small>
-                  <span className="ih-name ih-disp">{t("licenseName")}</span>
+                  <span className="ih-name ih-gro">{t("licenseName")}</span>
                 </div>
                 <div>
                   <small>{t("licenseGroupLabel")}</small>
@@ -181,7 +206,7 @@ function HeroVisual({ t }: { t: T }) {
 
       <div className="ih-sticker">
         <div className="ih-wob">
-          <b className="ih-disp">0 €</b>
+          <b className="ih-gro">0 €</b>
           <span>
             {t("stickerLine1")}
             <br />
@@ -190,17 +215,8 @@ function HeroVisual({ t }: { t: T }) {
         </div>
       </div>
 
-      <div className="ih-chip ih-chipA">
-        <svg width="22" height="22" viewBox="0 0 24 24" style={{ fill: "var(--amber)" }} aria-hidden>
-          <path d={STAR_PATH} />
-        </svg>
-        <div>
-          <b>{t("chipRating")}</b>
-          <small>{t("chipRatingSub")}</small>
-        </div>
-      </div>
       <div className="ih-chip ih-chipB">
-        <span className="ih-chipico">
+        <span className="ih-chipico" style={{ background: "#EAEEFF", color: "#2F4FD0" }}>
           <svg width="20" height="20" viewBox="0 0 24 24" strokeWidth="2" {...icon}>
             <path d="M5 17h14v-5l-2-5H7l-2 5z" />
             <circle cx="8" cy="17" r="2" />
@@ -211,6 +227,20 @@ function HeroVisual({ t }: { t: T }) {
         <div>
           <b>{t("chipCar")}</b>
           <small>{t("chipCarSub")}</small>
+        </div>
+      </div>
+      <div className="ih-chip ih-chipA">
+        <span className="ih-chipico" style={{ background: "#FFF4DE", color: "#B45309" }}>
+          <svg width="20" height="20" viewBox="0 0 24 24" strokeWidth="2" {...icon}>
+            <rect x="3" y="5" width="18" height="16" rx="2" />
+            <path d="M3 10h18" />
+            <path d="M8 3v4" />
+            <path d="M16 3v4" />
+          </svg>
+        </span>
+        <div>
+          <b>{courseDate ? t("chipCourse", { date: courseDate }) : t("chipNoCourse")}</b>
+          <small>{courseDate ? t("chipCourseSub") : t("chipNoCourseSub")}</small>
         </div>
       </div>
     </div>
@@ -301,14 +331,14 @@ function DrivingSchoolCar({ label }: { label: string }) {
     <svg className="ih-carbody" viewBox="0 0 140 62" width="100%" aria-hidden>
       <ellipse cx="70" cy="58" rx="60" ry="3.5" fill="rgba(0,0,0,0.35)" />
       <rect x="54" y="0" width="38" height="9" rx="2" fill="#22C55E" />
-      <text x="73" y="6.6" textAnchor="middle" fontSize="5.6" fontWeight="800" fill="#0E1A2B">
+      <text x="73" y="6.6" textAnchor="middle" fontSize="5.6" fontWeight="800" fill="#0F1A2E">
         {label}
       </text>
       <rect x="69" y="9" width="8" height="3.5" fill="#C9D1DD" />
       <path d="M10 44 L10 34 Q12 27 24 26 L40 25 L54 14 Q58 12 63 12 L92 12 Q99 12 103 16 L114 26 L124 28 Q132 30 132 37 L132 44 Q132 48 128 48 L14 48 Q10 48 10 44 Z" fill="#F4F6FA" />
       <path d="M57 16 L77 16 L77 26 L45 26 Z" fill="#233552" />
       <path d="M81 16 L92 16 Q97 16 100 19 L107 26 L81 26 Z" fill="#233552" />
-      <rect x="12" y="34" width="118" height="3" fill="#22C55E" />
+      <rect x="12" y="34" width="118" height="3" fill="#2B5FE3" />
       <path d="M79 27 L79 46" stroke="#C9D1DD" strokeWidth="1.2" />
       <rect x="125" y="31" width="6" height="4" rx="1" fill="#FFE9A8" />
       <rect x="10" y="31" width="4" height="5" rx="1" fill="#E5484D" />

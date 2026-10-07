@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState } from "react";
 
 const HOUR_MS = 3_600_000;
 const DAY_MS = 24 * HOUR_MS;
@@ -30,18 +30,16 @@ function remainingUntil(target: number): Remaining | null {
 
 const PLACEHOLDER: Remaining = { d: "--", h: "--", m: "--", s: "--" };
 
-/** Titulok „Ďalší kurz …" + dlaždice s odpočtom do začiatku kurzu. */
+/** Titulok pásu („Najbližší kurz začína o") + dlaždice s odpočtom do začiatku kurzu. */
 export function CourseCountdown({
   startISO,
-  kicker,
-  nextLabel,
+  title,
   noCourseLabel,
   ariaLabel,
   units,
 }: {
   startISO: string | null;
-  kicker: ReactNode;
-  nextLabel: string;
+  title: string;
   noCourseLabel: string;
   ariaLabel: string;
   units: Remaining;
@@ -59,15 +57,12 @@ export function CourseCountdown({
 
   return (
     <>
-      <div className="ih-bandtitle">
-        {kicker}
-        <span className="ih-next ih-disp">{left ? nextLabel : noCourseLabel}</span>
-      </div>
+      <span className="ih-bandtitle ih-gro">{left ? title : noCourseLabel}</span>
       {left && (
         <div className="ih-tiles" aria-label={ariaLabel}>
           {(["d", "h", "m", "s"] as const).map((k) => (
             <div className="ih-tile" key={k}>
-              <span className="ih-tnum">{left[k]}</span>
+              <span className="ih-tnum ih-gro">{left[k]}</span>
               <span className="ih-tlab">{units[k]}</span>
             </div>
           ))}
