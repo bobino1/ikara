@@ -6,7 +6,7 @@ import { site } from "@/lib/site";
 import { useSignup } from "./SignupProvider";
 import { useCookieConsent } from "./CookieConsent";
 import { Logo } from "./Logo";
-import { WetrixoCredit } from "./WetrixoCredit";
+import { WetrixoCredit, WetrixoLogoLink } from "./WetrixoCredit";
 
 const colHead: React.CSSProperties = {
   font: "700 12px/1 var(--font-manrope),sans-serif",
@@ -100,6 +100,10 @@ export function Footer() {
             <Link href="/cookies" className="footer-link" style={{ fontSize: 13 }}>{t("cookiePolicy")}</Link>
             <button onClick={openSettings} className="footer-link" style={{ fontSize: 13, cursor: "pointer" }}>{t("cookieSettings")}</button>
           </div>
+        </div>
+
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 28 }}>
+          <WetrixoLogoLink />
         </div>
       </div>
     </footer>

@@ -2,8 +2,12 @@
 
 import { useTranslations } from "next-intl";
 
-/** Odkaz s UTM značkami, aby bolo v analytike Wetrixo vidieť, odkiaľ dopyty prišli. */
+/** Odkazy s UTM značkami, aby bolo v analytike Wetrixo vidieť, odkiaľ dopyty prišli. */
 const WETRIXO_URL = "https://wetrixo.com/?utm_source=autoskola-ikara&utm_medium=referral&utm_campaign=footer-credit";
+const WETRIXO_LOGO_URL = "https://wetrixo.com/?utm_source=autoskola-ikara&utm_medium=referral&utm_campaign=footer-logo";
+const LOGO_HEIGHT = 22;
+const LOGO_RATIO = 498 / 85;
+const CARD_LOGO_HEIGHT = 34;
 
 const TAG_KEYS = ["studioTag1", "studioTag2", "studioTag3", "studioTag4"] as const;
 
@@ -50,9 +54,8 @@ export function WetrixoCredit() {
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 14 }}>
-        <span style={{ font: "700 clamp(30px,4vw,42px)/1 var(--font-space),sans-serif", letterSpacing: "-0.03em" }}>
-          wetrixo<span style={{ color: "#7AA0FF" }}>.com</span>
-        </span>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/wetrixo-logo.png" alt="Wetrixo" className="wetrixo-credit__logo" width={Math.round(CARD_LOGO_HEIGHT * LOGO_RATIO)} height={CARD_LOGO_HEIGHT} />
         <span style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "13px 20px", borderRadius: 100, background: "#fff", color: "#0A1322", font: "700 15px/1 var(--font-manrope),sans-serif" }}>
           {t("studioCta")}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -61,6 +64,18 @@ export function WetrixoCredit() {
           </svg>
         </span>
       </div>
+    </a>
+  );
+}
+
+/** Biele logo Wetrixo v úplne spodnom riadku pätičky. */
+export function WetrixoLogoLink() {
+  const t = useTranslations("footer");
+  return (
+    <a href={WETRIXO_LOGO_URL} target="_blank" rel="noopener" className="wetrixo-logo" aria-label={`${t("logoLabel")} — wetrixo.com`}>
+      <span>{t("logoLabel")}</span>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/wetrixo-logo.png" alt="Wetrixo" width={Math.round(LOGO_HEIGHT * LOGO_RATIO)} height={LOGO_HEIGHT} />
     </a>
   );
 }
