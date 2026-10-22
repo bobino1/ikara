@@ -11,6 +11,7 @@ import { MapBand } from "@/components/MapBand";
 import { FloatingContact } from "@/components/FloatingContact";
 import { TrafficLight } from "@/components/TrafficLight";
 import { SignupProvider } from "@/components/SignupProvider";
+import { MotionProvider } from "@/components/motion/MotionProvider";
 import { CookieConsentProvider } from "@/components/CookieConsent";
 import { getComputedCourses } from "@/lib/courses";
 import { routing } from "@/i18n/routing";
@@ -101,14 +102,16 @@ gtag('config', 'AW-760765003');`}
         <NextIntlClientProvider>
           <CookieConsentProvider>
             <SignupProvider courses={courses}>
-              <div style={{ minHeight: "100vh", background: "#fff", display: "flex", flexDirection: "column" }}>
-                <Header />
-                <div style={{ flex: 1 }}>{children}</div>
-                <MapBand />
-                <Footer />
-              </div>
-              <FloatingContact />
-              <TrafficLight />
+              <MotionProvider>
+                <div style={{ minHeight: "100vh", background: "#fff", display: "flex", flexDirection: "column" }}>
+                  <Header />
+                  <div style={{ flex: 1 }}>{children}</div>
+                  <MapBand />
+                  <Footer />
+                </div>
+                <FloatingContact />
+                <TrafficLight />
+              </MotionProvider>
             </SignupProvider>
           </CookieConsentProvider>
         </NextIntlClientProvider>

@@ -1,0 +1,194 @@
+/* Domovská stránka: scroll cesta, sticky výzva, pás recenzií, bento „Prečo IKARA" a rýchle scroll reveal. */
+
+/* ---------- rýchlejší reveal + postupné odhalenie potomkov ---------- */
+.reveal .stagger > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.is-visible .stagger > * { opacity: 1; transform: none; }
+.reveal.is-visible .stagger > *:nth-child(2) { transition-delay: 0.06s; }
+.reveal.is-visible .stagger > *:nth-child(3) { transition-delay: 0.12s; }
+.reveal.is-visible .stagger > *:nth-child(4) { transition-delay: 0.18s; }
+.reveal.is-visible .stagger > *:nth-child(5) { transition-delay: 0.24s; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal .stagger > * { opacity: 1; transform: none; transition: none; }
+}
+
+/* ---------- bento „Prečo IKARA" ---------- */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 40px;
+}
+.bento > :nth-child(1) { grid-column: span 2; }
+.bento > :nth-child(4) { grid-column: span 2; }
+@media (max-width: 860px) {
+  .bento { grid-template-columns: 1fr; }
+  .bento > :nth-child(1), .bento > :nth-child(4) { grid-column: auto; }
+}
+
+/* ---------- scroll cesta „Ako to prebieha" ---------- */
+.jr { position: relative; background: var(--ink); color: #fff; }
+.jr-sticky { position: sticky; top: 0; height: 100svh; display: flex; align-items: center; overflow: hidden; }
+.jr-sticky::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(60% 60% at 80% 10%, rgba(43, 95, 227, 0.28), transparent 70%),
+    radial-gradient(40% 50% at 0% 100%, rgba(21, 182, 107, 0.12), transparent 70%);
+}
+.jr-inner { position: relative; width: 100%; max-width: 1200px; margin: 0 auto; padding: 72px 22px 40px; }
+.jr-eyebrow { font: 600 13px/1 var(--font-manrope), sans-serif; letter-spacing: 0.14em; text-transform: uppercase; color: #7aa0ff; }
+.jr-title { margin: 14px 0 0; max-width: 16em; font: 700 clamp(28px, 4vw, 48px) / 1.08 var(--font-space), sans-serif; letter-spacing: -0.02em; }
+
+.jr-road { position: relative; height: 76px; margin-top: clamp(36px, 6vh, 64px); border-radius: 16px; background: #1b2a44; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06); }
+.jr-road::before {
+  content: "";
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 50%;
+  height: 4px;
+  margin-top: -2px;
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.28) 0 26px, transparent 26px 46px);
+}
+.jr-trail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 4px;
+  margin-top: -2px;
+  transform-origin: left;
+  background: linear-gradient(90deg, #e5484d 0%, #f5a623 35%, #15b66b 70%);
+}
+.jr-track { position: absolute; inset: 0 56px 0 56px; }
+.jr-node {
+  position: absolute;
+  top: -15px;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font: 800 13px/1 var(--font-manrope), sans-serif;
+  color: #8a9ab4;
+  background: var(--ink);
+  border: 2px solid #33466a;
+  transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.25s;
+}
+.jr-node.is-on { background: var(--green); border-color: var(--green); color: #fff; transform: translateX(-50%) scale(1.08); box-shadow: 0 0 0 6px rgba(21, 182, 107, 0.2); }
+.jr-car { position: absolute; bottom: 6px; width: clamp(84px, 9vw, 120px); transform: translateX(-50%); }
+
+.jr-steps { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; margin: 28px 0 0; padding: 0; list-style: none; }
+.jr-step {
+  padding: 18px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  opacity: 0.45;
+  transition: opacity 0.3s, border-color 0.3s, background 0.3s, transform 0.3s;
+}
+.jr-step.is-done { opacity: 0.7; }
+.jr-step.is-active { opacity: 1; background: rgba(43, 95, 227, 0.14); border-color: rgba(122, 160, 255, 0.45); transform: translateY(-4px); }
+.jr-num { font: 700 13px/1 var(--font-space), sans-serif; color: #7aa0ff; }
+.jr-step h3 { margin: 10px 0 0; font: 700 18px/1.2 var(--font-space), sans-serif; }
+.jr-step p { margin: 8px 0 0; font: 400 14px/1.55 var(--font-manrope), sans-serif; color: #a8b3c4; }
+.jr-cta { margin-top: 28px; }
+
+@media (max-width: 860px) {
+  .jr-steps { grid-template-columns: 1fr; }
+  .jr-step { display: none; }
+  .jr-step.is-active { display: block; animation: jr-swap 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+  .jr-track { inset: 0 36px; }
+}
+@keyframes jr-swap {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(-4px); }
+}
+
+/* ---------- pás recenzií ---------- */
+.rv-marquee {
+  margin-top: 36px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.rv-track { display: flex; width: max-content; animation: rv-scroll 55s linear infinite; }
+.rv-marquee:hover .rv-track { animation-play-state: paused; }
+@keyframes rv-scroll { to { transform: translateX(-50%); } }
+.rv-list { display: flex; gap: 18px; margin: 0; padding: 0 18px 0 0; list-style: none; }
+.rv-card {
+  width: min(360px, 80vw);
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid #eceee9;
+}
+.rv-head { display: flex; align-items: center; justify-content: space-between; }
+.rv-stars { font: 600 16px/1 var(--font-manrope), sans-serif; letter-spacing: 0.08em; color: var(--amber); }
+.rv-card p { flex: 1; margin: 14px 0 0; font: 400 15px/1.6 var(--font-manrope), sans-serif; color: #3a4048; display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden; }
+.rv-who { display: flex; align-items: center; gap: 12px; margin-top: 18px; padding-top: 16px; border-top: 1px solid #f0f1ed; }
+.rv-avatar { width: 40px; height: 40px; border-radius: 50%; background: #e9f0fe; color: var(--blue); display: grid; place-items: center; font: 700 16px/1 var(--font-space), sans-serif; }
+.rv-who b { display: block; font: 700 15px/1.2 var(--font-manrope), sans-serif; color: var(--ink); }
+.rv-who small { font: 500 12px/1.2 var(--font-manrope), sans-serif; color: #9aa0a8; }
+@media (prefers-reduced-motion: reduce) {
+  .rv-marquee { overflow-x: auto; }
+  .rv-track { animation: none; }
+}
+
+/* ---------- sticky výzva ---------- */
+.scta {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  z-index: 140;
+  translate: -50% 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 8px 8px 20px;
+  border-radius: 18px;
+  background: rgba(14, 26, 43, 0.92);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  box-shadow: 0 18px 40px -16px rgba(14, 26, 43, 0.6);
+  white-space: nowrap;
+}
+.scta-text { font: 600 14px/1.2 var(--font-manrope), sans-serif; color: #dbe3f3; }
+.scta-call { display: none; }
+.scta-btn {
+  border: 0;
+  cursor: pointer;
+  padding: 12px 18px;
+  border-radius: 12px;
+  background: var(--blue);
+  color: #fff;
+  font: 700 15px/1 var(--font-manrope), sans-serif;
+  transition: background 0.2s;
+}
+.scta-btn:hover { background: var(--blue-dark); }
+@media (max-width: 700px) {
+  .scta { left: 12px; right: 12px; bottom: 12px; translate: none; padding: 8px; gap: 8px; }
+  .scta-text { display: none; }
+  .scta-call {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+  .scta-btn { flex: 1; padding: 16px; }
+  /* sticky výzva nahrádza plávajúce kontakty */
+  body.sticky-cta-on .floating-contact { display: none; }
+}

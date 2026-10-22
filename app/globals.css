@@ -88,42 +88,11 @@ button {
   }
 }
 
-/* ---------- hero highlight card (najbližší voľný kurz) ---------- */
-@keyframes ikshimmer {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: -200% 50%;
-  }
-}
-.hero-number {
-  background: linear-gradient(110deg, #ffffff 0%, #c7d6f7 30%, #ffffff 50%, #bfd0f5 70%, #ffffff 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: ikshimmer 6s linear infinite;
-}
-.hero-tile {
-  transition: background 0.2s, border-color 0.2s, transform 0.2s;
-}
-.hero-tile:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(122, 160, 255, 0.3);
-  transform: translateY(-2px);
-}
-@media (prefers-reduced-motion: reduce) {
-  .hero-number {
-    animation: none;
-  }
-}
-
 /* ---------- scroll reveal ---------- */
 .reveal {
   opacity: 0;
-  transform: translateY(26px) scale(0.99);
-  transition: opacity 0.7s ease, transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transform: translateY(22px);
+  transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .reveal.is-visible {
   opacity: 1;
@@ -148,27 +117,6 @@ button {
 .card-hover--soft:hover {
   transform: translateY(-4px);
   box-shadow: 0 22px 40px -22px rgba(14, 26, 43, 0.28);
-}
-
-/* ---------- hero stats: row + dividers on desktop, clean grid on mobile ---------- */
-.hero-stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 28px;
-}
-.hero-stats__divider {
-  width: 1px;
-  align-self: stretch;
-}
-@media (max-width: 560px) {
-  .hero-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-  }
-  .hero-stats__divider {
-    display: none;
-  }
 }
 
 /* ---------- responsive header (CSS-driven, no JS flash) ---------- */
@@ -407,40 +355,6 @@ button {
   }
 }
 
-/* ---------- dekoračné dopravné značky v hero (jemný pohyb dole/hore) ---------- */
-.hero-signs {
-  position: absolute;
-  left: 1.5%;
-  bottom: 6%;
-  width: clamp(150px, 14vw, 200px);
-  height: auto;
-  z-index: 1;
-  pointer-events: none;
-  filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.4));
-  animation: signsFloat 5.5s ease-in-out infinite;
-}
-@keyframes signsFloat {
-  0%,
-  100% {
-    transform: translateY(0) rotate(-1.5deg);
-  }
-  50% {
-    transform: translateY(22px) rotate(1.5deg);
-  }
-}
-@media (max-width: 600px) {
-  .hero-signs {
-    width: 116px;
-    left: 3%;
-    bottom: 3%;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .hero-signs {
-    animation: none;
-  }
-}
-
 /* ---------- dekoračný semafor vpravo dole (len PC) ---------- */
 .traffic-light {
   position: fixed;
@@ -531,46 +445,6 @@ textarea:focus-visible,
   .fc-btn:active,
   .nav-link:active { transform: none; }
   .ik-overlay, .ik-sheet, .ik-pop { animation: none; }
-}
-
-/* ================= Hero — vlastný „živý" entrance + fokusový nadpis ================= */
-.hero-content > * {
-  opacity: 0;
-  transform: translateY(18px);
-  animation: heroRise 0.62s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-.hero-content > *:nth-child(1) { animation-delay: 0.06s; }
-.hero-content > *:nth-child(2) { animation-delay: 0.14s; }
-.hero-content > *:nth-child(3) { animation-delay: 0.22s; }
-.hero-content > *:nth-child(4) { animation-delay: 0.30s; }
-.hero-content > *:nth-child(5) { animation-delay: 0.38s; }
-@keyframes heroRise {
-  to { opacity: 1; transform: none; }
-}
-
-/* Fokusové slovo v nadpise — jemný gradient (biela → modrá) */
-.hero-accent {
-  background: linear-gradient(103deg, #EAF1FF 0%, #8FB2FF 55%, #4E86FF 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* Jemný vignette pre hĺbku (aby hero nebol plochý obdĺžnik) */
-.hero-vignette {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: radial-gradient(120% 90% at 30% 15%, transparent 45%, rgba(6, 12, 22, 0.45) 100%);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-content > * {
-    opacity: 1;
-    transform: none;
-    animation: none;
-  }
 }
 
 /* ---------- cookie lišta: malá karta vľavo dole so semaforom ---------- */

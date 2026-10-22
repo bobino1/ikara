@@ -3,12 +3,15 @@ import { Link } from "@/i18n/navigation";
 import { Reveal } from "@/components/Reveal";
 import { Container, Eyebrow } from "@/components/ui";
 import { IkaraHero } from "@/components/hero/IkaraHero";
-import { GoogleG } from "@/components/GoogleG";
 import { CoursesShowcase } from "@/components/CourseCard";
 import { CourseRequirementsNote } from "@/components/CourseRequirementsNote";
 import { IndividualCourse } from "@/components/IndividualCourse";
 import { getComputedCourses } from "@/lib/courses";
-import { reviews, stars } from "@/lib/reviews";
+import { site } from "@/lib/site";
+import { JourneySection } from "@/components/home/JourneySection";
+import { ReviewsMarquee } from "@/components/home/ReviewsMarquee";
+import { StickyCta } from "@/components/home/StickyCta";
+import "@/components/home/home.css";
 
 const sectionPad = (v: string) => ({ padding: v });
 
@@ -17,6 +20,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   setRequestLocale(locale);
   const t = await getTranslations("home");
   const tc = await getTranslations("course");
+  const th = await getTranslations("hero");
   const courses = await getComputedCourses();
   const today = new Date().toISOString().slice(0, 10);
   const nextCourse = courses.filter((c) => c.dateFrom >= today).sort((a, b) => a.dateFrom.localeCompare(b.dateFrom))[0] ?? null;
@@ -35,7 +39,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             </div>
             <Link href="/kurzy" className="nav-link" style={{ padding: 0 }}>{tc("allTerms")}</Link>
           </div>
-          <div style={{ marginTop: 32, display: "flex", flexDirection: "column", gap: 18 }}>
+          <div className="stagger" style={{ marginTop: 32, display: "flex", flexDirection: "column", gap: 18 }}>
             <CourseRequirementsNote />
             <CoursesShowcase courses={courses} />
             <div style={{ height: 1, width: 90, background: "#E3E5E0", borderRadius: 2, margin: "10px auto" }} />
@@ -51,7 +55,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <Eyebrow>{t("whyEyebrow")}</Eyebrow>
             <h2 style={{ font: "700 clamp(28px,4vw,44px)/1.08 var(--font-space),sans-serif", letterSpacing: "-0.02em", margin: "14px 0 0" }}>{t("whyTitle")}</h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 18, marginTop: 40 }}>
+          <div className="bento stagger">
             <Benefit index="01" icon={<IconMonitor color="var(--blue)" />} iconBg="#E9F0FE" ring="rgba(43,95,227,.16)" title={t("benefit1Title")} text={t("benefit1Text")} />
             <Benefit index="02" icon={<IconHeart color="var(--green)" />} iconBg="#E9F7EF" ring="rgba(21,182,107,.18)" title={t("benefit2Title")} text={t("benefit2Text")} />
             <Benefit index="03" icon={<IconCar color="var(--blue)" />} iconBg="#E9F0FE" ring="rgba(43,95,227,.16)" title={t("benefit3Title")} text={t("benefit3Text")} />
@@ -88,21 +92,19 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </Container>
       </Reveal>
 
-      {/* AKO PREBIEHA */}
-      <Reveal style={{ ...sectionPad("clamp(48px,6vw,80px) 22px"), background: "var(--ink)", color: "#fff" }}>
-        <Container>
-          <div style={{ maxWidth: 560 }}>
-            <Eyebrow color="#7AA0FF">{t("howEyebrow")}</Eyebrow>
-            <h2 style={{ font: "700 clamp(28px,4vw,44px)/1.08 var(--font-space),sans-serif", letterSpacing: "-0.02em", margin: "14px 0 0" }}>{t("howTitle")}</h2>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(230px,1fr))", gap: 18, marginTop: 44 }}>
-            <Step n="01" icon={<StepBook />} title={t("step1Title")} text={t("step1Text")} />
-            <Step n="02" icon={<StepWheel />} title={t("step2Title")} text={t("step2Text")} />
-            <Step n="03" icon={<StepCone />} title={t("step3Title")} text={t("step3Text")} />
-            <Step n="04" icon={<StepCar />} title={t("step4Title")} text={t("step4Text")} />
-          </div>
-        </Container>
-      </Reveal>
+      {/* AKO PREBIEHA — scroll cesta */}
+      <JourneySection
+        eyebrow={t("howEyebrow")}
+        title={t("howTitle")}
+        cta={t("journeyCta")}
+        steps={[
+          { title: t("step1Title"), text: t("step1Text") },
+          { title: t("step2Title"), text: t("step2Text") },
+          { title: t("step3Title"), text: t("step3Text") },
+          { title: t("step4Title"), text: t("step4Text") },
+          { title: t("stepFinishTitle"), text: t("stepFinishText") },
+        ]}
+      />
 
       {/* RECENZIE */}
       <Reveal id="recenzie" style={{ ...sectionPad("clamp(48px,6vw,80px) 22px"), background: "var(--bg-soft)", scrollMarginTop: 80 }}>
@@ -124,27 +126,11 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               </div>
             </div>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 18, marginTop: 36 }}>
-            {reviews.map((r) => (
-              <div key={r.name} className="card-hover card-hover--soft" style={{ background: "#fff", border: "1px solid #ECEEE9", borderRadius: 20, padding: 26, display: "flex", flexDirection: "column", position: "relative", overflow: "hidden" }}>
-                <span aria-hidden style={{ position: "absolute", top: -14, right: 14, font: "800 110px/1 Georgia,serif", color: "#EEF2FB", pointerEvents: "none" }}>&rdquo;</span>
-                <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ font: "600 17px/1 var(--font-manrope),sans-serif", color: "var(--amber)", letterSpacing: ".08em" }}>{stars(r.rating)}</span>
-                  <GoogleG />
-                </div>
-                <p style={{ position: "relative", font: "400 15px/1.65 var(--font-manrope),sans-serif", color: "#3A4048", margin: "16px 0 0", flex: 1 }}>{r.text}</p>
-                <div style={{ position: "relative", display: "flex", alignItems: "center", gap: 12, marginTop: 20, paddingTop: 18, borderTop: "1px solid #F0F1ED" }}>
-                  <span style={{ width: 42, height: 42, borderRadius: "50%", background: "#E9F0FE", color: "var(--blue)", display: "flex", alignItems: "center", justifyContent: "center", font: "700 17px/1 var(--font-space),sans-serif", flexShrink: 0 }}>{r.name.charAt(0)}</span>
-                  <div>
-                    <div style={{ font: "700 15px/1.2 var(--font-manrope),sans-serif", color: "var(--ink)" }}>{r.name}</div>
-                    <div style={{ font: "500 12px/1.2 var(--font-manrope),sans-serif", color: "#9AA0A8", marginTop: 3 }}>{r.when}</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
         </Container>
+        <ReviewsMarquee />
       </Reveal>
+
+      <StickyCta text={th("stickyText", { price: new Intl.NumberFormat(locale === "sk" ? "sk-SK" : "en-GB").format(site.priceFromEur) })} cta={th("stickyCta")} />
     </main>
   );
 }
@@ -157,74 +143,6 @@ function Benefit({ index, icon, iconBg, ring, title, text }: { index: string; ic
       <h3 style={{ position: "relative", font: "700 19px/1.25 var(--font-space),sans-serif", letterSpacing: "-0.01em", margin: "18px 0 0" }}>{title}</h3>
       <p style={{ position: "relative", font: "400 15px/1.6 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "10px 0 0" }}>{text}</p>
     </div>
-  );
-}
-
-function Step({ n, icon, title, text }: { n: string; icon: React.ReactNode; title: string; text: string }) {
-  return (
-    <div
-      style={{
-        background: "rgba(255,255,255,.04)",
-        border: "1px solid rgba(255,255,255,.09)",
-        borderRadius: 18,
-        padding: 24,
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      <span style={{ position: "absolute", top: 10, right: 16, font: "800 56px/1 var(--font-space),sans-serif", color: "rgba(122,160,255,.13)", letterSpacing: "-0.03em" }}>{n}</span>
-      <span style={{ position: "relative", display: "inline-flex", width: 48, height: 48, borderRadius: 14, background: "rgba(122,160,255,.14)", border: "1px solid rgba(122,160,255,.22)", alignItems: "center", justifyContent: "center" }}>
-        {icon}
-      </span>
-      <h3 style={{ position: "relative", font: "700 20px/1.2 var(--font-space),sans-serif", margin: "20px 0 0" }}>{title}</h3>
-      <p style={{ position: "relative", font: "400 15px/1.6 var(--font-manrope),sans-serif", color: "#A8AEB6", margin: "9px 0 0" }}>{text}</p>
-    </div>
-  );
-}
-
-const stepSvg = {
-  width: 24,
-  height: 24,
-  viewBox: "0 0 24 24",
-  fill: "none",
-  stroke: "#AFC4FF",
-  strokeWidth: 1.9,
-  strokeLinecap: "round" as const,
-  strokeLinejoin: "round" as const,
-  "aria-hidden": true,
-};
-
-function StepBook() {
-  return (
-    <svg {...stepSvg}>
-      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z" />
-    </svg>
-  );
-}
-function StepWheel() {
-  return (
-    <svg {...stepSvg}>
-      <circle cx="12" cy="12" r="9" />
-      <circle cx="12" cy="12" r="2.5" />
-      <path d="M12 14.5V21M9.8 11 4.2 8.6M14.2 11 19.8 8.6" />
-    </svg>
-  );
-}
-function StepCone() {
-  return (
-    <svg {...stepSvg}>
-      <path d="M4.5 20h15M7 20 11 4h2l4 16M9 13h6" />
-    </svg>
-  );
-}
-function StepCar() {
-  return (
-    <svg {...stepSvg}>
-      <path d="M3 13l1.8-5.1A2 2 0 0 1 6.7 6.5h10.6a2 2 0 0 1 1.9 1.4L21 13v4h-2.5M3 17v-4m0 4h2.5M5.5 17h13" />
-      <circle cx="7.5" cy="17" r="1.7" />
-      <circle cx="16.5" cy="17" r="1.7" />
-    </svg>
   );
 }
 

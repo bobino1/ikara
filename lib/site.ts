@@ -5,6 +5,8 @@ export const site = {
   phone: "02 / 622 50 108",
   mobile: "0908 723 348",
   mobileHref: "tel:0908723348",
+  /** Cena „od" za kurz vodičáka B (hero a sticky výzva na domovskej stránke). */
+  priceFromEur: 1100,
   email: "jozefdanadai@autoskola-ikara.sk",
   address: {
     line1: "Hrobákova 34",
