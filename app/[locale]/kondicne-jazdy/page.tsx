@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Reveal } from "@/components/Reveal";
-import { Container, Eyebrow } from "@/components/ui";
+import { PageHero } from "@/components/PageHero";
+import { Container } from "@/components/ui";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -24,22 +25,12 @@ export default async function KondicnePage({ params }: { params: Promise<{ local
 
   return (
     <main>
-      <Reveal style={{ padding: "clamp(48px,7vw,88px) 22px 0" }}>
-        <Container>
-          <Eyebrow>{t("eyebrow")}</Eyebrow>
-          <h1 style={{ font: "700 clamp(34px,5vw,58px)/1.05 var(--font-space),sans-serif", letterSpacing: "-0.025em", margin: "14px 0 0", maxWidth: 760 }}>
-            {t("title")}
-          </h1>
-          <p style={{ font: "400 clamp(16px,2vw,19px)/1.65 var(--font-manrope),sans-serif", color: "var(--muted)", maxWidth: 640, margin: "20px 0 0" }}>
-            {t("intro")}
-          </p>
-        </Container>
-      </Reveal>
+      <PageHero eyebrow={t("eyebrow")} title={t("title")} intro={t("intro")} phoneOnly />
 
       <Reveal style={{ padding: "clamp(40px,5vw,64px) 22px" }}>
         <Container>
           <h2 style={{ font: "700 clamp(22px,3vw,30px)/1.1 var(--font-space),sans-serif", letterSpacing: "-0.02em", margin: "0 0 26px" }}>{t("priceTitle")}</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 18 }}>
+          <div className="stagger" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: 18 }}>
             {prices.map((p) => (
               <div
                 key={p.kicker}
@@ -73,7 +64,7 @@ export default async function KondicnePage({ params }: { params: Promise<{ local
       </Reveal>
 
       <Reveal style={{ padding: "0 22px clamp(48px,6vw,80px)" }}>
-        <Container style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 18 }}>
+        <Container className="stagger" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 18 }}>
           <div style={{ background: "var(--bg-soft)", borderRadius: 20, padding: 28 }}>
             <h3 style={{ font: "700 19px/1.2 var(--font-space),sans-serif", margin: 0 }}>{t("prepaidTitle")}</h3>
             <p style={{ font: "400 15px/1.6 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "12px 0 0" }}>

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Reveal } from "@/components/Reveal";
-import { Container, Eyebrow } from "@/components/ui";
+import { PageHero } from "@/components/PageHero";
+import { Container } from "@/components/ui";
 import { CookieSettingsButton } from "@/components/CookieConsent";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -23,20 +24,10 @@ export default async function CookiesPage({ params }: { params: Promise<{ locale
 
   return (
     <main>
-      <Reveal style={{ padding: "clamp(48px,7vw,88px) 22px 0" }}>
-        <Container style={{ maxWidth: 820 }}>
-          <Eyebrow>Cookies</Eyebrow>
-          <h1 style={{ font: "700 clamp(32px,4.6vw,52px)/1.05 var(--font-space),sans-serif", letterSpacing: "-0.025em", margin: "14px 0 0" }}>
-            {t("pageTitle")}
-          </h1>
-          <p style={{ font: "400 clamp(16px,2vw,18px)/1.65 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "18px 0 0" }}>
-            {t("pageIntro")}
-          </p>
-        </Container>
-      </Reveal>
+      <PageHero eyebrow="Cookies" title={t("pageTitle")} intro={t("pageIntro")} />
 
       <Reveal style={{ padding: "clamp(32px,4vw,48px) 22px clamp(48px,6vw,80px)" }}>
-        <Container style={{ maxWidth: 820, display: "flex", flexDirection: "column", gap: 16 }}>
+        <Container className="stagger" style={{ maxWidth: 820, display: "flex", flexDirection: "column", gap: 16 }}>
           {categories.map((c) => (
             <div key={c.title} style={{ background: "var(--bg-soft)", border: "1px solid #ECEEE9", borderRadius: 18, padding: "clamp(20px,2.6vw,28px)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>

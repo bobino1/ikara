@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Reveal } from "@/components/Reveal";
-import { Container, Eyebrow } from "@/components/ui";
+import { PageHero } from "@/components/PageHero";
+import { Container } from "@/components/ui";
 import { site } from "@/lib/site";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -32,16 +33,11 @@ export default async function KontaktPage({ params }: { params: Promise<{ locale
 
   return (
     <main>
-      <Reveal style={{ padding: "clamp(48px,7vw,88px) 22px clamp(48px,6vw,80px)" }}>
+      <PageHero eyebrow={t("eyebrow")} title={t("title")} intro={t("intro")} phoneOnly />
+      <Reveal style={{ padding: "clamp(24px,3vw,40px) 22px clamp(48px,6vw,80px)" }}>
         <Container style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: "clamp(32px,5vw,56px)" }}>
           <div>
-            <Eyebrow>{t("eyebrow")}</Eyebrow>
-            <h1 style={{ font: "700 clamp(32px,4.6vw,52px)/1.05 var(--font-space),sans-serif", letterSpacing: "-0.025em", margin: "14px 0 0" }}>{t("title")}</h1>
-            <p style={{ font: "400 17px/1.6 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "18px 0 0", maxWidth: 420 }}>
-              {t("intro")}
-            </p>
-
-            <div style={{ display: "flex", flexDirection: "column", gap: 18, marginTop: 34 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
               <div>
                 <div style={fieldLabel}>{t("phone")}</div>
                 <div style={{ font: "600 20px/1 var(--font-space),sans-serif", marginTop: 8 }}>{site.phone}</div>

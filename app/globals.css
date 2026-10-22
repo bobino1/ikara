@@ -106,6 +106,21 @@ button {
   }
 }
 
+/* ---------- postupné odhalenie potomkov v .reveal (trieda .stagger) ---------- */
+.reveal .stagger > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.is-visible .stagger > * { opacity: 1; transform: none; }
+.reveal.is-visible .stagger > *:nth-child(2) { transition-delay: 0.06s; }
+.reveal.is-visible .stagger > *:nth-child(3) { transition-delay: 0.12s; }
+.reveal.is-visible .stagger > *:nth-child(4) { transition-delay: 0.18s; }
+.reveal.is-visible .stagger > *:nth-child(5) { transition-delay: 0.24s; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal .stagger > * { opacity: 1; transform: none; transition: none; }
+}
+
 /* ---------- card hover lift ---------- */
 .card-hover {
   transition: transform 0.25s, box-shadow 0.25s;

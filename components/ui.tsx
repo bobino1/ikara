@@ -1,7 +1,11 @@
 import type { CSSProperties, ReactNode } from "react";
 
-export function Container({ children, style }: { children: ReactNode; style?: CSSProperties }) {
-  return <div style={{ maxWidth: 1200, margin: "0 auto", ...style }}>{children}</div>;
+export function Container({ children, style, className }: { children: ReactNode; style?: CSSProperties; className?: string }) {
+  return (
+    <div className={className} style={{ maxWidth: 1200, margin: "0 auto", ...style }}>
+      {children}
+    </div>
+  );
 }
 
 export function Eyebrow({ children, color = "var(--blue)" }: { children: ReactNode; color?: string }) {

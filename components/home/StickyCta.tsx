@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { m } from "motion/react";
 import { SignupButton } from "@/components/SignupButton";
 import { site } from "@/lib/site";
+import "./sticky-cta.css";
 
 const BODY_CLASS = "sticky-cta-on";
 

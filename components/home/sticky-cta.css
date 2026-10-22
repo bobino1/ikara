@@ -1,0 +1,49 @@
+/* ---------- sticky výzva ---------- */
+.scta {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  z-index: 140;
+  translate: -50% 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 8px 8px 20px;
+  border-radius: 18px;
+  background: rgba(14, 26, 43, 0.92);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  box-shadow: 0 18px 40px -16px rgba(14, 26, 43, 0.6);
+  white-space: nowrap;
+}
+.scta-text { font: 600 14px/1.2 var(--font-manrope), sans-serif; color: #dbe3f3; }
+.scta-call { display: none; }
+.scta-btn {
+  border: 0;
+  cursor: pointer;
+  padding: 12px 18px;
+  border-radius: 12px;
+  background: var(--blue);
+  color: #fff;
+  font: 700 15px/1 var(--font-manrope), sans-serif;
+  transition: background 0.2s;
+}
+.scta-btn:hover { background: var(--blue-dark); }
+@media (max-width: 700px) {
+  .scta { left: 12px; right: 12px; bottom: 12px; translate: none; padding: 8px; gap: 8px; }
+  .scta-text { display: none; }
+  .scta-call {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+  .scta-btn { flex: 1; padding: 16px; }
+  /* sticky výzva nahrádza plávajúce kontakty */
+  body.sticky-cta-on .floating-contact { display: none; }
+}

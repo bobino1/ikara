@@ -1,0 +1,59 @@
+/* Úvod podstránok v štýle hero domovskej stránky: jemná mriežka, svetlo za kurzorom, nadpis po slovách. */
+.ph {
+  --ph-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: linear-gradient(180deg, #f5f8ff 0%, #ffffff 90%);
+}
+.ph::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: linear-gradient(rgba(14, 26, 43, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14, 26, 43, 0.05) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 80% at 70% 20%, #000 10%, transparent 70%);
+  mask-image: radial-gradient(ellipse 70% 80% at 70% 20%, #000 10%, transparent 70%);
+}
+.ph-inner { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: clamp(56px, 8vw, 104px) 22px clamp(40px, 5vw, 64px); }
+
+@keyframes ph-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes ph-word {
+  from { opacity: 0; transform: translateY(0.5em); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+.ph-in { animation: ph-in 0.5s var(--ph-ease) both; animation-delay: var(--d, 0s); }
+.ph-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font: 700 13px/1 var(--font-manrope), sans-serif;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+.ph-eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px rgba(21, 182, 107, 0.15); }
+.ph-title {
+  margin: 20px 0 0;
+  max-width: 15em;
+  font: 700 clamp(36px, 5.4vw, 68px) / 1.04 var(--font-space), sans-serif;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+.ph-word { display: inline-block; animation: ph-word 0.55s var(--ph-ease) both; animation-delay: calc(var(--i) * 45ms + 40ms); }
+.ph-intro { margin: 22px 0 0; max-width: 40em; font: 400 clamp(16px, 1.6vw, 19px) / 1.65 var(--font-manrope), sans-serif; color: #4f5868; }
+.ph-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+@media (max-width: 480px) {
+  .ph-ctas > * { width: 100%; }
+  .ph-ctas .ih-btn, .ph-ctas .ih-btn2 { width: 100%; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ph *, .ph *::before { animation: none !important; }
+}

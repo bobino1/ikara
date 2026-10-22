@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Reveal } from "@/components/Reveal";
-import { Container, Eyebrow } from "@/components/ui";
+import { StickyCta } from "@/components/home/StickyCta";
+import { site } from "@/lib/site";
+import { PageHero } from "@/components/PageHero";
+import { Container } from "@/components/ui";
 import { ImageGallery, CarPhotos, ZoomTile } from "@/components/Lightbox";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -17,6 +20,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("about");
+  const th = await getTranslations("hero");
 
   const services = [t("service1"), t("service2"), t("service3")];
   const cars = [
@@ -57,17 +61,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
 
   return (
     <main>
-      <Reveal style={{ padding: "clamp(48px,7vw,88px) 22px 0" }}>
-        <Container>
-          <Eyebrow>{t("eyebrow")}</Eyebrow>
-          <h1 style={{ font: "700 clamp(34px,5vw,58px)/1.05 var(--font-space),sans-serif", letterSpacing: "-0.025em", margin: "14px 0 0", maxWidth: 820 }}>
-            {t("title")}
-          </h1>
-          <p style={{ font: "400 clamp(16px,2vw,19px)/1.65 var(--font-manrope),sans-serif", color: "var(--muted)", maxWidth: 640, margin: "20px 0 0" }}>
-            {t("intro")}
-          </p>
-        </Container>
-      </Reveal>
+      <PageHero eyebrow={t("eyebrow")} title={t("title")} intro={t("intro")} signupLabel={th("cta")} />
 
       <Reveal style={{ padding: "clamp(40px,5vw,64px) 22px" }}>
         <Container>
@@ -78,7 +72,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
       </Reveal>
 
       <Reveal style={{ padding: "0 22px clamp(40px,5vw,64px)" }}>
-        <Container style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: "clamp(24px,4vw,48px)" }}>
+        <Container className="stagger" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: "clamp(24px,4vw,48px)" }}>
           <div>
             <p style={{ font: "400 16px/1.7 var(--font-manrope),sans-serif", color: "#3A4048", margin: 0 }}>{t("p1")}</p>
             <p style={{ font: "400 16px/1.7 var(--font-manrope),sans-serif", color: "#3A4048", margin: "18px 0 0" }}>{t("p2")}</p>
@@ -103,7 +97,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           <p style={{ font: "400 16px/1.6 var(--font-manrope),sans-serif", color: "var(--muted)", margin: "12px 0 0", maxWidth: 560 }}>
             {t("carsIntro")}
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 18, marginTop: 26 }}>
+          <div className="stagger" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 18, marginTop: 26 }}>
             {cars.map((car) => (
               <div key={car.name} style={{ background: "#fff", border: "1px solid #ECEEE9", borderRadius: 20, overflow: "hidden", display: "flex", flexDirection: "column" }}>
                 <CarPhotos images={car.images} />
@@ -143,6 +137,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           </div>
         </Container>
       </Reveal>
+      <StickyCta text={th("stickyText", { price: new Intl.NumberFormat(locale === "sk" ? "sk-SK" : "en-GB").format(site.priceFromEur) })} cta={th("stickyCta")} />
     </main>
   );
 }

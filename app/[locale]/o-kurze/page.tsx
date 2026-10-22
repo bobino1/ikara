@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Reveal } from "@/components/Reveal";
+import { StickyCta } from "@/components/home/StickyCta";
+import { site } from "@/lib/site";
+import { PageHero } from "@/components/PageHero";
 import { Container, Eyebrow } from "@/components/ui";
 import { SignupButton } from "@/components/SignupButton";
 
@@ -14,6 +17,7 @@ export default async function CoursePage({ params }: { params: Promise<{ locale:
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("okurze");
+  const th = await getTranslations("hero");
 
   const steps = [
     { n: "01", title: t("step1Title"), text: t("step1Text") },
@@ -35,20 +39,10 @@ export default async function CoursePage({ params }: { params: Promise<{ locale:
 
   return (
     <main>
-      <Reveal style={{ padding: "clamp(48px,7vw,88px) 22px 0" }}>
-        <Container>
-          <Eyebrow>{t("eyebrow")}</Eyebrow>
-          <h1 style={{ font: "700 clamp(34px,5vw,58px)/1.05 var(--font-space),sans-serif", letterSpacing: "-0.025em", margin: "14px 0 0", maxWidth: 760 }}>
-            {t("title")}
-          </h1>
-          <p style={{ font: "400 clamp(16px,2vw,19px)/1.65 var(--font-manrope),sans-serif", color: "var(--muted)", maxWidth: 620, margin: "20px 0 0" }}>
-            {t("intro")}
-          </p>
-        </Container>
-      </Reveal>
+      <PageHero eyebrow={t("eyebrow")} title={t("title")} intro={t("intro")} signupLabel={th("cta")} />
 
       <Reveal style={{ padding: "clamp(40px,5vw,60px) 22px" }}>
-        <Container style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+        <Container className="stagger" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           {steps.map((s) => (
             <div key={s.n} style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 22, alignItems: "start", background: "#fff", border: "1px solid #ECEEE9", borderRadius: 18, padding: 24 }}>
               <span style={{ font: "700 22px/1 var(--font-space),sans-serif", color: "var(--blue)", minWidth: 42 }}>{s.n}</span>
@@ -62,7 +56,7 @@ export default async function CoursePage({ params }: { params: Promise<{ locale:
       </Reveal>
 
       <Reveal style={{ padding: "clamp(20px,3vw,40px) 22px clamp(48px,6vw,80px)" }}>
-        <Container style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 24 }}>
+        <Container className="stagger" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 24 }}>
           <div style={{ background: "var(--bg-soft)", borderRadius: 22, padding: 30 }}>
             <h2 style={{ font: "700 24px/1.1 var(--font-space),sans-serif", margin: "0 0 18px" }}>{t("conditionsTitle")}</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -124,7 +118,7 @@ export default async function CoursePage({ params }: { params: Promise<{ locale:
           <p style={{ font: "400 16px/1.6 var(--font-manrope),sans-serif", color: "#3A4048", margin: "14px 0 0", maxWidth: 620 }}>
             {t("includedText")}
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 16, marginTop: 26 }}>
+          <div className="stagger" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 16, marginTop: 26 }}>
             {cdContent.map((c) => (
               <div key={c.title} style={{ background: "#fff", borderRadius: 16, padding: 22 }}>
                 <h3 style={{ font: "700 17px/1.2 var(--font-space),sans-serif", margin: 0 }}>{c.title}</h3>
@@ -134,6 +128,7 @@ export default async function CoursePage({ params }: { params: Promise<{ locale:
           </div>
         </Container>
       </Reveal>
+      <StickyCta text={th("stickyText", { price: new Intl.NumberFormat(locale === "sk" ? "sk-SK" : "en-GB").format(site.priceFromEur) })} cta={th("stickyCta")} />
     </main>
   );
 }
