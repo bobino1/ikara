@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { buildMetadata } from "@/lib/seo";
+import { CourseJsonLd } from "@/components/StructuredData";
 import { Reveal } from "@/components/Reveal";
 import { StickyCta } from "@/components/home/StickyCta";
 import { site } from "@/lib/site";
@@ -12,8 +14,8 @@ import { getComputedCourses } from "@/lib/courses";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "kurzy" });
-  return { title: t("metaTitle") };
+  const t = await getTranslations({ locale, namespace: "seo" });
+  return buildMetadata({ locale, path: "/kurzy", title: t("coursesTitle"), description: t("coursesDescription") });
 }
 
 export default async function KurzyPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -21,10 +23,12 @@ export default async function KurzyPage({ params }: { params: Promise<{ locale: 
   setRequestLocale(locale);
   const t = await getTranslations("kurzy");
   const th = await getTranslations("hero");
+  const tSeo = await getTranslations("seo");
   const courses = await getComputedCourses();
 
   return (
     <main>
+      <CourseJsonLd courses={courses} name={tSeo("courseName")} description={tSeo("courseSchemaDescription")} />
       <PageHero eyebrow={t("eyebrow")} title={t("title")} intro={t("intro")} />
 
       <Reveal style={{ padding: "clamp(36px,5vw,56px) 22px clamp(48px,6vw,80px)" }}>

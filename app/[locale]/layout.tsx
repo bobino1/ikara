@@ -15,6 +15,8 @@ import { MotionProvider } from "@/components/motion/MotionProvider";
 import { CookieConsentProvider } from "@/components/CookieConsent";
 import { getComputedCourses } from "@/lib/courses";
 import { routing } from "@/i18n/routing";
+import { SITE_NAME, SITE_URL } from "@/lib/seo";
+import { DrivingSchoolJsonLd } from "@/components/StructuredData";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -32,10 +34,10 @@ export const revalidate = 30;
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "home" });
-  const isEn = locale === "en";
+  const t = await getTranslations({ locale, namespace: "seo" });
+  // Predvolené hodnoty; každá stránka si nastaví vlastný titulok, popis, canonical a hreflang (lib/seo.ts).
   return {
-    metadataBase: new URL("https://www.autoskola-ikara.sk"),
+    metadataBase: new URL(SITE_URL),
     icons: {
       icon: [
         { url: "/favicon.ico", sizes: "any" },
@@ -47,31 +49,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       apple: "/apple-touch-icon.png",
     },
     manifest: "/site.webmanifest",
-    title: {
-      default: isEn
-        ? "Autoškola IKARA — category B1, B driving school in Petržalka, Bratislava"
-        : "Autoškola IKARA — vodičák B1, B v bratislavskej Petržalke",
-      template: "%s · Autoškola IKARA",
-    },
-    description: t("heroText"),
-    alternates: {
-      languages: { sk: "/", en: "/en" },
-    },
-    openGraph: {
-      title: "Autoškola IKARA",
-      description: t("heroText"),
-      url: isEn ? "/en" : "/",
-      siteName: "Autoškola IKARA",
-      locale: isEn ? "en_US" : "sk_SK",
-      type: "website",
-      images: [{ url: "/og.png", width: 1200, height: 630, alt: "Autoškola IKARA" }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: "Autoškola IKARA",
-      description: t("heroText"),
-      images: ["/og.png"],
-    },
+    title: { default: t("homeTitle"), template: `%s · ${SITE_NAME}` },
+    description: t("homeDescription"),
+    applicationName: SITE_NAME,
+    formatDetection: { telephone: true, email: true, address: true },
   };
 }
 
@@ -87,10 +68,12 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   const courses = await getComputedCourses();
+  const tSeo = await getTranslations({ locale, namespace: "seo" });
 
   return (
     <html lang={locale} className={`${manrope.variable} ${spaceGrotesk.variable}`}>
       <body>
+        <DrivingSchoolJsonLd description={tSeo("homeDescription")} />
         {/* Google tag (gtag.js) — Google Ads AW-760765003 */}
         <Script src="https://www.googletagmanager.com/gtag/js?id=AW-760765003" strategy="afterInteractive" />
         <Script id="gtag-init" strategy="afterInteractive">

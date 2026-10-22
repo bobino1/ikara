@@ -1,4 +1,6 @@
+import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { buildMetadata } from "@/lib/seo";
 import { Link } from "@/i18n/navigation";
 import { Reveal } from "@/components/Reveal";
 import { Container, Eyebrow } from "@/components/ui";
@@ -14,6 +16,12 @@ import { StickyCta } from "@/components/home/StickyCta";
 import "@/components/home/home.css";
 
 const sectionPad = (v: string) => ({ padding: v });
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "seo" });
+  return buildMetadata({ locale, path: "/", title: t("homeTitle"), description: t("homeDescription"), absoluteTitle: true });
+}
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;

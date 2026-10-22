@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { buildMetadata } from "@/lib/seo";
 import { Reveal } from "@/components/Reveal";
 import { PageHero } from "@/components/PageHero";
 import { Container } from "@/components/ui";
@@ -7,8 +8,8 @@ import { CookieSettingsButton } from "@/components/CookieConsent";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "cookies" });
-  return { title: t("pageTitle") };
+  const t = await getTranslations({ locale, namespace: "seo" });
+  return buildMetadata({ locale, path: "/cookies", title: t("cookiesTitle"), description: t("cookiesDescription") });
 }
 
 export default async function CookiesPage({ params }: { params: Promise<{ locale: string }> }) {

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { buildMetadata } from "@/lib/seo";
 import { Link } from "@/i18n/navigation";
 import { Reveal } from "@/components/Reveal";
 import { PageHero } from "@/components/PageHero";
@@ -7,8 +8,8 @@ import { Container } from "@/components/ui";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "kondicne" });
-  return { title: t("metaTitle") };
+  const t = await getTranslations({ locale, namespace: "seo" });
+  return buildMetadata({ locale, path: "/kondicne-jazdy", title: t("refresherTitle"), description: t("refresherDescription") });
 }
 
 export default async function KondicnePage({ params }: { params: Promise<{ locale: string }> }) {

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { buildMetadata } from "@/lib/seo";
 import { Reveal } from "@/components/Reveal";
 import { PageHero } from "@/components/PageHero";
 import { Container } from "@/components/ui";
@@ -7,8 +8,8 @@ import { site } from "@/lib/site";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "kontakt" });
-  return { title: t("metaTitle") };
+  const t = await getTranslations({ locale, namespace: "seo" });
+  return buildMetadata({ locale, path: "/kontakt", title: t("contactTitle"), description: t("contactDescription") });
 }
 
 const fieldLabel: React.CSSProperties = {

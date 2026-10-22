@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
-
-const BASE = "https://www.autoskola-ikara.sk";
+import { SITE_URL as BASE } from "@/lib/seo";
 
 export default function robots(): MetadataRoute.Robots {
   return {

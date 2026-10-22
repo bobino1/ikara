@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { buildMetadata } from "@/lib/seo";
+import { CourseJsonLd } from "@/components/StructuredData";
+import { getComputedCourses } from "@/lib/courses";
 import { Reveal } from "@/components/Reveal";
 import { StickyCta } from "@/components/home/StickyCta";
 import { site } from "@/lib/site";
@@ -9,8 +12,8 @@ import { SignupButton } from "@/components/SignupButton";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "okurze" });
-  return { title: t("metaTitle") };
+  const t = await getTranslations({ locale, namespace: "seo" });
+  return buildMetadata({ locale, path: "/o-kurze", title: t("courseTitle"), description: t("courseDescription") });
 }
 
 export default async function CoursePage({ params }: { params: Promise<{ locale: string }> }) {
@@ -18,6 +21,8 @@ export default async function CoursePage({ params }: { params: Promise<{ locale:
   setRequestLocale(locale);
   const t = await getTranslations("okurze");
   const th = await getTranslations("hero");
+  const tSeo = await getTranslations("seo");
+  const courses = await getComputedCourses();
 
   const steps = [
     { n: "01", title: t("step1Title"), text: t("step1Text") },
@@ -39,6 +44,7 @@ export default async function CoursePage({ params }: { params: Promise<{ locale:
 
   return (
     <main>
+      <CourseJsonLd courses={courses} name={tSeo("courseName")} description={tSeo("courseSchemaDescription")} />
       <PageHero eyebrow={t("eyebrow")} title={t("title")} intro={t("intro")} signupLabel={th("cta")} />
 
       <Reveal style={{ padding: "clamp(40px,5vw,60px) 22px" }}>

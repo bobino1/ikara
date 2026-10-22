@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { buildMetadata } from "@/lib/seo";
 import { Reveal } from "@/components/Reveal";
 import { StickyCta } from "@/components/home/StickyCta";
 import { site } from "@/lib/site";
@@ -10,8 +11,8 @@ import { ImageGallery, CarPhotos, ZoomTile } from "@/components/Lightbox";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "about" });
-  return { title: t("metaTitle") };
+  const t = await getTranslations({ locale, namespace: "seo" });
+  return buildMetadata({ locale, path: "/o-nas", title: t("aboutTitle"), description: t("aboutDescription") });
 }
 
 const bullet: React.CSSProperties = { width: 8, height: 8, background: "var(--blue)", borderRadius: "50%", marginTop: 7 };
